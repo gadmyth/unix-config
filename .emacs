@@ -1,0 +1,103 @@
+'(setq default-frame-alist
+'((x 0) (y 0) (height . 180) (width . 270) (menu-bar-lines . 20) (tool-bar-lines . 0)))
+
+(setq display-time-24hr-format t)
+(setq display-time-day-and-date t)
+(global-linum-mode t)
+(display-time)
+(setq inhibit-startup-message t)
+
+(setq default-abbrev-mode t)
+(setq save-abbrevs t)
+
+(setq shell-file-name "/bin/sh")
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
+
+(setq column-number-mode t)
+(setq line-number-mode t)
+
+(setq-default intent-tabs-mode nil)
+(setq-default c-basic-offset 4)
+(setq-default default-tab-width 4)
+(setq-default tab-width 4)
+
+(setq default-directory (expand-file-name "~/workspace/TouchPal"))
+
+(put 'scroll-left 'disabled nil)
+
+(setq current-language-environment "UTF-8")
+(setq default-input-method "chinese-py")
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
+
+
+(setq backup-directory-alist (quote (("." . "~/.backups"))))
+
+(setq winner-mode t)
+
+(require 'evil)
+(evil-mode 1)
+(define-key evil-insert-state-map (kbd "C-a") 'evil-beginning-of-line)
+(define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-line)
+;(setq viper-mode t)
+;(setq viper-ex-style-editing nil)
+;(require 'viper)
+(add-to-list 'load-path (expand-file-name "~/emacs"))
+;(require 'vimpulse)
+;(setq woman-use-own-frame nil)
+;(setq woman-use-topic-at-point t)
+;;(require 'redo)
+;;(require 'rect-mark)
+
+
+;(require 'color-theme)
+;(color-theme-deep-blue)
+
+(require 'ido)
+(ido-mode t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(custom-enabled-themes (quote (adwaita)))
+ '(send-mail-function (quote mailclient-send-it)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(add-to-list 'load-path (expand-file-name "~/emacs/slime"))
+(require 'slime)
+(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+(setq inferior-lisp-program "/usr/local/bin/ecl")
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
+
+
+(require 'clojure-mode)
+
+(require 'yasnippet)
+(require 'yasnippet-bundle)
+(yas/initialize)
+(global-set-key (kbd "C-;") 'yas/expand)
+(yas/load-directory "~/.emacs.d/snippets")
+(yas/global-mode 1)
+
+(require 'alpha)
+(transparency-set-value 100)
