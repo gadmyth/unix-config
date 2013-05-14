@@ -9,6 +9,7 @@
 
 [alias]
   st = status
+  sts = status -s
   rb = svn rebase
   ci = commit -a
   co = checkout
