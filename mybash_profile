@@ -1,0 +1,340 @@
+#!/bin/bash
+alias ..1="cd .."
+alias ..="cd .."
+alias cd..="cd .."
+alias cd1="cd .."
+
+alias ..2="cd ../.."
+alias ...="cd ../.."
+alias cd...="cd ../.."
+alias cd2="cd ../.."
+
+alias ..3="cd ../../.."
+alias ....="cd ../../.."
+alias cd....="cd ../../.."
+alias cd4="cd ../../.."
+
+alias ..4="cd ../../../.."
+alias .....="cd ../../../.."
+alias cd.....="cd ../../../.."
+alias cd4="cd ../../../.."
+
+alias ll="ls -lh"
+alias la="ls -a"
+alias lla="ls -lha"
+alias lf="ls -F"
+alias ld="ls -d */"
+alias ltr="ls -tr"
+alias lzip="ls *.zip"
+alias lrar="ls *.rar"
+
+alias pu="pushd"
+alias po="popd"
+alias dirs="dirs -v"
+
+# for networking restart
+alias restartnetworking="sudo /etc/init.d/networking restart"
+
+# alias for apt
+alias acs="sudo apt-cache seach"
+alias agu="sudo apt-get update"
+alias agi="sudo apt-get install"
+alias agg="sudo apt-get upgrade"
+alias agd="sudo apt-get dist-upgrade"
+alias agr="sudo apt-get remove"
+
+# for screen
+alias scr="screen -r"
+alias scls="screen -ls"
+
+# for nautilus
+alias nautilus="nautilus --no-desktop"
+
+# for oceantarget
+export ot="/windows/sda5/oceantarget"
+alias cdot="cd $ot"
+
+# for du
+alias duh="du . -h | grep -v /"
+
+# for apache
+#sudo /usr/local/apache/bin/apachectl start
+
+# for alternative java version
+function changeJavaVersion() {
+	if [ "$1" == 5 ]; then
+		sudo update-java-alternatives -s java-1.5.0-sun
+	elif [ "$1" == 6 ]; then
+		sudo update-java-alternatives -s java-6-sun
+	elif [ "$1" == 7 ]; then
+		sudo update-java-alternatives -s java-7-sun
+	fi
+}
+
+export EDITOR=vim
+
+# for sumsung_oms
+export ss="/home/ibm/workspace/cmcc_oms/sumsung_oms"
+# for android
+export app="/home/ibm/android1.5/out/target/product/generic/system/app"
+export appp="/home/ibm/android1.6/out/target/product/generic/system/app"
+export andrc="/home/ibm/android1.5"
+export andrcc="/home/ibm/android1.6"
+export smartd="/home/ibm/androidrc/development/workspace/SmartDialer/"
+export trsmartd="/home/ibm/androidrc/development/workspace/SmartDialer-trunk/"
+export asr8="/opt/asr8"
+export ext=".apk"
+alias adbstall="adb install -r"
+alias adbunstall="adb uninstall"
+alias adbdev="adb devices"
+# smart dialer的工作区间
+export sd="/home/ibm/workspace/smartdialer"
+alias cdsd="cd $sd"
+
+export PATH=.:~/vim/java:~/.cabal/bin:$PATH
+
+alias sdUpdateVersion="pushd $smartd && ./update_build_version.sh . && popd"
+
+function adbrestart() {
+	adb kill-server;
+	pushd $android_sdk_home;
+	sudo ./adb start-server;
+
+}
+#set -x
+function restall() {
+	if [ $1 == "1.5" ]; then
+		pushd $andrc && make $2
+		popd
+		pushd $app && adbstall $2$ext
+		popd
+	elif [ $1 == "1.6" ]; then
+		pushd $andrcc && make $2
+		popd
+		pushd $appp && adbstall $2$ext
+		popd
+	fi
+}
+
+function anmake() {
+	export ext=".apk"
+	if [ $1 == "1.5" ]; then
+		cd $andrc && make $2
+	elif [ $1 == "1.6" ]; then
+		cd $andrcc && make $2
+	fi
+}
+
+function anstall() {
+	export ext=".apk"
+	if [ $1 == "1.5" ]; then
+		cd $app && adbstall $2$ext
+	elif [ $1 == "1.6" ]; then
+		cd $appp && adbstall $2$ext
+	fi
+}
+
+function restalls() {
+	para=( $@ )
+	# $@的第一个元素与$1相同
+	for(( i = 1; i < $#; i++ ));do
+		restall ${para[0]} ${para[$i]}
+	done;
+}
+# for windows
+export pt="/windows/sda6/PT"
+
+#limit history size
+HISTSIZE=500
+HISFILESIZE=500
+HISTCONTROL=erasedups
+HISTIGNORE="pwd:ls:ls -ltr:"
+
+alias volumeon="amixer set Master 50 unmute"
+alias volumeoff="amixer set Master 0 unmute"
+function setvolume() {
+	amixer set Master $1 unmute
+}
+alias frontoff="amixer set Front off"
+alias fronton="amixer set Front on"
+
+# for command program
+export null="/dev/null 2>&1 &"
+export nil=/dev/null
+
+# not run in background, no information out to console
+function nill() {
+	$@ &> $nil
+}
+
+# run in bacground
+function bnil() {
+	nill $@ &
+}
+
+# perform mkdir and cd using a single command
+function mkdircd() {
+	mkdir -p "$@" && eval cd "\"\$$#\"";
+}
+
+function mr() {
+	$@ | more
+}
+function prompt {
+	case $TERM in xterm*|rxvt*)
+		TITLEBAR='';;
+	*)
+		TITLEBAR='';;
+	esac
+		
+	# change the PS1
+	# PS1="\e[0;31m\e[47m[\!|\u@\h][\$(totalsize.sh)][\w]\e[m\n"
+	PS1="\e[0;31m\e[47m[\!|\u@\h][\$(date +%k:%M:%S)][\w]\e[m\n"
+	# change the PS2
+	PS2="continue-->"
+	
+	# change PS4
+	PS4='$0.$LINENO+ '
+}
+
+prompt
+
+# show the processes with grep
+function psgrep() {
+	ps aux | grep "$1" | grep -v grep
+}
+
+# for usb
+export usb="/windows/usb"
+
+function grepusb() {
+	sudo fdisk -l | grep /dev | grep -v sda | grep -v Partition
+}
+
+function mountu() {
+	sudo mount $1 $usb
+}
+
+function mountuGotou() {
+	mountu $1
+	cd $usb
+	ll
+}
+
+function nautilusU() {
+	nautilus $usb
+}
+
+function mountNautilusU() {
+	mountu $1
+	nautilusU
+}
+
+function umountu() {
+	pushd ~
+	sudo umount $usb
+	popd
+}
+
+# for setSjtuNetWork
+function setSjtuNetWork() {
+	# get whether eth0 or eth1, net_no is 0 or 1
+	net_no=`ifconfig -a | grep eth | awk '{print substr($1, length($1), 1)}'`
+	# need password of root
+	echo "Please input root's password:"
+	su - root -c "/home/ibm/bin/netconfig_sjtu.sh $net_no"
+}
+
+function setNormalLan() {
+	net_no=`ifconfig -a | grep eth | awk '{print substr($1, length($1), 1)}'`
+	# need password of root
+	echo "Please input root's password:"
+	su - root -c "/home/ibm/bin/netconfig_lan.sh $net_no"
+}
+
+function setCootekLan() {
+	net_no=`ifconfig -a | grep eth | awk '{print substr($1, length($1), 1)}'`
+	# need password of root
+	echo "Please input root's password:"
+	su - root -c "/home/ibm/bin/netconfig_cootek.sh $net_no"
+}
+
+# for musca: add vlc
+function addVLC() {
+	musca -c "add vlc"
+	musca -c "use vlc"
+	bnil vlc
+	musca -c "hsplit 75%"
+}
+
+function dropVLC() {
+	psterm vlc
+	musca -c "use vlc"
+	musca -c "drop vlc"
+}
+
+# for java and eclipse
+export ws=~/workspace/
+export ws1=~/workspace1/
+export javasrc=$ws1/java_src
+
+# for musca awt problem
+AWT_TOOLKIT=MToolkit
+
+setterm -blength 0
+xset -b
+# setvolume 10
+
+# for tty color
+cecho() {
+	while [[ $# > 1 ]]; do
+		case $1 in
+			red)	echo -n "$(tput setaf 1)";;
+			green)	echo -n "$(tput setaf 2)";;
+			blue)	echo -n "$(tput setaf 3)";;
+			purple)	echo -n "$(tput setaf 4)";;
+			cyan)	echo -n "$(tput setaf 5)";;
+			grey)	echo -n "$(tput setaf 6)";;
+			white)	echo -n "$(tput setaf 7)";;
+			bold)	echo -n "$(tput bold)";;
+			*) 	break;;
+		esac
+		shift
+	done
+	echo "$*$(tput sgr0)"
+}
+
+message_action() {
+	cecho blue $*
+}
+
+message_status() {
+	cecho green $*;
+}
+
+error() {
+	cecho red $*
+}
+
+# for object-c
+#export LIBRARY_PATH=$LIBRARY_PATH:/usr/lib/GNUstep/System/Library/Libraries
+#export OBJC_INCLUDE_PATH=$OBJC_INCLUDE_PATH:/usr/include/GNUstep/Headers
+
+if [ -f "/usr/share/GNUstep/Makefiles/GNUstep.sh" ]; then
+	source /usr/share/GNUstep/Makefiles/GNUstep.sh
+fi
+
+# for perl
+export PERLLIB=$PERLLIB:/usr/local/lib/perl/5.10.0/IO:/usr/local/lib/perl/5.10.0/IO/Socket/:/usr/local/lib/perl/5.10.0/Object
+
+#for android-ndk
+export NDK=~/ndk
+
+#for dvorak
+loadkeys dvorak
+setxkbmap dvorak
+
+#for ctrl
+xmodmap ~/.Xmodmap
+
+# for terminal beep off
