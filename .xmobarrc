@@ -1,0 +1,14 @@
+Config { bgColor = "black"
+       , fgColor = "grey"
+       , position = TopSize L 100 30
+       , lowerOnStart = True
+       , commands =  [ Run Cpu ["-L", "15", "50", "--normal", "green", "--high", "red"] 10
+       	 	     , Run Memory ["-t", "Mem: %"] 10
+		     , Run Date "%a %Y-%m-%d %H:%M:%S" "date" 10
+		     , Run StdinReader
+		     ]
+	, sepChar = "%"
+	, alignSep = "}{"
+	, template = "%StdinReader% }{ %cpu% | %memory% | %date%"
+	, font = "xft:Bitstream Vera Sans Mono:size=13:bold:antialias=true"
+}
