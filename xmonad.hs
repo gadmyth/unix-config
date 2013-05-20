@@ -10,6 +10,9 @@ main = do
      xmproc <- spawnPipe "xmobar"
      xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
 	  modMask = mod4Mask
+          , borderWidth = 3
+          , focusedBorderColor = "#ee4000"
+          , normalBorderColor = "#9acd32"
 	  , manageHook = manageDocks <+> manageHook defaultConfig
 	  , layoutHook = avoidStruts $ layoutHook defaultConfig
 	  , logHook = loghook xmproc
