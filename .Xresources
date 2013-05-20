@@ -1,0 +1,6 @@
+XTerm*utf8Title:true
+XTerm*cjkWidth:true
+XTerm*faceName:DejaVu Sans Mono:pixelsize=16
+XTerm*faceNameDoublesize:WenQuanYi Zen Hei Mono:pixelsize=16
+XTerm*Background: black
+XTerm*Foreground: white
