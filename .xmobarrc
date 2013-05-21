@@ -10,5 +10,6 @@ Config { bgColor = "black"
 	, sepChar = "%"
 	, alignSep = "}{"
 	, template = "%StdinReader% }{ %cpu% | %memory% | %date%"
-	, font = "xft:Bitstream Vera Sans Mono:size=13:bold:antialias=true"
+	, font = "xft:WenQuanYi Micro Hei Mono:size=13:bold:antialias=true"
 }
+
