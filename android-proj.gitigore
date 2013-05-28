@@ -1,0 +1,13 @@
+/obj/local/armeabi/libsqlite.so
+/obj/local/armeabi/libsmartinputv5_ol.so
+/obj/local/armeabi/libnativehelper.so
+/obj/local/armeabi/libcurl.so
+/obj/local/armeabi/libcloudwrite_ol.so
+/libs/armeabi/libsmartinputv5_ol.so
+/.gitignore
+.DS_Store
+*.[od]
+*.class
+/bin/
+/gen/
+
