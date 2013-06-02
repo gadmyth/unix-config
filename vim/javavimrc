@@ -1,0 +1,40 @@
+" ! =============== config for androidrc read =====================
+
+source ~/.gvimrc
+
+echo expand("%")
+
+" another way
+
+" exec "runtime QuickTagMap.vim"
+
+runtime QuickTagMap.vim
+
+let root=fnamemodify("cscope.out", ":p:h")
+
+" add cscope.out
+if filereadable("cscope.out")
+	echo "cscope.out exists"
+	"exec "cscope add cscope.out ".root
+	cscope add cscope.out
+else
+	echo "doesn't exists"
+endif
+
+exec "set path=".root."/**"
+
+function! SetPath()
+	let root=fnamemodify("cscope.out", ":p:h")
+	redir => paths
+	exec "!lsdir_nosvn.sh"
+	redir END
+	let pathlist = split(paths, '\r\n')
+	echo len(pathlist)
+	for direct in pathlist
+		echo "@"
+		echo direct
+		exec "set path+=".direct
+	endfor
+endfunc
+
+runtime LeftPart.vim

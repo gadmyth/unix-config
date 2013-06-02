@@ -1,0 +1,2 @@
+color greenvision
+setlocal wrap
