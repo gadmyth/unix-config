@@ -1,2 +1,3 @@
 xrdb ~/.Xresources
 xmonad
+xterm
