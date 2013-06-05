@@ -1,0 +1,44 @@
+!for hhkb
+!keycode 9 = grave asciitilde
+!keycode 22 = backslash
+!keycode 49 = Escape
+!keycode 51 = BackSpace bar
+
+remove Mod1 = Alt_L
+remove Mod1 = Alt_R
+remove Lock = Caps_Lock
+remove Control = Control_L
+! origin Break (keycode = 127)
+keycode 127 = Caps_Lock
+! origin Alt_L (keycode = 66)
+keycode 66 = Alt_L
+! origin Caps_Lock (keycode = 64)
+keycode 64 = Control_L
+! origin Control_L (keycode = 37)
+keycode 37 = Alt_R
+! origin Alt_R (keycode = 108)
+keycode 108 = Shift_R
+add Mod1 = Alt_L
+add Lock = Caps_Lock
+add Control = Control_L
+add Mod3 = Alt_R
+add Shift = Shift_R
+
+! mod2 is numberlock, so is the number lock is pressed, the fvwm think that it's in mod2 status, but after that the number lock is unusable
+!clear Mod2
+!remove Lock = Caps_Lock
+!remove Mod1 = Alt_R
+!remove Mod5 = Scroll_Lock
+!keycode 43 = h H Left
+!keycode 44 = j J Down
+!keycode 45 = k K Up
+!keycode 46 = l L Right
+!keycode 56 = b B BackSpace
+!keycode 64 = Alt_L
+!keycode 66 = Mode_switch
+!keycode 113 = Caps_Lock
+
+!add Lock = Caps_Lock
+!add Mod1 = 0x007D 0x009C Alt_L Alt_L
+!add Mod4 = 0x007F 0x0080
+!add Mod5 = Mode_switch ISO_Level3_Shift
