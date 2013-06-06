@@ -11,7 +11,8 @@
   st = status
   sts = status -s
   rb = svn rebase
-  ci = commit -a
+  ci = commit
+  cia = commit -a
   co = checkout
   br = branch
   logp = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit --
