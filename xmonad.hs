@@ -16,6 +16,7 @@ main = do
 	  , manageHook = manageDocks <+> manageHook defaultConfig
 	  , layoutHook = avoidStruts $ layoutHook defaultConfig
 	  , logHook = loghook xmproc
+          , startupHook = startup
 	} `additionalKeys`
 	[ ((mod4Mask .|. shiftMask, xK_g), spawn "google-chrome")
 	, ((mod4Mask .|. shiftMask, xK_v), spawn "gvim")
@@ -26,3 +27,8 @@ loghook h = dynamicLogWithPP $ xmobarPP {
 	, ppTitle = xmobarColor "green" "" . shorten 50
 	, ppHiddenNoWindows = xmobarColor "grey" ""
 }
+
+startup :: X()
+startup = do
+        spawn "xrandr --output LVDS1 --auto; xrandr --output VGA1 --auto --right-of LVDS1"
+        spawn "xterm"
