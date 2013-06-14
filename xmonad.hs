@@ -31,4 +31,3 @@ loghook h = dynamicLogWithPP $ xmobarPP {
 startup :: X()
 startup = do
         spawn "xrandr --output LVDS1 --auto; xrandr --output VGA1 --auto --right-of LVDS1"
-        spawn "xterm"
