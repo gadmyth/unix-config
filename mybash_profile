@@ -273,11 +273,12 @@ export PERLLIB=$PERLLIB:/usr/local/lib/perl/5.10.0/IO:/usr/local/lib/perl/5.10.0
 #for android-ndk
 export NDK=~/ndk
 
-#for dvorak
-loadkeys dvorak
-setxkbmap dvorak
+#for X
+#setxkbmap dvorak
+#xmodmap ~/.Xmodmap
 
-#for ctrl
-xmodmap ~/.Xmodmap
+#for tty
+#sudo loadkeys dvorak
+#sudo loadkeys ~/modifiers.map
 
 # for terminal beep off
