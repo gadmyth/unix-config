@@ -1,5 +1,5 @@
 #!/bin/bash
-source .bash_alias
+source ~/.bash_alias
 # for apache
 #sudo /usr/local/apache/bin/apachectl start
 
