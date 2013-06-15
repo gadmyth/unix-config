@@ -1,4 +1,4 @@
 xrdb ~/.Xresources
-setxkmap dvorak
+setxkbmap dvorak
 xmodmap ~/.Xmodmap
 xmonad
