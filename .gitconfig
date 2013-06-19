@@ -15,4 +15,5 @@
   cia = commit -a
   co = checkout
   br = branch
-  logp = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit --
+  logp = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen( %cr ) %C(bold blue)%Creset' --abbrev-commit --
+  logd = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen( %ad ) %C(bold blue)%Creset' --abbrev-commit --date=short
