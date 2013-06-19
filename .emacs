@@ -21,13 +21,24 @@
 (setq-default c-basic-offset 4)
 (setq-default default-tab-width 4)
 (setq-default tab-width 4)
+(setq x-select-enable-clipboard t)
+(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
+(require 'eshell)
+(require 'em-smart)
+(setq eshell-where-to-jump 'begin)
+(setq eshell-review-quick-commands nil)
+(setq eshell-smart-space-goes-to-end t)
 (setq default-directory (expand-file-name "~/workspace/TouchPal"))
 
 (put 'scroll-left 'disabled nil)
+(setq c-basic-offset 4)
+(setq tab-width 4)
 
 (setq current-language-environment "UTF-8")
-(setq default-input-method "chinese-py")
+
+(setq current-language-environment "UTF-8")
+(setq default-input-method "eim-wb")
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -106,10 +117,12 @@
 (require 'magit) 
 
 (desktop-save-mode t)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward
 	  uniquify-separator " :: ") 
+(filesets-init)
 
 (let ((path (shell-command-to-string "source ~/.bashrc; echo -n $PATH")))
   (setenv "PATH" path)
