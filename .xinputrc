@@ -1,0 +1,8 @@
+export XMODIFIERS="@im=yong"
+export XIM="yong"
+export XIM_PROGRAM="/usr/bin/yong"
+export XIM_ARGS="-d"
+export GTK_IM_MODULE="xim"
+export QT_IM_MODULE="xim"
+export PREFERENCE_PROGRAM="/usr/bin/yong-setup"
+yong -d
