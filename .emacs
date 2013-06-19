@@ -65,6 +65,7 @@
 
 (require 'ido)
 (ido-mode t)
+(setq ido-enable-flex-matching t)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -101,3 +102,16 @@
 
 (require 'alpha)
 (transparency-set-value 100)
+
+(require 'magit) 
+
+(desktop-save-mode t)
+
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward
+	  uniquify-separator " :: ") 
+
+(let ((path (shell-command-to-string "source ~/.bashrc; echo -n $PATH")))
+  (setenv "PATH" path)
+  (setq exec-path
+		(append (split-string-and-unquote path ":") exec-path))) 
