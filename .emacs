@@ -21,8 +21,10 @@
 (setq-default c-basic-offset 4)
 (setq-default default-tab-width 4)
 (setq-default tab-width 4)
-(setq x-select-enable-clipboard t)
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+(when (eq window-system 'x)
+  (setq x-select-enable-clipboard t)
+  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+  )
 
 (require 'eshell)
 (require 'em-smart)
