@@ -58,3 +58,4 @@ alias duh="du . -h | grep -v /"
 
 
 alias vum="vim -c 'source ~/.vumrc'"
+alias grep="grep --exclude=*svn* --color -n"
