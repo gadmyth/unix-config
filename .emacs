@@ -130,3 +130,5 @@
   (setenv "PATH" path)
   (setq exec-path
 		(append (split-string-and-unquote path ":") exec-path))) 
+
+(require 'tabbar)
