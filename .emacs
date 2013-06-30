@@ -110,7 +110,7 @@
 (require 'yasnippet-bundle)
 (yas/initialize)
 (global-set-key (kbd "C-;") 'yas/expand)
-(yas/load-directory "~/.emacs.d/snippets")
+'(yas/load-directory "~/.emacs.d/snippets")
 (yas/global-mode 1)
 
 (require 'alpha)
