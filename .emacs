@@ -132,3 +132,14 @@
 		(append (split-string-and-unquote path ":") exec-path))) 
 
 (require 'tabbar)
+
+(when (eq window-system 'x)
+  (tabbar-mode t))
+
+
+(defun scale-large (&optional files)
+  (text-scale-set 3))
+
+(add-hook 'find-file-hook
+		  (lambda ()
+			(scale-large)))
