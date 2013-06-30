@@ -256,4 +256,14 @@ set guitablabel=%-15.15{tabpagenr()}
 set showtabline=2
 set clipboard=unnamed
 
-
+fun! IncFunSize(inc)
+    if !exists('+guifont')
+	    return
+    endif
+    let s:defaultfont = 'Ubuntu Mono 11'
+    if a:inc == 0 || empty(&guifont)
+	    left &guifont = s:defaultfont
+	    return
+    endif
+    let &guifont = substitute(&guifont, 'd+$', '=submatch(0)+'.a:inc, '')
+endfun
