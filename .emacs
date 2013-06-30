@@ -94,11 +94,11 @@
  ;; If there is more than one, they won't work right.
  )
 
-(add-to-list 'load-path (expand-file-name "~/emacs/slime"))
-(require 'slime)
-(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-(setq inferior-lisp-program "/usr/local/bin/ecl")
+'(add-to-list 'load-path (expand-file-name "~/emacs/slime"))
+'(require 'slime)
+'(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+'(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+'(setq inferior-lisp-program "/usr/local/bin/ecl")
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
