@@ -138,7 +138,9 @@
 
 
 (defun scale-large (&optional files)
-  (text-scale-set 3))
+  (let ((scale-amount
+		 (if (eq window-system 'ns) 2 3)))
+	(text-scale-set scale-amount)))
 
 (add-hook 'find-file-hook
 		  (lambda ()
