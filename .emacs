@@ -145,3 +145,15 @@
 (add-hook 'find-file-hook
 		  (lambda ()
 			(scale-large)))
+
+(setq auto-mode-alist
+	  (let* ((lst auto-mode-alist)
+			(no-png-list (remove-if (lambda (x) (equal "\\.png\\'" (car x))) lst))
+			(new-png-list 
+			 (append no-png-list
+					 '(("\\.sur\\.png\\'" . text-mode)
+					   ("\\.lng\\.png\\'" . text-mode)
+					   ("\\([^s][^u][^r]\\)\\.png\\'" . image-mode) ;;negative-lookahead not supported
+					   ("\\([^l][^n][^][^g]\\)\\.png\\'" . image-mode)))))
+		new-png-list))
+
