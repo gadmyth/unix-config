@@ -110,7 +110,7 @@
 (require 'yasnippet-bundle)
 (yas/initialize)
 (global-set-key (kbd "C-;") 'yas/expand)
-'(yas/load-directory "~/.emacs.d/snippets")
+;;(yas/load-directory "~/.emacs.d/snippets")
 (yas/global-mode 1)
 
 (require 'alpha)
@@ -157,3 +157,16 @@
 					   ("\\([^l][^n][^][^g]\\)\\.png\\'" . image-mode)))))
 		new-png-list))
 
+
+(defun is-char? (c)
+  (or (and (>= c ?A) (<= c ?Z))
+	  (and (>= c ?a) (<= c ?z))))
+
+(delq nil
+	  (mapcar (lambda (x)
+		  (if (and
+			   (eq 'marker (type-of (cdr x))) ;; this can use markerp
+			   (is-char? (car x)))
+			x
+			nil))
+		evil-markers-alist))
