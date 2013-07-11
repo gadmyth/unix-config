@@ -36,6 +36,7 @@
 (put 'scroll-left 'disabled nil)
 (setq c-basic-offset 4)
 (setq tab-width 4)
+(show-paren-mode 1)
 
 (setq current-language-environment "UTF-8")
 
