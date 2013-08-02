@@ -31,7 +31,10 @@
 (setq eshell-where-to-jump 'begin)
 (setq eshell-review-quick-commands nil)
 (setq eshell-smart-space-goes-to-end t)
-(setq default-directory (expand-file-name "~/workspace/TouchPal"))
+(setq def-dir (expand-file-name "~/workspace/TouchPal"))
+(setq default-directory def-dir)
+(unless (file-exists-p def-dir)
+  (mkdir def-dir))
 
 (put 'scroll-left 'disabled nil)
 (setq c-basic-offset 4)
