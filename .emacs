@@ -152,8 +152,8 @@
 			(no-png-list (remove-if (lambda (x) (equal "\\.png\\'" (car x))) lst))
 			(new-png-list 
 			 (append no-png-list
-					 '(("\\.sur\\.png\\'" . text-mode)
-					   ("\\.lng\\.png\\'" . text-mode)
+					 '(("\\.sur\\.png\\'" . lua-mode)
+					   ("\\.lng\\.png\\'" . lua-mode)
 					   ("\\([^s][^u][^r]\\)\\.png\\'" . image-mode) ;;negative-lookahead not supported
 					   ("\\([^l][^n][^][^g]\\)\\.png\\'" . image-mode)))))
 		new-png-list))
