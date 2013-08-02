@@ -24,6 +24,7 @@
 (when (eq window-system 'x)
   (setq x-select-enable-clipboard t)
   (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+  (setq x-stretch-cursor t)
   )
 
 (require 'eshell)
