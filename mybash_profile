@@ -34,11 +34,7 @@ alias adbdev="adb devices"
 export sd="/home/ibm/workspace/smartdialer"
 alias cdsd="cd $sd"
 
-<<<<<<< HEAD
 export PATH=.:~/bin:~/vim/java:~/.cabal/bin:/data/bin:$PATH
-=======
-export PATH=.:~/bin:~/vim/java:~/.cabal/bin:$PATH
->>>>>>> 86865a6587b62bee9f3f6fed530182bba4a7774d
 
 alias sdUpdateVersion="pushd $smartd && ./update_build_version.sh . && popd"
 
