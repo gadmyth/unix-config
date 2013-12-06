@@ -55,6 +55,8 @@
 
 (require 'package)
 (add-to-list 'package-archives
+			 '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
@@ -101,11 +103,14 @@
  ;; If there is more than one, they won't work right.
  )
 
-'(add-to-list 'load-path (expand-file-name "~/emacs/slime"))
-'(require 'slime)
-'(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-'(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-'(setq inferior-lisp-program "/usr/local/bin/ecl")
+(defparameter *load-slime* nil)
+(when *load-slime*
+  (add-to-list 'load-path (expand-file-name "~/emacs/slime"))
+  (require 'slime)
+  (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+  (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+  )
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
