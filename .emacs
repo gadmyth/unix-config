@@ -47,6 +47,7 @@
 (setq default-input-method "eim-wb")
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
@@ -142,14 +143,39 @@
 (when (eq window-system 'x)
   (tabbar-mode t))
 
+(defun tabbar-buffer-groups ()
+  "tabbar group"
+  (list
+   (cond
+	((memq major-mode '(java-mode cc-mode))
+	 "java")
+	((memq major-mode '(nxml-mode xml-mode))
+	 ("xml"))
+	((memq major-mode '(lua-mode))
+	 "lua")
+	((memq major-mode '(haskell-mode))
+	 "haskell")
+	((memq major-mode '(text-mode))
+	 "text")
+	((string-equal "*" (substring (buffer-name) 0 1))
+	 "emacs")
+	(t
+	 "default"))))
+
+(setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
+
 (defun scale-large (&optional files)
   (let ((scale-amount
 		 (if (eq window-system 'ns) 2 3)))
 	(text-scale-set scale-amount)))
 
 (add-hook 'find-file-hook
-		  (lambda ()
-			(scale-large)))
+	  (lambda ()
+	    (progn
+	      (scale-large)
+	      (let ((coding-system-for-read 'utf-8))
+		(interactive)
+		(revert-buffer t t t)))))
 
 (setq auto-mode-alist
 	  (let* ((lst auto-mode-alist)
@@ -181,8 +207,54 @@
 			nil))
 		evil-markers-alist))
 
+ (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 
 (global-linum-mode t)
 (require 'linum-relative)
 
+(setq linum-use-scale nil)
+
+(defun linum-update-window (win)
+  "Update line numbers for the portion visible in window WIN."
+  (goto-char (window-start win))
+  (let ((line (line-number-at-pos))
+        (limit (window-end win t))
+        (fmt (cond ((stringp linum-format) linum-format)
+                   ((eq linum-format 'dynamic)
+                    (let ((w (length (number-to-string
+                                      (count-lines (point-min) (point-max))))))
+                      (concat "%" (number-to-string w) "d")))))
+        (width 0))
+    (run-hooks 'linum-before-numbering-hook)
+    ;; Create an overlay (or reuse an existing one) for each
+    ;; line visible in this window, if necessary.
+    (while (and (not (eobp)) (<= (point) limit))
+      (let* ((str (if fmt
+                      (propertize (format fmt line) 'face 'linum)
+                    (funcall linum-format line)))
+             (visited (catch 'visited
+                        (dolist (o (overlays-in (point) (point)))
+                          (when (equal-including-properties
+				 (overlay-get o 'linum-str) str)
+                            (unless (memq o linum-overlays)
+                              (push o linum-overlays))
+                            (setq linum-available (delq o linum-available))
+                            (throw 'visited t)))))
+	     (width-scale (if (and (boundp 'text-scale-mode-step) linum-use-scale)
+			    (expt text-scale-mode-step text-scale-mode-amount) 1)))
+	(setq width (ceiling (* width-scale (max width (length str)))))
+        (unless visited
+          (let ((ov (if (null linum-available)
+                        (make-overlay (point) (point))
+                      (move-overlay (pop linum-available) (point) (point)))))
+            (push ov linum-overlays)
+            (overlay-put ov 'before-string
+                         (propertize " " 'display `((margin left-margin) ,str)))
+            (overlay-put ov 'linum-str str))))
+      ;; Text may contain those nasty intangible properties, but that
+      ;; shouldn't prevent us from counting those lines.
+      (let ((inhibit-point-motion-hooks t))
+        (forward-line))
+      (setq line (1+ line)))
+    (set-window-margins win width (cdr (window-margins win)))))
