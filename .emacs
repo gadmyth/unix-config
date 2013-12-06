@@ -3,7 +3,6 @@
 
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
-(global-linum-mode t)
 (display-time)
 (setq inhibit-startup-message t)
 
@@ -71,6 +70,8 @@
 ;(setq viper-ex-style-editing nil)
 ;(require 'viper)
 (add-to-list 'load-path (expand-file-name "~/emacs"))
+(require 'wcy-desktop)
+(wcy-desktop-init)
 ;(require 'vimpulse)
 ;(setq woman-use-own-frame nil)
 ;(setq woman-use-topic-at-point t)
@@ -123,7 +124,7 @@
 
 (require 'magit) 
 
-(desktop-save-mode t)
+;(desktop-save-mode t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (require 'uniquify)
@@ -141,7 +142,6 @@
 (when (eq window-system 'x)
   (tabbar-mode t))
 
-
 (defun scale-large (&optional files)
   (let ((scale-amount
 		 (if (eq window-system 'ns) 2 3)))
@@ -156,9 +156,14 @@
 			(no-png-list (remove-if (lambda (x) (equal "\\.png\\'" (car x))) lst))
 			(new-png-list 
 			 (append no-png-list
-					 '(("\\.sur\\.png\\'" . lua-mode)
+					 '(("\\.mm\\'" . objc-mode)
+					   ("\\.sur\\.png\\'" . lua-mode)
+					   ("\\.trt\\.png\\'" . lua-mode)
 					   ("\\.lng\\.png\\'" . lua-mode)
+					   ("\\.lua\\.png\\'" . lua-mode)
 					   ("\\([^s][^u][^r]\\)\\.png\\'" . image-mode) ;;negative-lookahead not supported
+					   ("\\([^t][^r][^t]\\)\\.png\\'" . image-mode) 
+					   ("\\([^l][^u][^a]\\)\\.png\\'" . image-mode) 
 					   ("\\([^l][^n][^][^g]\\)\\.png\\'" . image-mode)))))
 		new-png-list))
 
@@ -175,3 +180,9 @@
 			x
 			nil))
 		evil-markers-alist))
+
+
+
+(global-linum-mode t)
+(require 'linum-relative)
+
