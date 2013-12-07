@@ -75,14 +75,15 @@ set fileencodings=ucs-bom,utf-8,cp936
 set fileencoding=utf-8
 set encoding=utf-8
 
-"set tabstop=8
-"set softtabstop=4
-"set shiftwidth=4
+set tabstop=8
+set softtabstop=4
+set shiftwidth=4
 " expandtab是针对tabstop而言的
-"set noexpandtab
+set expandtab
 
 " 在命令行用空格补全时，可以看到所有的可以补全的项
 set wildmenu
+set wildignorecase
 
 " for cscope
 set cscopequickfix=e-,d-,c-,g-,i-,t-,f-,s-
@@ -112,6 +113,11 @@ set statusline+=%t\                          " filename
 set statusline+=%h%m%r%w                     " status flags
 set statusline+=\[%{strlen(&ft)?&ft:'none'}] " file type
 "set statusline+=%=                           " right align remainder
+
+"for emacs
+nnoremap <C-X><C-S> :w<CR>
+nnoremap <C-X><C-F> :e 
+nnoremap <C-X>b :b 
 
 nnoremap <S-TAB> gt
 nnoremap <C-TAB> gT
@@ -164,7 +170,9 @@ inoremap <C-A> <HOME>
 nnoremap <C-J> gj
 nnoremap <C-K> gk
 nnoremap <C-H> 10zh
-nnoremap <C-L> 10zl
+nnoremap <C-L> 9zl
+
+nnoremap <C-X>k :bd<CR>
 
 " for grep
 " nnoremap <C-S-N> :cn<CR>
