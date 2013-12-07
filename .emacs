@@ -9,6 +9,9 @@
 (setq default-abbrev-mode t)
 (setq save-abbrevs t)
 
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+
 (setq shell-file-name "/bin/sh")
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
@@ -31,10 +34,6 @@
 (setq eshell-where-to-jump 'begin)
 (setq eshell-review-quick-commands nil)
 (setq eshell-smart-space-goes-to-end t)
-(setq def-dir (expand-file-name "~/workspace/TouchPal"))
-(setq default-directory def-dir)
-(unless (file-exists-p def-dir)
-  (mkdir def-dir))
 
 (put 'scroll-left 'disabled nil)
 (setq c-basic-offset 4)
@@ -75,6 +74,12 @@
 (add-to-list 'load-path (expand-file-name "~/emacs"))
 (require 'wcy-desktop)
 (wcy-desktop-init)
+(require 'workspace)
+;; def-dir has been defined in workspace.el
+(if (not (file-exists-p def-dir))
+  (mkdir def-dir)
+  (setq default-directory def-dir))
+
 ;(require 'vimpulse)
 ;(setq woman-use-own-frame nil)
 ;(setq woman-use-topic-at-point t)
@@ -104,7 +109,7 @@
  ;; If there is more than one, they won't work right.
  )
 
-(defparameter *load-slime* nil)
+(setq *load-slime* nil)
 (when *load-slime*
   (add-to-list 'load-path (expand-file-name "~/emacs/slime"))
   (require 'slime)
@@ -170,9 +175,12 @@
 
 (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
 
+;; scale-amount has been defined in workspace.el
+(defvar *mac-scale-amount* 2)
+(defvar *linux-scale-amount* 3)
 (defun scale-large (&optional files)
   (let ((scale-amount
-		 (if (eq window-system 'ns) 2 3)))
+		 (if (eq window-system 'ns) *mac-scale-amount* *linux-scale-amount*)))
 	(text-scale-set scale-amount)))
 
 (add-hook 'find-file-hook
