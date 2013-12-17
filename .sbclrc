@@ -1,0 +1,17 @@
+
+;;; The following lines added by ql:add-to-init-file:
+#-quicklisp
+
+(defun init-local-packages-path ()
+  (eval (read-from-string "(push #P\"/data/gaiatest/\" asdf:*central-registry*)")))
+
+(defun load-local-packages ()
+  (eval (read-from-string "(ql:quickload :tpbackup)")))
+
+(let ((quicklisp-init #P"/data/quicklisp/setup.lisp"))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)
+    (init-local-packages-path)
+    (load-local-packages)))
+
+
