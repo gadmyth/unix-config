@@ -83,7 +83,6 @@ set expandtab
 
 " 在命令行用空格补全时，可以看到所有的可以补全的项
 set wildmenu
-set wildignorecase
 
 " for cscope
 set cscopequickfix=e-,d-,c-,g-,i-,t-,f-,s-
