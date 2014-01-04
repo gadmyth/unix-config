@@ -1,5 +1,6 @@
 '(setq default-frame-alist
 '((x 0) (y 0) (height . 180) (width . 270) (menu-bar-lines . 20) (tool-bar-lines . 0)))
+(global-unset-key (kbd "C-SPC"))
 
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
