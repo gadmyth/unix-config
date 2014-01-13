@@ -282,3 +282,7 @@ export NDK=~/ndk
 #sudo loadkeys ~/modifiers.map
 
 # for terminal beep off
+
+#for gaia
+export PYTHONPATH=~/gaia_trunk/pylib/:~/lib:.
+export LD_LIBRARY_PATH=~/gaia_trunk/lib:.
