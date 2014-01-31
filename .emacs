@@ -96,7 +96,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
- '(custom-enabled-themes (quote (adwaita)))
+ '(custom-enabled-themes (quote (wombat)))
  '(haskell-mode-hook (quote (turn-on-haskell-indent turn-on-haskell-indentation)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
@@ -106,13 +106,12 @@
  ;; If there is more than one, they won't work right.
  )
 
-(setq *load-slime* nil)
 (when *load-slime*
-  (add-to-list 'load-path (expand-file-name "~/emacs/slime"))
+  (add-to-list 'load-path (expand-file-name *slime-path*))
   (require 'slime)
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+  (setq inferior-lisp-program *lisp-bin-path*)
   )
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
