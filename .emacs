@@ -1,6 +1,7 @@
 '(setq default-frame-alist
 '((x 0) (y 0) (height . 180) (width . 270) (menu-bar-lines . 20) (tool-bar-lines . 0)))
-(server-start)
+(when (not (eq window-system 'x))
+  (server-start))
 (global-unset-key (kbd "C-SPC"))
 
 (setq display-time-24hr-format t)
@@ -43,6 +44,7 @@
 (setq current-language-environment "UTF-8")
 (setq default-input-method "eim-wb")
 (setq locale-coding-system 'utf-8)
+(setq file-name-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-buffer-file-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
