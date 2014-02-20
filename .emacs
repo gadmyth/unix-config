@@ -1,5 +1,8 @@
 '(setq default-frame-alist
 '((x 0) (y 0) (height . 180) (width . 270) (menu-bar-lines . 20) (tool-bar-lines . 0)))
+(when (not (eq window-system 'x))
+  (server-start))
+(global-unset-key (kbd "C-SPC"))
 
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
@@ -41,6 +44,7 @@
 (setq current-language-environment "UTF-8")
 (setq default-input-method "eim-wb")
 (setq locale-coding-system 'utf-8)
+(setq file-name-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-buffer-file-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -99,6 +103,19 @@
 (require 'mail-config)
 (require 'el-server)
 
+(require 'helm)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+
+(require 'ace-jump-mode)
+(global-set-key (kbd "C-x j") 'ace-jump-word-mode)
+(global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
+(global-set-key (kbd "C-x C-j C-l") 'ace-jump-line-mode)
+
+(require 'ace-jump-buffer)
+(global-set-key (kbd "C-x C-j C-b") 'ace-jump-buffer)
 
 (require 'ido)
 (ido-mode t)
@@ -109,7 +126,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
- '(custom-enabled-themes (quote (adwaita)))
+ '(custom-enabled-themes (quote (wombat)))
  '(haskell-mode-hook (quote (turn-on-haskell-indent turn-on-haskell-indentation)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
@@ -119,15 +136,14 @@
  ;; If there is more than one, they won't work right.
  )
 
-(setq *load-slime* t)
 (when *load-slime*
-  (add-to-list 'load-path (expand-file-name "~/emacs/slime"))
+  (add-to-list 'load-path (expand-file-name *slime-path*))
   (require 'slime)
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
   (setq slime-net-coding-system 'utf-8-unix)
   (setq slime-lisp-implementations
-		'((sbcl ("/usr/local/bin/sbcl") :coding-system utf-8-unix)))
+		'((sbcl (*lisp-bin-path*) :coding-system utf-8-unix)))
   )
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
