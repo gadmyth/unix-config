@@ -1,6 +1,5 @@
 '(setq default-frame-alist
 '((x 0) (y 0) (height . 180) (width . 270) (menu-bar-lines . 20) (tool-bar-lines . 0)))
-(global-unset-key (kbd "C-SPC"))
 
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
@@ -48,6 +47,8 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
+(setenv "http_proxy" "127.0.0.1:8087")
+(setenv "https_proxy" "127.0.0.1:8087")
 
 (require 'package)
 (add-to-list 'package-archives
@@ -56,6 +57,25 @@
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+
+(require 'helm)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+
+(require 'window-numbering)
+(window-numbering-mode 1)
+
+(require 'ace-jump-mode)
+(global-set-key (kbd "C-x j") 'ace-jump-word-mode)
+(global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
+(global-set-key (kbd "C-x C-j C-l") 'ace-jump-line-mode)
+
+(require 'ace-jump-buffer)
+(global-set-key (kbd "C-x C-j C-b") 'ace-jump-buffer)
+
+(require 'org-trello)
+(add-hook 'org-mode-hook 'org-trello-mode)
 
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
 
@@ -76,16 +96,9 @@
 (if (not (file-exists-p def-dir))
   (mkdir def-dir)
   (setq default-directory def-dir))
+(require 'mail-config)
+(require 'el-server)
 
-;(require 'vimpulse)
-;(setq woman-use-own-frame nil)
-;(setq woman-use-topic-at-point t)
-;;(require 'redo)
-;;(require 'rect-mark)
-
-
-;(require 'color-theme)
-;(color-theme-deep-blue)
 
 (require 'ido)
 (ido-mode t)
@@ -106,13 +119,15 @@
  ;; If there is more than one, they won't work right.
  )
 
-(setq *load-slime* nil)
+(setq *load-slime* t)
 (when *load-slime*
   (add-to-list 'load-path (expand-file-name "~/emacs/slime"))
   (require 'slime)
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+  (setq slime-net-coding-system 'utf-8-unix)
+  (setq slime-lisp-implementations
+		'((sbcl ("/usr/local/bin/sbcl") :coding-system utf-8-unix)))
   )
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
@@ -223,6 +238,8 @@
 
 (global-linum-mode t)
 (require 'linum-relative)
+
+(load-theme 'wombat)
 
 (setq linum-use-scale nil)
 
