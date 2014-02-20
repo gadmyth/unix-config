@@ -58,7 +58,7 @@ alias duh="du . -h | grep -v /"
 
 
 alias vum="vim -c 'source ~/.vumrc'"
-alias grep="grep --exclude=*svn* --color -n"
+alias mgrep="grep --exclude=*svn* --color -n"
 
 # for copy.com sync
 alias copy-sync="CopyConsole -username=gadmyth@gmail.com -root=/data/Copy"
