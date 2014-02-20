@@ -86,6 +86,19 @@
 ;;(require 'redo)
 ;;(require 'rect-mark)
 
+(require 'helm)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+
+(require 'ace-jump-mode)
+(global-set-key (kbd "C-x j") 'ace-jump-word-mode)
+(global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
+(global-set-key (kbd "C-x C-j C-l") 'ace-jump-line-mode)
+
+(require 'ace-jump-buffer)
+(global-set-key (kbd "C-x C-j C-b") 'ace-jump-buffer)
 
 ;(require 'color-theme)
 ;(color-theme-deep-blue)
