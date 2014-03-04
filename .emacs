@@ -172,7 +172,7 @@
 	  uniquify-separator " :: ") 
 (filesets-init)
 
-(let ((path (shell-command-to-string "source ~/.bashrc; echo -n $PATH")))
+(let ((path (shell-command-to-string "source ~/.bashrc; echo $PATH")))
   (setenv "PATH" path)
   (setq exec-path
 		(append (split-string-and-unquote path ":") exec-path))) 
