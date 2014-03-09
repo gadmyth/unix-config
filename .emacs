@@ -1,6 +1,6 @@
 '(setq default-frame-alist
 '((x 0) (y 0) (height . 180) (width . 270) (menu-bar-lines . 20) (tool-bar-lines . 0)))
-(when (not (or (eq window-system 'x) (eq window-system 'ns)))
+(when (not (eq window-system 'x))
   (server-start))
 (global-unset-key (kbd "C-SPC"))
 
