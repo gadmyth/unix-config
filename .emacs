@@ -1,6 +1,6 @@
 '(setq default-frame-alist
 '((x 0) (y 0) (height . 180) (width . 270) (menu-bar-lines . 20) (tool-bar-lines . 0)))
-(when (not (eq window-system 'x))
+(when (not (or (eq window-system 'x) (eq window-system 'ns)))
   (server-start))
 (global-unset-key (kbd "C-SPC"))
 
@@ -60,6 +60,8 @@
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
+
+(setq erc-nick "gadmyth")
 
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
