@@ -6,7 +6,9 @@
   (eval (read-from-string "(push #P\"/data/gaiatest/\" asdf:*central-registry*)")))
 
 (defun load-local-packages ()
-  (eval (read-from-string "(ql:quickload :tpbackup)")))
+  (handler-case
+    (eval (read-from-string "(ql:quickload :tpbackup)"))
+    (condition () "tpbackup load error!")))
 
 (let ((quicklisp-init #P"/data/quicklisp/setup.lisp"))
   (when (probe-file quicklisp-init)
