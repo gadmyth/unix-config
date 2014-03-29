@@ -22,6 +22,14 @@
      (buffer-substring-no-properties (point-min) (point-max)))))
 ;;(elnode-start 'my-elnode-editor-handler :port 8001)
 
+(defvar org (get-buffer-create "1.2.2.org"))
+(defun org-handler (httpcon)
+  (elnode-http-start httpcon 200 '("Content-Type" . "text/plain"))
+  (elnode-http-return 
+   httpcon 
+   (with-current-buffer org
+     (buffer-substring-no-properties (point-min) (point-max)))))
+
 (defun my-elnode-editor-update-handler (httpcon)
   (let ((change-text (elnode-http-param httpcon "change")))
     (with-current-buffer my-elnode-editor-buffer
@@ -36,6 +44,7 @@
 
 (defconst my-elnode-editor-urls
   '(("^/text/$" . my-elnode-editor-handler)
+	("^/org/$" . org-handler)
     ("^/update/.*$" . my-elnode-editor-update-handler)
 	("/$" . my-elnode-editor-webserver-handler)))
 

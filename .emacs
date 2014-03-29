@@ -80,8 +80,8 @@
 (require 'ace-jump-buffer)
 (global-set-key (kbd "C-x C-j C-b") 'ace-jump-buffer)
 
-(require 'org-trello)
-(add-hook 'org-mode-hook 'org-trello-mode)
+;;(require 'org-trello)
+;;(add-hook 'org-mode-hook 'org-trello-mode)
 
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
 
@@ -104,7 +104,7 @@
   (setq default-directory def-dir))
 (require 'mail-config)
 (require 'el-server)
-
+(require 'translate)
 (require 'helm)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 

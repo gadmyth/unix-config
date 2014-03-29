@@ -3,6 +3,6 @@
 (setq-default google-translate-default-source-language "en")
 (setq-default google-translate-default-target-language "zh_CN")
 
-(global-set-key (kbd "C-x C-c t") 'google-translate-at-point)
+(global-set-key (kbd "C-x c t") 'google-translate-at-point)
 
 (provide 'translate)
