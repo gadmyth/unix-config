@@ -8,12 +8,17 @@
 (setq display-time-day-and-date t)
 (display-time)
 (setq inhibit-startup-message t)
+(setq frame-title-format "%f")
 
 (setq default-abbrev-mode t)
 (setq save-abbrevs t)
 
-(tool-bar-mode -1)
-(menu-bar-mode -1)
+(if (boundp 'tool-bar-mode)
+	(tool-bar-mode -1))
+(if (boundp 'menu-bar-mode)
+	(menu-bar-mode -1))
+(if (boundp 'scroll-bar-mode)
+	(scroll-bar-mode -1))
 
 (setq shell-file-name "/bin/sh")
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
