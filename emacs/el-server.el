@@ -30,6 +30,15 @@
    (with-current-buffer org
      (buffer-substring-no-properties (point-min) (point-max)))))
 
+(defvar my-org-dir "~/changbo/org")
+(defun org-dir-handler (httpcon)
+  (elnode-docroot-for my-org-dir
+	with org-file
+	on httpcon
+	do (with-current-buffer (find-file-noselect org-file)
+		 (let ((org-html (org-html-export-as-html)))
+		   (elnode-send-html httpcon org-html)))))
+
 (defun my-elnode-editor-update-handler (httpcon)
   (let ((change-text (elnode-http-param httpcon "change")))
     (with-current-buffer my-elnode-editor-buffer
@@ -45,6 +54,7 @@
 (defconst my-elnode-editor-urls
   '(("^/text/$" . my-elnode-editor-handler)
 	("^/org/$" . org-handler)
+	("^/orgs/$" . org-dir-handler)
     ("^/update/.*$" . my-elnode-editor-update-handler)
 	("/$" . my-elnode-editor-webserver-handler)))
 
