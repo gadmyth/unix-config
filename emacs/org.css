@@ -1,12 +1,14 @@
 BODY {
 	padding : 0.7in;
-	font-size : medium;
+	font-size : 14px;
+	line-height: 1.6;
 	font-family : Helvetica, arial, sans-serif;
 	background : white;
 	border-style: solid;
 	border-width: 20pt;
-	border-color: midnightblue;
-	padding: 0.7in;
+	border-color: lightgray;
+	width: 1000px;
+	margin: 0 auto;
 }
 
 body.framed {
@@ -39,7 +41,7 @@ OL{
     list-style-type: decimal;
     padding-bottom : 8px;
     text-indent : 0;
-    font-size : medium;
+    font-size : 14px;
     /*background: gray;*/
     }
 
@@ -79,7 +81,7 @@ div{
      border : 1pt;
      border-color : white;
      border-style : solid;
-     padding: 10pt;
+     padding-left: 10pt;
      }
 
 IMG{
@@ -136,13 +138,13 @@ em.phrase {
             }
 
 h1 {
-	ont-size:  28px;
+	font-size:  28px;
 	border-bottom: solid black 2pt;
 	padding: 0.1em;
 	padding-top: 0.2em;
 	padding-left: 0.3em;
 	padding-bottom: 2pt;
-     background: ;
+    background: ;
 	color: #1E2A37;
      }
 
@@ -153,7 +155,7 @@ h1.home{
 
 h2 { 
      color:#666;
-     font-size: 18px;
+     font-size: 24px;
      border-top: solid black 1px;
      border-bottom: solid black 1px;
      padding: 0.1em;
@@ -165,7 +167,7 @@ h2 {
 
 h3 { 
      color:#666;
-     font-size: 16px;
+     font-size: 22px;
      border-left: solid black 1px;
      border-bottom: solid black 1px;
      padding: 0.1em;
@@ -177,12 +179,12 @@ h3 {
 
 h4 { 
      color:#666;
-     font-size: 14px;
+     font-size: 20px;
      padding: 2px;
      margin-top: 5px;
      }
 
-H5 {
+h5 {
      color: #666;
      text-align: left;
      font-size: 12px;
@@ -193,6 +195,16 @@ H5 {
 LI {
      margin-top: 3ex;
      }
+
+span.checkbox {
+	font-size: 20px;
+	color: red;
+}
+
+span.check {
+	font-size: 20px;
+	color: green;
+}
 
 LI.explained {
                }
