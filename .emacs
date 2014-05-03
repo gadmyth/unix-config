@@ -167,6 +167,14 @@
 		evil-markers-alist))
 
 (setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://docs.huihoo.com/homepage/shredderyin/main.css\"/>")
+(defun m/org-html-checkbox (checkbox)
+  "Format CHECKBOX into HTML."
+  (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
+        (off "<span class=\"checkbox\">&#x2610;</span>")
+        (trans "<code>[-]</code>")
+        (t "")))
+(defadvice org-html-checkbox (around sacha activate)
+  (setq ad-return-value (m/org-html-checkbox (ad-get-arg 0))))
 
 (when (not (eq window-system 'x)) (server-start))
 (message "end : %.2f" (float-time (time-since ts-init)))
