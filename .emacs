@@ -166,5 +166,7 @@
 			nil))
 		evil-markers-alist))
 
+(setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://docs.huihoo.com/homepage/shredderyin/main.css\"/>")
+
 (when (not (eq window-system 'x)) (server-start))
 (message "end : %.2f" (float-time (time-since ts-init)))
