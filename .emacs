@@ -166,7 +166,7 @@
 			nil))
 		evil-markers-alist))
 
-(let ((+org-css+ (expand-file-name "~/unix-config/emacs/org.css")))
+(let ((+org-css+ "org.css"))
   (setq org-html-head (format "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\"/>" +org-css+)))
 (defun m/org-html-checkbox (checkbox)
   "Format CHECKBOX into HTML."
