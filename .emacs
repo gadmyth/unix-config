@@ -166,7 +166,8 @@
 			nil))
 		evil-markers-alist))
 
-(setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://docs.huihoo.com/homepage/shredderyin/main.css\"/>")
+(let ((+org-css+ (expand-file-name "~/unix-config/emacs/org.css")))
+  (setq org-html-head (format "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\"/>" +org-css+)))
 (defun m/org-html-checkbox (checkbox)
   "Format CHECKBOX into HTML."
   (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
