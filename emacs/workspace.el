@@ -17,7 +17,7 @@
   (setq *find-grep-dired--dir* dir)
   (isearch-update-ring regexp t)
   (find-dired dir
-			  (concat "-type f -exec " grep-program " " find-grep-options " -e "
+			  (concat "-not \\( -name .svn -prune \\) " "-type f -exec " grep-program " " find-grep-options " -e "
 					  (shell-quote-argument regexp)
 					  " "
 					  (shell-quote-argument "{}")
