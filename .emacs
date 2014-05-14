@@ -96,13 +96,12 @@
 ;(require 'clojure-mode)
 
 (when *load-slime*
-  (add-to-list 'load-path (expand-file-name *slime-path*))
   (require 'slime)
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
   (setq slime-net-coding-system 'utf-8-unix)
   (setq slime-lisp-implementations
-		'((sbcl (*lisp-bin-path*) :coding-system utf-8-unix)))
+		`((sbcl (,*lisp-bin-path*) :coding-system utf-8-unix)))
   )
 
 (yas/initialize)
