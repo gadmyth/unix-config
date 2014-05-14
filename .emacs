@@ -60,6 +60,7 @@
 (prefer-coding-system 'utf-8)
 (set-language-environment 'utf-8)
 (setenv "LC_CTYPE" "zh_CN.UTF-8")
+(setq ediff-split-window-function 'split-window-horizontally)
 
 (setenv "http_proxy" "127.0.0.1:8087")
 (setenv "https_proxy" "127.0.0.1:8087")
