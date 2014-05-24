@@ -14,6 +14,7 @@
 (if (boundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (put 'scroll-left 'disabled nil)
 (global-linum-mode t)
+(global-visual-line-mode t)
 (require 'linum-relative)
 (show-paren-mode 1)
 (setq winner-mode t)
