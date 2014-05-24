@@ -62,9 +62,6 @@
 (set-language-environment 'utf-8)
 (setenv "LC_CTYPE" "zh_CN.UTF-8")
 
-(setenv "http_proxy" "127.0.0.1:8087")
-(setenv "https_proxy" "127.0.0.1:8087")
-
 (global-set-key (kbd "C-x j") 'ace-jump-word-mode)
 (global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
 (global-set-key (kbd "C-x C-j C-l") 'ace-jump-line-mode)
@@ -84,6 +81,7 @@
 (if (not (file-exists-p def-dir))
   (mkdir def-dir)
   (setq default-directory def-dir))
+(switch-proxy t)
 
 (require 'translate)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
