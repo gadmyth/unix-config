@@ -34,6 +34,7 @@
 (setq save-abbrevs t)
 (global-unset-key (kbd "C-SPC"))
 (setq erc-nick "gadmyth")
+(setq erc-hide-list '("JOIN" "QUIT" "PART"))
 
 (setq-default intent-tabs-mode nil)
 (setq-default c-basic-offset 4)
@@ -99,9 +100,11 @@
   (require 'slime)
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-  (setq slime-net-coding-system 'utf-8-unix)
-  (setq slime-lisp-implementations
-		'((sbcl (*lisp-bin-path*) :coding-system utf-8-unix)))
+  (setq slime-net-coding-system 'utf-8-unix
+		slime-lisp-implementations
+		`((sbcl (,*lisp-bin-path*) :coding-system utf-8-unix)))
+  (slime-setup '(slime-repl slime-scratch slime-c-p-c))
+  (global-set-key (kbd "C-c s") 'slime-selector)
   )
 
 (yas/initialize)
