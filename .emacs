@@ -14,6 +14,7 @@
 (if (boundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (put 'scroll-left 'disabled nil)
 (global-linum-mode t)
+(global-visual-line-mode t)
 (require 'linum-relative)
 (show-paren-mode 1)
 (setq winner-mode t)
@@ -34,6 +35,7 @@
 (setq save-abbrevs t)
 (global-unset-key (kbd "C-SPC"))
 (setq erc-nick "gadmyth")
+(setq erc-hide-list '("JOIN" "QUIT" "PART"))
 
 (setq-default intent-tabs-mode nil)
 (setq-default c-basic-offset 4)
@@ -62,9 +64,6 @@
 (setenv "LC_CTYPE" "zh_CN.UTF-8")
 (setq ediff-split-window-function 'split-window-horizontally)
 
-(setenv "http_proxy" "127.0.0.1:8087")
-(setenv "https_proxy" "127.0.0.1:8087")
-
 (global-set-key (kbd "C-x j") 'ace-jump-word-mode)
 (global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
 (global-set-key (kbd "C-x C-j C-l") 'ace-jump-line-mode)
@@ -84,6 +83,7 @@
 (if (not (file-exists-p def-dir))
   (mkdir def-dir)
   (setq default-directory def-dir))
+(switch-proxy t)
 
 (require 'translate)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
@@ -99,9 +99,11 @@
   (require 'slime)
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-  (setq slime-net-coding-system 'utf-8-unix)
-  (setq slime-lisp-implementations
+  (setq slime-net-coding-system 'utf-8-unix
+		slime-lisp-implementations
 		`((sbcl (,*lisp-bin-path*) :coding-system utf-8-unix)))
+  (slime-setup '(slime-repl slime-scratch slime-c-p-c))
+  (global-set-key (kbd "C-c s") 'slime-selector)
   )
 
 (yas/initialize)
