@@ -97,12 +97,13 @@
 
 (when *load-slime*
   (require 'slime)
+  (slime-setup '(slime-repl slime-scratch slime-fuzzy slime-c-p-c))
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
   (setq slime-net-coding-system 'utf-8-unix
 		slime-lisp-implementations
-		`((sbcl (,*lisp-bin-path*) :coding-system utf-8-unix)))
-  (slime-setup '(slime-repl slime-scratch slime-c-p-c))
+		`((sbcl (,*lisp-bin-path*) :coding-system utf-8-unix))
+		slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
   (global-set-key (kbd "C-c s") 'slime-selector)
   )
 
