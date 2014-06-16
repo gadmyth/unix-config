@@ -89,6 +89,7 @@
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "M-x") 'smex)
 (ido-mode t)
+(setf helm-buffers-fuzzy-matching t)
 (setq ido-enable-flex-matching t)
 
 ;(require 'mail-config)
