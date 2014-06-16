@@ -97,7 +97,7 @@
 
 (when *load-slime*
   (require 'slime)
-  (slime-setup '(slime-repl slime-scratch slime-fuzzy slime-c-p-c))
+  (slime-setup '(slime-repl slime-scratch slime-fuzzy slime-c-p-c slime-banner slime-autodoc slime-fancy))
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
   (setq slime-net-coding-system 'utf-8-unix
