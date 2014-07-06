@@ -79,6 +79,7 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
 (setq uniquify-separator " :: ") 
+(require 'utility)
 (require 'workspace)
 (if (not (file-exists-p def-dir))
   (mkdir def-dir)
@@ -98,7 +99,7 @@
 
 (when *load-slime*
   (require 'slime)
-  (slime-setup '(slime-repl slime-scratch slime-fuzzy slime-c-p-c slime-banner slime-autodoc slime-fancy))
+  (slime-setup '(slime-repl slime-scratch slime-fuzzy slime-c-p-c slime-banner slime-autodoc slime-fancy slime-fancy-inspector))
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
   (setq slime-net-coding-system 'utf-8-unix
