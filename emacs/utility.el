@@ -33,4 +33,10 @@
 			   (get-buffer-create buffer)
 			 (buffer-substring-no-properties (point-min) (point-max))) "\n")))
 
+(defun switch-default-dir (directory)
+  (interactive "DSwitch default directory:")
+  (when (and (not (null directory)) (not (equal "" directory)))
+	(setq default-directory directory)))
+  
+
 (provide 'utility)
