@@ -94,10 +94,6 @@
 (setf helm-buffers-fuzzy-matching t)
 (setq ido-enable-flex-matching t)
 
-;(require 'mail-config)
-;(require 'el-server)
-;(require 'clojure-mode)
-
 (when *load-slime*
   (require 'slime)
   (slime-setup '(slime-repl slime-scratch slime-fuzzy slime-c-p-c slime-banner slime-autodoc slime-fancy slime-fancy-inspector))
@@ -110,10 +106,6 @@
   (global-set-key (kbd "C-c s") 'slime-selector)
   )
 
-(yas/initialize)
-(global-set-key (kbd "C-;") 'yas/expand)
-;;(yas/load-directory "~/.emacs.d/snippets")
-(yas/global-mode 1)
 
 (let ((path (if (eq window-system 'ns)
 				(shell-command-to-string "source ~/.bashrc; echo $PATH")
