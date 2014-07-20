@@ -88,6 +88,7 @@
 
 (require 'annot)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
+;(global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'smex)
 (ido-mode t)
 (setf helm-buffers-fuzzy-matching t)
@@ -176,3 +177,9 @@
 
 (when (not (eq window-system 'x)) (server-start))
 (message "end : %.2f" (float-time (time-since ts-init)))
+
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (define-key eshell-mode-map
+                [remap eshell-pcomplete]
+                'helm-esh-pcomplete)))
