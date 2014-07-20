@@ -1,5 +1,6 @@
 (eval-when-compile (require 'cl))
 
+;;;###autoload
 (defun switch-proxy (enable)
   (interactive "Senable? ")
   (let ((proxy
@@ -10,6 +11,8 @@
 	(setenv "https_proxy" proxy)))
 
 (setq *find-grep-dired--dir* "~")
+
+;;;###autoload
 (defun find2-grep-dired (dir regexp)
   (interactive (list (read-directory-name "What directory? " 
 										  *find-grep-dired--dir*)
@@ -25,6 +28,7 @@
 					  ;; Doesn't work with "+".
 					  (shell-quote-argument ";"))))
 
+;;;###autoload
 (defun clean-svn (dir buffer)
   (interactive "DDelete-directory: \nbDelete candidates buffer: ")
   (mapcar (lambda (file) (delete-file (concat dir "/" file)))
@@ -33,6 +37,7 @@
 			   (get-buffer-create buffer)
 			 (buffer-substring-no-properties (point-min) (point-max))) "\n")))
 
+;;;###autoload
 (defun switch-default-dir (dir)
   (interactive "DChoose default directory:")
   (when (not (null dir))

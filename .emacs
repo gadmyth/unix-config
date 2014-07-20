@@ -79,7 +79,7 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
 (setq uniquify-separator " :: ") 
-(require 'utility)
+(require 'autoloads)
 (require 'workspace)
 (if (not (file-exists-p def-dir))
   (mkdir def-dir)
