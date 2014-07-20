@@ -86,7 +86,6 @@
   (setq default-directory def-dir))
 (switch-proxy t)
 
-(require 'translate)
 (require 'annot)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "M-x") 'smex)
