@@ -63,6 +63,7 @@
 (set-language-environment 'utf-8)
 (setenv "LC_CTYPE" "zh_CN.UTF-8")
 (setq ediff-split-window-function 'split-window-horizontally)
+(eval-after-load "vc-hooks" '(defin-key vc-prefix-map "=" 'vc-ediff))
 
 (global-set-key (kbd "C-x j") 'ace-jump-word-mode)
 (global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
