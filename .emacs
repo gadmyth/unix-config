@@ -67,6 +67,7 @@
 (defcustom helm-split-window-default-side 'right "" :group 'helm :type 'symbol)
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
 (eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
+(eval-after-load "org" '(setq org-startup-indented t))
 
 (global-set-key (kbd "C-x j") 'ace-jump-word-mode)
 (global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
