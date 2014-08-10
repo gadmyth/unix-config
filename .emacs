@@ -64,10 +64,13 @@
 (setenv "LC_CTYPE" "zh_CN.UTF-8")
 (setq ediff-split-window-function 'split-window-horizontally)
 (eval-after-load "vc-hooks" '(define-key vc-prefix-map "=" 'vc-ediff))
-(defcustom helm-split-window-default-side 'right "" :group 'helm :type 'symbol)
+(eval-after-load "helm" '(setq helm-split-window-default-side 'below))
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
 (eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
-(eval-after-load "org" '(setq org-startup-indented t))
+(eval-after-load "org"
+  '(progn
+	 (setq org-startup-indented t)
+	 (setq org-default-notes-file (concat org-directory "/notes.org"))))
 
 (global-set-key (kbd "C-x j") 'ace-jump-word-mode)
 (global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
