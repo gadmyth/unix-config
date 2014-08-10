@@ -65,6 +65,8 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 (eval-after-load "vc-hooks" '(define-key vc-prefix-map "=" 'vc-ediff))
 (defcustom helm-split-window-default-side 'right "" :group 'helm :type 'symbol)
+(eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
+(eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
 
 (global-set-key (kbd "C-x j") 'ace-jump-word-mode)
 (global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
@@ -133,7 +135,9 @@
 	      (scale-large)
 	      (let ((coding-system-for-read 'utf-8))
 		(interactive)
-		(revert-buffer t t t)))))
+		(revert-buffer t t t)
+		(textmate-mode)
+		(cscope-minor-mode)))))
 
 ;; install lua-mode
 (setq auto-mode-alist
