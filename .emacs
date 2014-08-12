@@ -82,6 +82,7 @@
 (evil-mode 1)
 (define-key evil-insert-state-map (kbd "C-a") 'evil-beginning-of-line)
 (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-line)
+(define-key evil-motion-state-map (kbd "C-6") 'evil-buffer)
 (require 'wcy-desktop)
 (wcy-desktop-init)
 (require 'uniquify)
