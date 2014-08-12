@@ -141,7 +141,9 @@
 	      (let ((coding-system-for-read 'utf-8))
 		(interactive)
 		(revert-buffer t t t)
+		(require 'textmate)
 		(textmate-mode)
+		(require 'xcscope)
 		(cscope-minor-mode)))))
 
 ;; install lua-mode
