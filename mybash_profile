@@ -40,6 +40,9 @@ alias ed="emacsclient -c"
 
 alias sdUpdateVersion="pushd $smartd && ./update_build_version.sh . && popd"
 
+#for git ssl
+export GIT_SSL_NO_VERIFY=true
+
 function adbrestart() {
 	adb kill-server;
 	pushd $android_sdk_home;
