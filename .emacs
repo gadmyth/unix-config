@@ -139,12 +139,24 @@
 	    (progn
 	      (scale-large)
 	      (let ((coding-system-for-read 'utf-8))
-		(interactive)
-		(revert-buffer t t t)
-		(require 'textmate)
-		(textmate-mode)
-		(require 'xcscope)
-		(cscope-minor-mode)))))
+			(interactive)
+			(revert-buffer t t t)
+			(require 'textmate)
+			(textmate-mode)
+			(require 'xcscope)
+			(cscope-minor-mode)))))
+
+(add-hook 'slime-repl-mode-hook
+		  (lambda ()
+			(evil-emacs-state)))
+
+(add-hook 'term-mode-hook
+		  (lambda ()
+			(evil-emacs-state)))
+
+(add-hook 'eshell-mode-hook
+		  (lambda ()
+			(evil-emacs-state)))
 
 ;; install lua-mode
 (setq auto-mode-alist
