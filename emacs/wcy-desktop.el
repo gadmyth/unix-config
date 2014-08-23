@@ -85,5 +85,13 @@ it (wcy-desktop-init) in your ~/.emacs "
       (revert-buffer nil t nil)
       (when (eq major-mode 'not-loaded-yet)
         (fundamental-mode)))))
+
+(defun wcy-desktop-load-all-files ()
+  "load all files"
+  (interactive)
+  (mapcar #'(lambda(b) (with-current-buffer b
+                         (when (local-variable-p 'wcy-desktop-is-buffer-loaded)
+                           (revert-buffer nil t nil))))
+          (remove-if-not 'buffer-file-name (buffer-list))))
 (provide 'wcy-desktop)
 ;;; wcy-desktop.el ends here
