@@ -212,3 +212,17 @@
               (define-key eshell-mode-map
                 [remap eshell-pcomplete]
                 'helm-esh-pcomplete)))
+
+;; skeleton
+(setq skeleton-pair-alist
+	  '((?\" _ "\"" >)
+		(?\' _ "\'" >)
+		(?\( _ ")" >)
+		(?\[ _ "]" >)
+		(?\{ _ "}" >)))
+(global-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
+(global-set-key (kbd "\'") 'skeleton-pair-insert-maybe)
+(global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
+(global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
+(global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
+(setq skeleton-pair t)
