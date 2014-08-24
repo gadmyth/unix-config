@@ -160,7 +160,7 @@
 		  (lambda ()
 			(evil-emacs-state)))
 
-(add-hook 'erc-mode-hook
+(add-hook 'calendar-mode-hook
 		  (lambda ()
 			(evil-emacs-state)))
 
@@ -228,3 +228,13 @@
 (global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
 (global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
 (setq skeleton-pair t)
+
+(setq calendar-chinese-all-holidays-flag t)
+(setq christian-holidays nil)
+(setq hebrew-holidays nil)
+(setq hebrew-holidays-1 nil)
+(setq hebrew-holidays-2 nil)
+(setq hebrew-holidays-3 nil)
+(setq hebrew-holidays-4 nil)
+(setq islamic-holidays nil)
+(setq bahai-holidays nil)
