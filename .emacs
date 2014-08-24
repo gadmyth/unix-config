@@ -166,6 +166,10 @@
 			(evil-emacs-state)
 			(scale-large 2)))
 
+(add-hook 'org-agenda-mode-hook
+		  (lambda ()
+			(scale-large 2)))
+
 ;; install lua-mode
 (setq auto-mode-alist
 	  (let* ((lst auto-mode-alist)
