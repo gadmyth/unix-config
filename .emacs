@@ -164,7 +164,7 @@
 (add-hook 'calendar-mode-hook
 		  (lambda ()
 			(evil-emacs-state)
-			(scale-large 4)))
+			(scale-large 2)))
 
 ;; install lua-mode
 (setq auto-mode-alist
