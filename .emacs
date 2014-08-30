@@ -93,8 +93,8 @@
 (require 'autoloads)
 (require 'workspace)
 (if (not (file-exists-p def-dir))
-  (mkdir def-dir)
-  (setq default-directory def-dir))
+  (mkdir def-dir))
+(setq default-directory def-dir)
 (switch-proxy t)
 
 (require 'annot)
@@ -248,3 +248,4 @@
 (setq hebrew-holidays-4 nil)
 (setq islamic-holidays nil)
 (setq bahai-holidays nil)
+	          
