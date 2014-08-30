@@ -170,6 +170,10 @@
 		  (lambda ()
 			(scale-large 2)))
 
+(add-hook 'erc-mode-hook
+		  (lambda ()
+			(evil-emacs-state)))
+
 ;; install lua-mode
 (setq auto-mode-alist
 	  (let* ((lst auto-mode-alist)
