@@ -9,9 +9,9 @@
 (require 'alpha)
 (transparency-set-value 92)
 (window-numbering-mode 1)
-(if (boundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (boundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (boundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (boundp 'tool-bar-mode) (tool-bar-mode 0))
+(if (boundp 'menu-bar-mode) (menu-bar-mode 0))
+(if (boundp 'scroll-bar-mode) (scroll-bar-mode 0))
 (put 'scroll-left 'disabled nil)
 (global-linum-mode t)
 (global-visual-line-mode t)
@@ -81,6 +81,7 @@
 
 (evil-mode 1)
 (require 'evil-visualstar)
+(smartparens-global-mode)
 (yas-global-mode)
 (global-auto-complete-mode)
 (define-key evil-insert-state-map (kbd "C-a") 'evil-beginning-of-line)
@@ -194,8 +195,8 @@
 
 
 (defun is-char? (c)
-  (or (and (>= c ?A) (<= c ?Z))
-	  (and (>= c ?a) (<= c ?z))))
+  (or (and (<= ?A c) (<= c ?Z))
+	  (and (<= ?a c) (<= c ?z))))
 
 (delq nil
 	  (mapcar (lambda (x)
@@ -225,20 +226,6 @@
               (define-key eshell-mode-map
                 [remap eshell-pcomplete]
                 'helm-esh-pcomplete)))
-
-;; skeleton
-(setq skeleton-pair-alist
-	  '((?\" _ "\"" >)
-		(?\' _ "\'" >)
-		(?\( _ ")" >)
-		(?\[ _ "]" >)
-		(?\{ _ "}" >)))
-(global-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "\'") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
-(setq skeleton-pair t)
 
 (setq calendar-chinese-all-holidays-flag t)
 (setq christian-holidays nil)
