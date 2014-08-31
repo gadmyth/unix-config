@@ -149,7 +149,8 @@
 			(require 'textmate)
 			(textmate-mode)
 			(require 'xcscope)
-			(cscope-minor-mode)))))
+			(cscope-minor-mode)
+			(pretty-mode)))))
 
 (add-hook 'slime-repl-mode-hook
 		  (lambda ()
