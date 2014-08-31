@@ -80,6 +80,7 @@
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
 
 (evil-mode 1)
+(require 'evil-visualstar)
 (yas-global-mode)
 (global-auto-complete-mode)
 (define-key evil-insert-state-map (kbd "C-a") 'evil-beginning-of-line)
