@@ -228,7 +228,6 @@
   (setq ad-return-value (m/org-html-checkbox (ad-get-arg 0))))
 
 (when (not (eq window-system 'x)) (server-start))
-(message "end : %.2f" (float-time (time-since ts-init)))
 
 (add-hook 'eshell-mode-hook
           #'(lambda ()
@@ -246,3 +245,4 @@
 (setq islamic-holidays nil)
 (setq bahai-holidays nil)
 	          
+(message "end : %.2f" (float-time (time-since ts-init)))
