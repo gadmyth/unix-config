@@ -15,11 +15,14 @@
 (put 'scroll-left 'disabled nil)
 (global-linum-mode t)
 (global-visual-line-mode t)
+(global-auto-revert-mode t)
 (require 'linum-relative)
 (show-paren-mode 1)
 (setq winner-mode t)
 (setq column-number-mode t)
 (setq line-number-mode t)
+(require 'windmove)
+(windmove-default-keybindings)
 
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
@@ -63,6 +66,7 @@
 (set-language-environment 'utf-8)
 (setenv "LC_CTYPE" "zh_CN.UTF-8")
 (setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (eval-after-load "vc-hooks" '(define-key vc-prefix-map "=" 'vc-ediff))
 (eval-after-load "helm" '(setq helm-split-window-default-side 'below))
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
@@ -153,6 +157,10 @@
 			(pretty-mode)))))
 
 (add-hook 'slime-repl-mode-hook
+		  (lambda ()
+			(evil-emacs-state)))
+
+(add-hook 'inferior-emacs-lisp-mode-hook
 		  (lambda ()
 			(evil-emacs-state)))
 
