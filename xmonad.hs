@@ -20,7 +20,7 @@ main = do
 	} `additionalKeys`
 	[ ((mod4Mask .|. shiftMask, xK_g), spawn "chromium")
 	, ((mod4Mask .|. shiftMask, xK_v), spawn "gvim")
-	, ((mod4Mask .|. shiftMask, xK_e), spawn "emacs") ]
+	, ((mod4Mask .|. shiftMask, xK_e), spawn "emacsclient -c") ]
 
 loghook h = dynamicLogWithPP $ xmobarPP {
 	ppOutput = hPutStrLn h
