@@ -4,6 +4,7 @@
 (defun load-extra-pretty ()
   (when (eq major-mode 'java-mode)
 	(pretty-regexp "import" "I")
+	(pretty-regexp "false" "×")
 	(pretty-regexp "Boolean.FALSE" "×")
 	(pretty-regexp "true" "✓")
 	(pretty-regexp "Boolean.TRUE" "✓")
