@@ -102,6 +102,7 @@
   (mkdir def-dir))
 (setq default-directory def-dir)
 (switch-proxy t)
+(require 'pretty-mode+)
 
 (require 'annot)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
