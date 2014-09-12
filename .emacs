@@ -186,6 +186,10 @@
 		  (lambda ()
 			(evil-emacs-state)))
 
+(add-hook 'ielm-mode-hook
+		  (lambda ()
+			(evil-emacs-state)))
+
 ;; install lua-mode
 (setq auto-mode-alist
 	  (let* ((lst auto-mode-alist)
