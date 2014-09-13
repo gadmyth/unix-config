@@ -84,10 +84,10 @@
 	 (setq org-startup-indented t)
 	 (setq org-default-notes-file (concat org-directory "/notes.org"))))
 
-(global-set-key (kbd "C-x j") 'ace-jump-word-mode)
-(global-set-key (kbd "C-x C-j C-c") 'ace-jump-char-mode)
-(global-set-key (kbd "C-x C-j C-l") 'ace-jump-line-mode)
-(global-set-key (kbd "C-x C-j C-b") 'ace-jump-buffer)
+(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-word-mode)
+(define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
+(define-key evil-normal-state-map (kbd "M-SPC") 'ace-jump-line-mode)
+(define-key evil-normal-state-map (kbd "S-M-SPC") 'ace-jump-buffer)
 
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
 
@@ -96,6 +96,11 @@
 (smartparens-global-mode)
 (yas-global-mode)
 (global-auto-complete-mode)
+(setq evil-emacs-state-cursor  '("#ae7865" box))
+(setq evil-normal-state-cursor '("gray" box))
+(setq evil-visual-state-cursor '("yellow" box))
+(setq evil-insert-state-cursor '("green" bar))
+(setq evil-motion-state-cursor '("red" box))
 (define-key evil-insert-state-map (kbd "C-a") 'evil-beginning-of-line)
 (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-line)
 (define-key evil-motion-state-map (kbd "C-6") 'evil-buffer)
