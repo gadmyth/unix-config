@@ -115,7 +115,7 @@
 (if (not (file-exists-p def-dir))
   (mkdir def-dir))
 (setq default-directory def-dir)
-(switch-proxy t)
+(switch-proxy nil)
 (require 'pretty-mode+)
 
 (require 'annot)
