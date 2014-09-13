@@ -42,7 +42,11 @@
 (setq save-abbrevs t)
 (global-unset-key (kbd "C-SPC"))
 (setq erc-nick "gadmyth")
-(setq erc-hide-list '("JOIN" "QUIT" "PART"))
+(setq erc-hide-list '("JOIN" "QUIT" "PART" "NICK" "MODE"))
+(defun start-erc (passwd)
+  (interactive (list (read-passwd "passwd: ")))
+  (erc :server erc-default-server :port erc-default-port :nick erc-nick :password passwd))
+(setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#wecase")))
 
 (setq-default intent-tabs-mode nil)
 (setq-default c-basic-offset 4)
