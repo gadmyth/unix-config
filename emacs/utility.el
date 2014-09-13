@@ -43,4 +43,26 @@
   (when (not (null dir))
 	(setq default-directory dir)))
 
+(defun swap-to-main-window ()
+  (interactive)
+  (when (>= (count-windows) 2)
+	(let* ((first-window (frame-first-window))
+		   (first-buffer (window-buffer first-window))
+		   (current-window (get-buffer-window))
+		   (current-buffer (window-buffer current-window))
+		   (first-start (window-start first-window))
+		   (current-start (window-start current-window)))
+	  (set-window-buffer first-window current-buffer)
+	  (set-window-buffer current-window first-buffer)
+	  (set-window-start first-window current-start)
+	  (set-window-start current-window first-start)
+	  (select-window first-window))))
+
+(defun goto-main-window ()
+  (interactive)
+  (select-window (frame-first-window)))
+
+(global-set-key (kbd "C-c m") 'goto-main-window)
+(global-set-key (kbd "C-c RET") 'swap-to-main-window)
+
 (provide 'utility)
