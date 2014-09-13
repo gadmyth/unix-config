@@ -84,11 +84,6 @@
 	 (setq org-startup-indented t)
 	 (setq org-default-notes-file (concat org-directory "/notes.org"))))
 
-(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-word-mode)
-(define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
-(define-key evil-normal-state-map (kbd "M-SPC") 'ace-jump-line-mode)
-(define-key evil-normal-state-map (kbd "S-M-SPC") 'ace-jump-buffer)
-
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
 
 (evil-mode 1)
@@ -104,6 +99,10 @@
 (define-key evil-insert-state-map (kbd "C-a") 'evil-beginning-of-line)
 (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-line)
 (define-key evil-motion-state-map (kbd "C-6") 'evil-buffer)
+(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-word-mode)
+(define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
+(define-key evil-normal-state-map (kbd "M-SPC") 'ace-jump-line-mode)
+(define-key evil-normal-state-map (kbd "S-M-SPC") 'ace-jump-buffer)
 (require 'wcy-desktop)
 (wcy-desktop-init)
 (require 'uniquify)
