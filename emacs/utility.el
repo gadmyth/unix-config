@@ -62,7 +62,12 @@
   (interactive)
   (select-window (frame-first-window)))
 
+(defun goto-next-window() 
+  (interactive)
+  (other-window +1))
+
 (global-set-key (kbd "C-c m") 'goto-main-window)
 (global-set-key (kbd "C-c RET") 'swap-to-main-window)
+(global-set-key (kbd "C-c n") 'goto-next-window)
 
 (provide 'utility)
