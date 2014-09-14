@@ -69,5 +69,7 @@
 (global-set-key (kbd "C-c m") 'goto-main-window)
 (global-set-key (kbd "C-c RET") 'swap-to-main-window)
 (global-set-key (kbd "C-c n") 'goto-next-window)
+(global-set-key (kbd "C-c l") 'helm-buffers-list)
+(global-set-key (kbd "C-c f") 'ido-find-file)
 
 (provide 'utility)
