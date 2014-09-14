@@ -209,6 +209,10 @@
 		  (lambda ()
 			(evil-emacs-state)))
 
+(add-hook 'before-save-hook
+		  (lambda () (if (string= (buffer-name) ".emacs")
+					(byte-compile-file (expand-file-name "~/.emacs")))))
+
 ;; install lua-mode
 (setq auto-mode-alist
 	  (let* ((lst auto-mode-alist)
