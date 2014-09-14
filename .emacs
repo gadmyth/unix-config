@@ -209,7 +209,7 @@
 		  (lambda ()
 			(evil-emacs-state)))
 
-(add-hook 'before-save-hook
+(add-hook 'after-save-hook
 		  (lambda () (if (string= (buffer-name) ".emacs")
 					(byte-compile-file (expand-file-name "~/.emacs")))))
 
