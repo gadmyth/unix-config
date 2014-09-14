@@ -72,4 +72,24 @@
 (global-set-key (kbd "C-c l") 'helm-buffers-list)
 (global-set-key (kbd "C-c f") 'ido-find-file)
 
+(defun get-workspace (index from-end)
+  (let* ((frame-num (length (frame-list)))
+		 (max-index (- frame-num 1))
+		(frame-index (if (not from-end)
+						 index
+					   (- max-index index))))
+	(nth frame-index (frame-list))))
+
+(defun goto-workspace-by-number (index)
+  (if (<= index (- (length (frame-list)) 1))
+	  (select-frame-set-input-focus (get-workspace index t))
+	(message "No workspace found")))
+
+(dotimes (i 10)
+  (eval `(defun ,(intern (format "goto-workspace-%s" i)) ()
+		   ,(format "goto workspace with number %i." i)
+		   (interactive)
+		   (goto-workspace-by-number ,(- i 1))))
+  (global-set-key (kbd (format "C-c C-%s" i)) (intern (format "goto-workspace-%s" i))))
+
 (provide 'utility)
