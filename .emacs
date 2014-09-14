@@ -1,4 +1,9 @@
 (setq ts-init (current-time))
+(let* ((frame (selected-frame))
+	  (width (- (/ (x-display-pixel-width) (frame-char-width frame)) 4))
+	  (height (- (/ (x-display-pixel-height) (frame-char-height frame)) 4))
+	  (alist (list (cons 'left 0) (cons 'top 0) (cons 'width width) (cons 'height height))))
+  (modify-frame-parameters frame alist))
 (load-theme 'wombat)
 (add-to-list 'load-path (expand-file-name "~/emacs"))
 (require 'package)
@@ -243,7 +248,10 @@
 (defadvice org-html-checkbox (around sacha activate)
   (setq ad-return-value (m/org-html-checkbox (ad-get-arg 0))))
 
-(when (not (eq window-system 'x)) (server-start))
+(if (and (not (eq window-system 'x))
+	   (boundp 'server-process)
+	   (null server-process))
+	(server-start))
 
 (add-hook 'eshell-mode-hook
           #'(lambda ()
