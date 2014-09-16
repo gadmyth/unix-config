@@ -49,6 +49,7 @@
 (setq default-abbrev-mode t)
 (setq save-abbrevs t)
 (global-unset-key (kbd "C-SPC"))
+(require 'erc)
 (setq erc-nick "gadmyth")
 (setq erc-hide-list '("JOIN" "QUIT" "PART" "NICK" "MODE"))
 (defun start-erc (passwd)
