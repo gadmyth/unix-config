@@ -152,10 +152,7 @@
 		(append (split-string-and-unquote path ":") exec-path))) 
 
 (require 'elscreen)
-(global-set-key (kbd "C-c t") 'elscreen-create)
-(global-set-key (kbd "C-c w") 'elscreen-kill)
-(global-set-key (kbd "C-c p") 'elscreen-previous)
-(global-set-key (kbd "C-c n") 'elscreen-next)
+(elscreen-start)
 
 ;; scale-amount has been defined in workspace.el
 (defvar *mac-scale-amount* 2)
