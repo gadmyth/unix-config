@@ -151,8 +151,11 @@
   (setq exec-path
 		(append (split-string-and-unquote path ":") exec-path))) 
 
-(when (eq window-system 'x)
-  (tabbar-mode t))
+(require 'elscreen)
+(global-set-key (kbd "C-c t") 'elscreen-create)
+(global-set-key (kbd "C-c w") 'elscreen-kill)
+(global-set-key (kbd "C-c p") 'elscreen-previous)
+(global-set-key (kbd "C-c n") 'elscreen-next)
 
 ;; scale-amount has been defined in workspace.el
 (defvar *mac-scale-amount* 2)
