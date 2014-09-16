@@ -153,6 +153,7 @@
 		(append (split-string-and-unquote path ":") exec-path))) 
 
 (require 'elscreen)
+(elscreen-set-prefix-key "\C-k")
 (elscreen-start)
 
 ;; scale-amount has been defined in workspace.el
