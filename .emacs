@@ -126,7 +126,6 @@
 (switch-proxy nil)
 (require 'pretty-mode+)
 
-(require 'annot)
 (global-set-key (kbd "M-x") 'smex)
 (ido-mode t)
 (setf helm-buffers-fuzzy-matching t)
@@ -277,5 +276,7 @@
 (setq hebrew-holidays-4 nil)
 (setq islamic-holidays nil)
 (setq bahai-holidays nil)
+
+(require 'annot)
 	          
 (message "end : %.2f" (float-time (time-since ts-init)))
