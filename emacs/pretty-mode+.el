@@ -27,6 +27,7 @@
 	(pretty-regexp " = " "←")
 	(pretty-regexp " == " "≡")
 	(pretty-regexp "Integer.valueOf" "I")
+	(pretty-regexp "Boolean.valueOf" "B")
 	(pretty-regexp "Float.valueOf" "F")
 	(pretty-regexp "String.valueOf" "S")
 	(pretty-regexp "Constants.EMPTY_STR" "\"")
