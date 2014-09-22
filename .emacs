@@ -282,5 +282,7 @@
 (setq hebrew-holidays-4 nil)
 (setq islamic-holidays nil)
 (setq bahai-holidays nil)
+
+(require 'annot)
 	          
 (message "end : %.2f" (float-time (time-since ts-init)))
