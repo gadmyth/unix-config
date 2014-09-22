@@ -126,7 +126,6 @@
 (switch-proxy nil)
 (require 'pretty-mode+)
 
-(require 'annot)
 (global-set-key (kbd "M-x") 'smex)
 (ido-mode t)
 (setf helm-buffers-fuzzy-matching t)
@@ -155,6 +154,12 @@
 (require 'elscreen)
 (elscreen-set-prefix-key "\C-k")
 (elscreen-start)
+
+(require 'projectile)
+(projectile-global-mode)
+(setq projectile-indexing-method 'native)
+(setq projectile-enable-caching t)
+(setq projectile-file-exists-remote-cache-expire nil)
 
 ;; scale-amount has been defined in workspace.el
 (defvar *mac-scale-amount* 2)
