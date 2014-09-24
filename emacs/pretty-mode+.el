@@ -22,6 +22,7 @@
 	(pretty-regexp "else if " "l") ;; else if 
 	(pretty-regexp "else " "e")
 	(pretty-regexp "if " "i")
+	(pretty-regexp "while " "w")
 	(pretty-regexp ".equals" "=")
 	(pretty-regexp "System.out.println" "L")
 	(pretty-regexp " = " "←")
@@ -34,6 +35,7 @@
 	(pretty-regexp "PrefUtil.setKey" "⤋")
 	(pretty-regexp "PrefUtil.getKeyBoolean" "⤊")
 	(pretty-regexp "PrefUtil.getKeyString" "⤊")
+	(pretty-regexp "PrefUtil.getKeyLong" "⤊")
 	(pretty-regexp "NetEngine.getInst()" "≈")
 	(pretty-regexp "String" "S")
 	(pretty-regexp "intValue" "i")
