@@ -23,6 +23,7 @@
 	(pretty-regexp "else " "e")
 	(pretty-regexp "if " "i")
 	(pretty-regexp "while " "w")
+	(pretty-regexp "for " "f")
 	(pretty-regexp ".equals" "=")
 	(pretty-regexp "System.out.println" "L")
 	(pretty-regexp " = " "←")
