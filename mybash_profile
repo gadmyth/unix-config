@@ -34,7 +34,7 @@ alias adbdev="adb devices"
 export sd="/home/ibm/workspace/smartdialer"
 alias cdsd="cd $sd"
 
-export PATH=.:~/bin:~/vim/java:~/.cabal/bin:/data/bin:/usr/local/heroku/bin:$PATH
+export PATH=$PATH:.:~/bin:~/vim/java:~/.cabal/bin:/data/bin:/usr/local/heroku/bin
 export EDITOR="emacsclient -c"
 alias ed="emacsclient -c"
 
@@ -229,8 +229,8 @@ export javasrc=$ws1/java_src
 # for musca awt problem
 AWT_TOOLKIT=MToolkit
 
-setterm -blength 0
-xset -b
+#setterm -blength 0
+#xset -b
 # setvolume 10
 
 # for tty color
