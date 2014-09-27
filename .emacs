@@ -17,7 +17,8 @@
   (list 'alpha 'diff-hl 'windmove 'textmate
 		'helm 'xcscope 'org-mode 'evil
 		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
-		'elscreen 'projectile 'annot 'yasnippet))
+		'elscreen 'projectile 'annot 'yasnippet
+		'ov))
 (require 'alpha)
 (transparency-set-value 92)
 (window-numbering-mode 1)
@@ -178,7 +179,7 @@
 (add-hook 'find-file-hook
 	  (lambda ()
 	    (progn
-	      (scale-large)
+	      ;(scale-large)
 	      (let ((coding-system-for-read 'utf-8))
 			(interactive)
 			(revert-buffer t t t)

@@ -92,4 +92,18 @@
 		   (goto-workspace-by-number ,(- i 1))))
   (global-set-key (kbd (format "C-c C-%s" i)) (intern (format "goto-workspace-%s" i))))
 
+(require 'ov)
+(defun ov-double-height ()
+  (interactive)
+  (ov (point-min) (point-max) '(face (:height 1.25))))
+(defun ov-half-height ()
+  (interactive)
+  (ov (point-min) (point-max) '(face (:height 0.8))))
+(defun ov-reset-height ()
+  (interactive)
+  (ov-clear))
+(global-set-key (kbd "C-x C-=") 'ov-double-height)
+(global-set-key (kbd "C-x C--") 'ov-half-height)
+(global-set-key (kbd "C-x C-0") 'ov-reset-height)
+
 (provide 'utility)
