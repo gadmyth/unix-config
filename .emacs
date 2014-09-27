@@ -13,7 +13,11 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
-(defalias 'yes-or-no-p 'y-or-n-p)
+(defvar required-packages
+  (list 'alpha 'diff-hl 'windmove 'textmate
+		'helm 'xcscope 'org-mode 'evil
+		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
+		'elscreen 'projectile 'annot 'yasnippet))
 (require 'alpha)
 (transparency-set-value 92)
 (window-numbering-mode 1)
@@ -36,6 +40,7 @@
 (require 'windmove)
 (windmove-default-keybindings)
 
+(defalias 'yes-or-no-p 'y-or-n-p)
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
 (display-time)
