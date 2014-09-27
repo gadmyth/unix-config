@@ -263,8 +263,8 @@
   (setq ad-return-value (m/org-html-checkbox (ad-get-arg 0))))
 
 (if (and (not (eq window-system 'x))
-	   (boundp 'server-process)
-	   (null server-process))
+	   (or (not (boundp 'server-process))
+		   (null server-process)))
 	(server-start))
 
 (add-hook 'eshell-mode-hook
