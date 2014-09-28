@@ -126,6 +126,7 @@
 (switch-proxy nil)
 (require 'pretty-mode+)
 
+(require 'smex)
 (global-set-key (kbd "M-x") 'smex)
 (ido-mode t)
 (setf helm-buffers-fuzzy-matching t)
