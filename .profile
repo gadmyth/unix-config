@@ -1,4 +1,4 @@
-source ~/.bashrc
+#source ~/.bashrc
 export PATH=$PATH:~/android-sdks/tools/:~/android-sdks/platform-tools:~/.cabal/bin:~/android-sdks/platform-tools:~/android-sdks/build-tools/android-4.4/
 export NDK=~/android-ndk-r8e
 alias emacs-debug='/Applications/Emacs.app/Contents/MacOS/Emacs --debug-init' 
@@ -14,15 +14,6 @@ export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --frame
 ##
 
 # MacPorts Installer addition on 2014-06-18_at_10:31:53: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
-
-
-##
-# Your previous /Users/cootek/.profile file was backed up as /Users/cootek/.profile.macports-saved_2014-06-18_at_10:35:20
-##
-
-# MacPorts Installer addition on 2014-06-18_at_10:35:20: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=$PATH:/opt/local/bin:/opt/local/sbin
 # Finished adapting your PATH environment variable for use with MacPorts.
 
