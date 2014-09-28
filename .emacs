@@ -13,7 +13,12 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
-(defalias 'yes-or-no-p 'y-or-n-p)
+(defvar required-packages
+  (list 'alpha 'diff-hl 'windmove 'textmate
+		'helm 'xcscope 'org-mode 'evil
+		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
+		'elscreen 'projectile 'annot 'yasnippet
+		'ov))
 (require 'alpha)
 (transparency-set-value 92)
 (window-numbering-mode 1)
@@ -36,6 +41,7 @@
 (require 'windmove)
 (windmove-default-keybindings)
 
+(defalias 'yes-or-no-p 'y-or-n-p)
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
 (display-time)
@@ -174,7 +180,7 @@
 (add-hook 'find-file-hook
 	  (lambda ()
 	    (progn
-	      (scale-large)
+	      ;(scale-large)
 	      (let ((coding-system-for-read 'utf-8))
 			(interactive)
 			(revert-buffer t t t)
@@ -264,8 +270,8 @@
   (setq ad-return-value (m/org-html-checkbox (ad-get-arg 0))))
 
 (if (and (not (eq window-system 'x))
-	   (boundp 'server-process)
-	   (null server-process))
+	   (or (not (boundp 'server-process))
+		   (null server-process)))
 	(server-start))
 
 (add-hook 'eshell-mode-hook
