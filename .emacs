@@ -175,7 +175,8 @@
   (let ((scale-amount
 		 (if amount amount
 		   (if (eq window-system 'ns) *mac-scale-amount* *linux-scale-amount*))))
-	(text-scale-set scale-amount)))
+	(dotimes (i scale-amount)
+	  (ov-double-height))))
 
 (add-hook 'find-file-hook
 	  (lambda ()
@@ -184,6 +185,7 @@
 	      (let ((coding-system-for-read 'utf-8))
 			(interactive)
 			(revert-buffer t t t)
+			(scale-large)
 			(require 'textmate)
 			(textmate-mode)
 			(require 'xcscope)
