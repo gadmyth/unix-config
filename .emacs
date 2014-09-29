@@ -18,7 +18,7 @@
 		'helm 'xcscope 'org-mode 'evil
 		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
 		'elscreen 'projectile 'annot 'yasnippet
-		'ov))
+		'ov 'ace-jump-buffer 'ace-jump-mode))
 (require 'alpha)
 (transparency-set-value 92)
 (window-numbering-mode 1)
