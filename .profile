@@ -1,4 +1,4 @@
-#source ~/.bashrc
+source ~/.bashrc
 export PATH=$PATH:~/android-sdks/tools/:~/android-sdks/platform-tools:~/.cabal/bin:~/android-sdks/platform-tools:~/android-sdks/build-tools/android-4.4/
 export NDK=~/android-ndk-r8e
 alias emacs-debug='/Applications/Emacs.app/Contents/MacOS/Emacs --debug-init' 
