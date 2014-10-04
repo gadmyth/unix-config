@@ -106,4 +106,25 @@
 (global-set-key (kbd "C-x C--") 'ov-half-height)
 (global-set-key (kbd "C-x C-0") 'ov-reset-height)
 
+(setq *must-loading-files* '("~/diary" "~/org/notes.org"))
+(defun ensure-mkdir (dirname)
+  (if (not (file-exists-p dirname))
+	  (let ((dir (directory-file-name (file-name-directory dirname))))
+		(ensure-mkdir dir)))
+  (if (not (file-exists-p dirname))
+	  (mkdir dirname)))
+
+;;;###autoload
+(defun load-must-files ()
+  (interactive)
+  (mapc (lambda (filename)
+		  (if (file-exists-p filename)
+			  (find-file-noselect filename nil nil nil)
+			(progn 
+			  (let ((dir (file-name-directory filename)))
+				(ensure-mkdir dir))
+			  (with-current-buffer (create-file-buffer filename)
+				(write-file filename)))))
+		*must-loading-files*))
+
 (provide 'utility)
