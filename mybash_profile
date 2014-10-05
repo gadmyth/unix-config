@@ -33,7 +33,7 @@ alias adbdev="adb devices"
 export sd="/home/ibm/workspace/smartdialer"
 alias cdsd="cd $sd"
 
-export PATH=$PATH:.:~/bin:~/vim/java:~/.cabal/bin:/data/bin:/usr/local/heroku/bin
+export PATH=.:~/bin:~/vim/java:~/.cabal/bin:/data/bin:/usr/local/heroku/bin:$PATH
 export EDITOR="emacsclient -c"
 alias ed="emacsclient -c"
 
@@ -81,13 +81,6 @@ function anstall() {
 	fi
 }
 
-function restalls() {
-	para=( $@ )
-	# $@的第一个元素与$1相同
-	for(( i = 1; i < $#; i++ ));do
-		restall ${para[0]} ${para[$i]}
-	done;
-}
 # for windows
 export pt="/windows/sda6/PT"
 
@@ -133,15 +126,17 @@ function prompt {
 	*)
 		TITLEBAR='';;
 	esac
-		
-	# change the PS1
-	# PS1="\e[0;31m\e[47m[\!|\u@\h][\$(totalsize.sh)][\w]\e[m\n"
-	PS1="\e[0;31m\e[47m[\!|\u@\h][\$(date +%k:%M:%S)][\w]\e[m\n"
-	# change the PS2
-	PS2="continue-->"
-	
-	# change PS4
-	PS4='$0.$LINENO+ '
+
+    if [ "$SHELL" = "/bin/bash" ]; then
+        # change the PS1
+        # PS1="\e[0;31m\e[47m[\!|\u@\h][\$(totalsize.sh)][\w]\e[m\n"
+        PS1="\e[0;31m\e[47m[\!|\u@\h][\$(date +%k:%M:%S)][\w]\e[m\n"
+        # change the PS2
+        PS2="continue-->"
+
+        # change PS4
+        PS4='$0.$LINENO+ '
+    fi
 }
 
 prompt

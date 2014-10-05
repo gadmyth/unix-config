@@ -6,6 +6,8 @@
 [[ $- != *i* ]] && return
 
 #alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
+if [ "$SHELL" = "/bin/bash" ]; then
+	PS1='[\u@\h \W]\$ '
+fi
 [[ -f ~/mybash_profile ]] && . ~/mybash_profile
 [[ -f ~/.bash_alias ]] && . ~/.bash_alias
