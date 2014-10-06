@@ -125,6 +125,7 @@
 (setq uniquify-separator " :: ") 
 (setq uniquify-after-kill-buffer-p t)
 (require 'autoloads)
+(load-must-files)
 (require 'workspace)
 (if (not (file-exists-p def-dir))
   (mkdir def-dir))

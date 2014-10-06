@@ -106,7 +106,10 @@
 (global-set-key (kbd "C-x C--") 'ov-half-height)
 (global-set-key (kbd "C-x C-0") 'ov-reset-height)
 
-(setq *must-loading-files* '("~/diary" "~/org/notes.org"))
+(setq *must-loading-files*
+	  (mapcar (lambda (n) (expand-file-name n))
+			  '("~/diary" "~/org/notes.org" "~/unix-config/.emacs")))
+
 (defun ensure-mkdir (dirname)
   (if (not (file-exists-p dirname))
 	  (let ((dir (directory-file-name (file-name-directory dirname))))
@@ -114,17 +117,27 @@
   (if (not (file-exists-p dirname))
 	  (mkdir dirname)))
 
+(defun load-exist-buffer (filename)
+  (dolist (buffer (buffer-list))
+	(with-current-buffer buffer
+	  (if (string-equal buffer-file-name filename)
+		  (progn
+			(wcy-desktop-load-file buffer)
+			(return t)))))
+  nil)
+
 ;;;###autoload
 (defun load-must-files ()
   (interactive)
   (mapc (lambda (filename)
-		  (if (file-exists-p filename)
-			  (find-file-noselect filename nil nil nil)
-			(progn 
-			  (let ((dir (file-name-directory filename)))
-				(ensure-mkdir dir))
-			  (with-current-buffer (create-file-buffer filename)
-				(write-file filename)))))
+		  (if (not (load-exist-buffer filename))
+			  (if (file-exists-p filename)
+				  (find-file-noselect filename nil nil nil)
+				(progn 
+				  (let ((dir (file-name-directory filename)))
+					(ensure-mkdir dir))
+				  (with-current-buffer (create-file-buffer filename)
+					(write-file filename))))))
 		*must-loading-files*))
 
 (provide 'utility)
