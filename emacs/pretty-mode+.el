@@ -37,6 +37,7 @@
 	(pretty-regexp "PrefUtil.getKeyBoolean" "⤊")
 	(pretty-regexp "PrefUtil.getKeyString" "⤊")
 	(pretty-regexp "PrefUtil.getKeyLong" "⤊")
+	(pretty-regexp "PrefUtil.getKeyInt" "⤊")
 	(pretty-regexp "NetEngine.getInst()" "≈")
 	(pretty-regexp "String" "S")
 	(pretty-regexp "intValue" "i")
