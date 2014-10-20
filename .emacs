@@ -91,6 +91,10 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (eval-after-load "vc-hooks" '(define-key vc-prefix-map "=" 'vc-ediff))
+(eval-after-load "vc-hooks" '(define-key vc-prefix-map "k" 
+							   (lambda (&optional historic not-urgent)
+								 (interactive (list current-prefix-arg t))
+								 (mapc (lambda (file) (delete-file file)) (cadr (vc-deduce-fileset t))))))
 (eval-after-load "helm" '(setq helm-split-window-default-side 'below))
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
 (eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
@@ -135,7 +139,7 @@
 
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 (ido-mode t)
 (setf helm-buffers-fuzzy-matching t)
 (setq ido-enable-flex-matching t)
