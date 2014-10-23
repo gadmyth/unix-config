@@ -108,6 +108,8 @@
 (evil-mode 1)
 (require 'evil-visualstar)
 (smartparens-global-mode)
+(let ((pair '(:open "'" :close "" :actions (insert wrap autoskip navigate))))
+  (sp--update-pair-list pair t))
 (yas-global-mode)
 (global-auto-complete-mode)
 (setq evil-emacs-state-cursor  '("#ae7865" box))
@@ -145,6 +147,7 @@
 (setq ido-enable-flex-matching t)
 
 (when *load-slime*
+  (require 'slime-fuzzy)
   (require 'slime)
   (slime-setup '(slime-repl slime-scratch slime-fuzzy slime-c-p-c slime-banner slime-autodoc slime-fancy slime-fancy-inspector))
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
