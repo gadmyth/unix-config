@@ -61,7 +61,7 @@
 (defun start-erc (passwd)
   (interactive (list (read-passwd "passwd: ")))
   (erc :server erc-default-server :port erc-default-port :nick erc-nick :password passwd))
-(setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#wecase")))
+(setq erc-autojoin-channels-alist '(("freenode.net" "#wecase" "#emacs")))
 
 (setq-default intent-tabs-mode nil)
 (setq-default c-basic-offset 4)
