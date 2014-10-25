@@ -1,3 +1,5 @@
+(setq auth-source-creation-defaults '((user . "jinglei.yu@cootek.cn")))
+
 (setq user-full-name "jinglei.yu")
 (setq user-mail-address "jinglei.yu@cootek.cn")
 
