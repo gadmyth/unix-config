@@ -1,0 +1,20 @@
+(setq user-full-name "jinglei.yu")
+(setq user-mail-address "jinglei.yu@cootek.cn")
+
+(auto-image-file-mode)
+(setq mm-inline-large-images t)
+(add-to-list 'mm-attachment-override-types "image/*")
+
+(setq gnus-select-method 
+	  '(nnimap "jinglei.yu@cootek.cn"
+		(nnimap-address "imap.263.net")
+		(nnimap-server-port 993)
+		(nnimap-stream ssl)))
+
+(setq message-send-mail-function 'smtpmail-send-it
+	  smtpmail-starttls-credentials '(("smtp.263.net" 587 nil nil))
+	  smtpmail-auth-credentials '(("smtp.263.net" 587 "jinglei.yu@cootek.cn" nil))
+	  smtpmail-default-smtp-server "smtp.263.net"
+	  smtpmail-smtp-server "smtp.263.net"
+	  smtpmail-smtp-service 587
+	  gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
