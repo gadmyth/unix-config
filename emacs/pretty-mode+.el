@@ -60,6 +60,7 @@
   (pretty-regexp "boolean" "b")
   (pretty-regexp "long" "J")
   (pretty-regexp "float" "f")
+  (pretty-regexp "!=" "≠")
   (pretty-regexp "!" "¬")
   (pretty-regexp "&&" "∧")
   (pretty-regexp "||" "∨")
