@@ -10,7 +10,7 @@
     (eval (read-from-string "(ql:quickload :tpbackup)"))
     (condition () "tpbackup load error!")))
 
-(let ((quicklisp-init #P"/data/quicklisp/setup.lisp"))
+(let ((quicklisp-init (merge-pathnames "data/quicklisp/setup.lisp" (user-homedir-pathname))))
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 	
