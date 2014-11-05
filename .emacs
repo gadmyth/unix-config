@@ -13,6 +13,8 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
+;; the slime should git clone from github
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elpa/slime"))
 (defvar required-packages
   (list 'alpha 'diff-hl 'windmove 'textmate
 		'helm 'xcscope 'org-mode 'evil
@@ -108,9 +110,7 @@
 (evil-mode 1)
 (require 'evil-visualstar)
 (smartparens-global-mode)
-(mapc (lambda (pair) (sp--update-pair-list pair t))
-	  '((:open "'" :close "" :actions (insert wrap autoskip navigate))
-		(:open "\\\"" :close "" :actions (insert wrap autoskip navigate))))
+(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
 (yas-global-mode)
 (global-auto-complete-mode)
 (setq evil-emacs-state-cursor  '("#ae7865" box))
@@ -148,15 +148,12 @@
 (setq ido-enable-flex-matching t)
 
 (when *load-slime*
-  (require 'slime-fuzzy)
-  (require 'slime)
-  (slime-setup '(slime-repl slime-scratch slime-fuzzy slime-c-p-c slime-banner slime-autodoc slime-fancy slime-fancy-inspector))
+  (require 'slime-autoloads)
   (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-  (setq slime-net-coding-system 'utf-8-unix
-		slime-lisp-implementations
-		`((sbcl (,*lisp-bin-path*) :coding-system utf-8-unix))
-		slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
+  (setq slime-net-coding-system 'utf-8-unix)
+  (setq slime-lisp-implementations `((sbcl (,*lisp-bin-path*) :coding-system utf-8-unix)))
+  (setq slime-contribs '(slime-fancy))
   (global-set-key (kbd "C-c s") 'slime-selector)
   )
 
@@ -302,6 +299,6 @@
 (setq islamic-holidays nil)
 (setq bahai-holidays nil)
 
-(require 'annot)
+;(require 'annot)
 	          
 (message "end : %.2f" (float-time (time-since ts-init)))
