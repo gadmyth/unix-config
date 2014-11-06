@@ -8,4 +8,6 @@
 	  *slime-path* "~/emacs/slime"
 	  *lisp-bin-path* "/usr/local/bin/sbcl")
 
+(setq *default-trans-value* 100)
+
 (provide 'workspace)

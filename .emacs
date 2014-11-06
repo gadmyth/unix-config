@@ -21,8 +21,6 @@
 		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
 		'elscreen 'projectile 'annot 'yasnippet
 		'ov 'ace-jump-buffer 'ace-jump-mode 'elnode))
-(require 'alpha)
-(transparency-set-value (if (eq window-system 'ns) 70 92))
 (window-numbering-mode 1)
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -138,6 +136,8 @@
   (mkdir def-dir))
 (setq default-directory def-dir)
 (switch-proxy nil)
+(require 'alpha)
+(transparency-set-value *default-trans-value*)
 (require 'pretty-mode+)
 
 (require 'smex)
