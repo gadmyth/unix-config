@@ -281,7 +281,8 @@
 (if (and (not (eq window-system 'x))
 	   (or (not (boundp 'server-process))
 		   (null server-process)))
-	(server-start))
+	(ignore-errors
+	 (server-start)))
 
 (add-hook 'eshell-mode-hook
           #'(lambda ()
