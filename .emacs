@@ -300,6 +300,10 @@
 (setq islamic-holidays nil)
 (setq bahai-holidays nil)
 
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/one"))
+(require 'one)
+
+
 ;(require 'annot)
 	          
 (message "end : %.2f" (float-time (time-since ts-init)))
