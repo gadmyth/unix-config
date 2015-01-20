@@ -32,6 +32,7 @@
 	(pretty-regexp "catch " "C")
 	(pretty-regexp "Exception" "E")
 	(pretty-regexp "finally " "F") ;;finally
+	(pretty-regexp "throws" "T") ;;finally
 	(pretty-regexp "public static final" "Τ")
 	(pretty-regexp "public final static" "Τ")
 	(pretty-regexp "public static" "Τ")
@@ -44,7 +45,11 @@
 	(pretty-regexp "protected void" "v")
 	(pretty-regexp "public void" "V")
 	(pretty-regexp "public" "P")
-	(pretty-regexp "final" "f"))
+	(pretty-regexp "final" "f")
+	(pretty-regexp "new" "n")
+	(pretty-regexp "class" "c")
+	(pretty-regexp "this" "t")
+	(pretty-regexp "super" "s"))
    ((eq major-mode 'objc-mode)
 	(pretty-regexp "NO" "×")
 	(pretty-regexp "YES" "✓")
