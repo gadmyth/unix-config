@@ -13,6 +13,7 @@
 	(pretty-regexp "Log" "L")
 	(pretty-regexp ".equals" "=")
 	(pretty-regexp "System.out.println" "L")
+	(pretty-regexp "printStackTrace" "T")
 	(pretty-regexp "Integer.valueOf" "I")
 	(pretty-regexp "Boolean.valueOf" "B")
 	(pretty-regexp "Float.valueOf" "F")
