@@ -96,6 +96,7 @@
 								 (interactive (list current-prefix-arg t))
 								 (mapc (lambda (file) (delete-file file)) (cadr (vc-deduce-fileset t))))))
 (eval-after-load "helm" '(setq helm-split-window-default-side 'below))
+(global-set-key (kbd "C-,") 'helm-imenu-anywhere)
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
 (eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
 (eval-after-load "org"
@@ -108,7 +109,7 @@
 (evil-mode 1)
 (require 'evil-visualstar)
 (smartparens-global-mode)
-(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
+;(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
 (yas-global-mode)
 (global-auto-complete-mode)
 (setq evil-emacs-state-cursor  '("#ae7865" box))
@@ -302,6 +303,9 @@
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/one"))
 (require 'one)
+
+(require 'helm-dash)
+(setq helm-dash-common-docsets '("Android"))
 
 
 ;(require 'annot)
