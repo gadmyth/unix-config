@@ -307,6 +307,9 @@
 (require 'helm-dash)
 (setq helm-dash-common-docsets '("Android"))
 
+(require 'magit)
+(setq magit-repo-dirs '("~/emacs-workspace" "~/unix-config"))
+
 
 ;(require 'annot)
 	          
