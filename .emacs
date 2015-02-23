@@ -131,7 +131,6 @@
 (setq uniquify-separator " :: ") 
 (setq uniquify-after-kill-buffer-p t)
 (require 'autoloads)
-(load-must-files)
 (require 'workspace)
 (if (not (file-exists-p def-dir))
   (mkdir def-dir))
@@ -310,6 +309,7 @@
 (require 'magit)
 (setq magit-repo-dirs '("~/emacs-workspace" "~/unix-config"))
 
+(load-must-files)
 
 ;(require 'annot)
 	          
