@@ -20,7 +20,8 @@
 		'helm 'xcscope 'org-mode 'evil
 		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
 		'elscreen 'projectile 'annot 'yasnippet
-		'ov 'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck))
+		'ov 'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck
+		'dirtree))
 (window-numbering-mode 1)
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -310,6 +311,7 @@
 (setq magit-repo-dirs '("~/emacs-workspace" "~/unix-config"))
 
 (add-hook 'after-init-hook 'global-flycheck-mode)
+(add-hook 'after-init-hook (lambda () (require 'dirtree)))
 
 (load-must-files)
 
