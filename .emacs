@@ -313,6 +313,9 @@
 (add-hook 'after-init-hook 'global-flycheck-mode)
 (add-hook 'after-init-hook (lambda () (require 'dirtree)))
 
+(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
+
 (load-must-files)
 
 ;(require 'annot)
