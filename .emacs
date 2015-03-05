@@ -20,7 +20,8 @@
 		'helm 'xcscope 'org-mode 'evil
 		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
 		'elscreen 'projectile 'annot 'yasnippet
-		'ov 'ace-jump-buffer 'ace-jump-mode 'elnode))
+		'ov 'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck
+		'dirtree))
 (window-numbering-mode 1)
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -96,6 +97,7 @@
 								 (interactive (list current-prefix-arg t))
 								 (mapc (lambda (file) (delete-file file)) (cadr (vc-deduce-fileset t))))))
 (eval-after-load "helm" '(setq helm-split-window-default-side 'below))
+(global-set-key (kbd "C-,") 'helm-imenu-anywhere)
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
 (eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
 (eval-after-load "org"
@@ -108,7 +110,7 @@
 (evil-mode 1)
 (require 'evil-visualstar)
 (smartparens-global-mode)
-(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
+;(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
 (yas-global-mode)
 (global-auto-complete-mode)
 (setq evil-emacs-state-cursor  '("#ae7865" box))
@@ -130,7 +132,6 @@
 (setq uniquify-separator " :: ") 
 (setq uniquify-after-kill-buffer-p t)
 (require 'autoloads)
-(load-must-files)
 (require 'workspace)
 (if (not (file-exists-p def-dir))
   (mkdir def-dir))
@@ -303,6 +304,43 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/one"))
 (require 'one)
 
+(require 'helm-dash)
+(setq helm-dash-common-docsets '("Android"))
+
+(require 'magit)
+(setq magit-repo-dirs '("~/emacs-workspace" "~/unix-config"))
+
+(add-hook 'after-init-hook 'global-flycheck-mode)
+(add-hook 'after-init-hook (lambda () (require 'dirtree)))
+
+(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
+
+(eval-after-load 'dired
+  '(progn
+     (define-key dired-mode-map (kbd "c") 'dired-create-file2)
+     (defun dired-create-file2 (file)
+       "Create a file called FILE. If FILE already exists, signal an error."
+       (interactive
+        (list (read-file-name "Create file: " (dired-current-directory))))
+       (let* ((expanded (expand-file-name file))
+              (try expanded)
+              (dir (directory-file-name (file-name-directory expanded)))
+              new)
+         (if (file-exists-p expanded)
+             (error "Cannot create file %s: file exists" expanded))
+         ;; Find the topmost nonexistent parent dir (variable `new')
+         (while (and try (not (file-exists-p try)) (not (equal new try)))
+           (setq new try
+                 try (directory-file-name (file-name-directory try))))
+         (when (not (file-exists-p dir))
+           (make-directory dir t))
+         (write-region "" nil expanded t)
+         (when new
+           (dired-add-file new)
+           (dired-move-to-filename))))))
+
+(load-must-files)
 
 ;(require 'annot)
 	          
