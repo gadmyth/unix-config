@@ -1,12 +1,7 @@
 (setq ts-init (current-time))
 (defun maximize-frame (frame)
-  (let* (
-		 (width (- (/ (x-display-pixel-width) (frame-char-width frame)) 4))
-		 (height (- (/ (x-display-pixel-height) (frame-char-height frame)) 4))
-		 (alist (list (cons 'left 0) (cons 'top 0) (cons 'width width) (cons 'height height))))
-	(modify-frame-parameters frame alist)))
+(set-frame-parameter frame 'fullscreen 'maximized))
 (add-to-list 'after-make-frame-functions 'maximize-frame)
-(maximize-frame (selected-frame))
 (load-theme 'wombat)
 (add-to-list 'load-path (expand-file-name "~/emacs"))
 (require 'package)
@@ -344,4 +339,5 @@
 
 ;(require 'annot)
 	          
+(maximize-frame (selected-frame))
 (message "end : %.2f" (float-time (time-since ts-init)))
