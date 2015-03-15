@@ -135,6 +135,7 @@
 (require 'alpha)
 (transparency-set-value *default-trans-value*)
 (require 'pretty-mode+)
+(require 'org-config)
 
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
@@ -286,6 +287,7 @@
                 [remap eshell-pcomplete]
                 'helm-esh-pcomplete)))
 
+(setq mark-holidays-in-calendar t)
 (setq calendar-chinese-all-holidays-flag t)
 (setq christian-holidays nil)
 (setq hebrew-holidays nil)
