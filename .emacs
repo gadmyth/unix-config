@@ -16,7 +16,7 @@
 		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
 		'elscreen 'projectile 'annot 'yasnippet
 		'ov 'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck
-		'dirtree))
+		'dirtree 'cal-china-x))
 (window-numbering-mode 1)
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -288,6 +288,7 @@
                 'helm-esh-pcomplete)))
 
 (setq mark-holidays-in-calendar t)
+(require 'cal-china-x)
 (setq calendar-chinese-all-holidays-flag t)
 (setq christian-holidays nil)
 (setq hebrew-holidays nil)
