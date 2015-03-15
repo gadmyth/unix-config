@@ -59,7 +59,7 @@
   (erc :server erc-default-server :port erc-default-port :nick erc-nick :password passwd))
 (setq erc-autojoin-channels-alist '(("freenode.net" "#wecase" "#emacs")))
 
-(setq-default intent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 (setq-default c-basic-offset 4)
 (setq-default default-tab-width 4)
 (setq-default tab-width 4)
