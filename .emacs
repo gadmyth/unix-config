@@ -16,7 +16,7 @@
 		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
 		'elscreen 'projectile 'annot 'yasnippet
 		'ov 'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck
-		'dirtree 'cal-china-x))
+		'dirtree 'cal-china-x 'hydra))
 (window-numbering-mode 1)
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -136,6 +136,7 @@
 (transparency-set-value *default-trans-value*)
 (require 'pretty-mode+)
 (require 'org-config)
+(require 'hydra-config)
 
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
