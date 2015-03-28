@@ -97,8 +97,7 @@
 (eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
 (eval-after-load "org"
   '(progn
-	 (setq org-startup-indented t)
-	 (setq org-default-notes-file (concat org-directory "/notes.org"))))
+	 (setq org-startup-indented t)))
 
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
 

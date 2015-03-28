@@ -35,4 +35,13 @@
 (setq org-agenda-ndays 14)
 (setq org-agenda-include-diary t)
 (global-set-key (kbd "C-c a") 'org-agenda)
+
+;;; capture
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(global-set-key (kbd "C-c c") 'org-capture)
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/task.org" "Tasks")
+         "* TODO %?\n %i %^t")
+        ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
+         "* %? %^g\n %i %A")))
 (provide 'org-config)
