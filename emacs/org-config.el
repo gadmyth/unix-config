@@ -25,7 +25,7 @@
                            (?E . (:background "SkyBlue" :foreground "black" :weight bold))))
 
 ;;; taglist
-(setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
+;;(setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
 
 ;;; dependencies
 (setq org-enforce-todo-dependencies t)
@@ -40,8 +40,10 @@
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/org/task.org" "Tasks")
-         "* TODO %?\n %i %^t")
+      '(("t" "Todo" entry (file+datetree "~/org/task.org")
+         "* TODO %^{Decription} %^g\n %i %^T")
         ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
-         "* %? %^g\n %i %A")))
+         "* %? %^g\n %i %A")
+        ("f" "Someday" entry (file+headline "~/org/task.org" "Someday")
+         "* %?")))
 (provide 'org-config)
