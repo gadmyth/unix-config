@@ -41,7 +41,7 @@
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-capture-templates
       '(("t" "Todo" entry (file+datetree "~/org/task.org")
-         "* TODO %^{Decription} %^g\n %i %^T")
+         "* TODO %^{Decription} %^T %^g\n %i")
         ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
          "* %? %^g\n %i %A")
         ("f" "Someday" entry (file+headline "~/org/task.org" "Someday")
