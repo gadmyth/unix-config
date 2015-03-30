@@ -2,7 +2,7 @@
 (defun maximize-frame (frame)
 (set-frame-parameter frame 'fullscreen 'maximized))
 (add-to-list 'after-make-frame-functions 'maximize-frame)
-(load-theme 'wombat)
+(load-theme 'tango)
 (add-to-list 'load-path (expand-file-name "~/emacs"))
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
