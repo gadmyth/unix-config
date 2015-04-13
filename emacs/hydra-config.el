@@ -30,4 +30,12 @@
   ("C-0" ov-reset-height "reset")
   ("q" nil "quit"))
 
+(require 'helm)
+(defhydra hydra-helm (:exit t)
+  "helm"
+  ("o" helm-occur "occur")
+  ("r" helm-resume "resume")
+  ("q" nil "cancel"))
+(global-set-key (kbd "C-c h") 'hydra-helm/body)
+
 (provide 'hydra-config)
