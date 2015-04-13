@@ -91,7 +91,7 @@
 							   (lambda (&optional historic not-urgent)
 								 (interactive (list current-prefix-arg t))
 								 (mapc (lambda (file) (delete-file file)) (cadr (vc-deduce-fileset t))))))
-(eval-after-load "helm" '(setq helm-split-window-default-side 'below))
+(eval-after-load "helm" '(setq helm-split-window-default-side 'right))
 (global-set-key (kbd "C-,") 'helm-imenu-anywhere)
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
 (eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
