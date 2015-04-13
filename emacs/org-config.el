@@ -43,7 +43,7 @@
       '(("t" "Todo" entry (file+datetree "~/org/task.org")
          "* TODO %^{Decription} %^T %^g\n %i")
         ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
-         "* %? %^g\n %i %A")
+         "* %A %^g %i")
         ("f" "Someday" entry (file+headline "~/org/task.org" "Someday")
          "* %?")))
 (provide 'org-config)
