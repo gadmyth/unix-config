@@ -84,6 +84,7 @@
 (prefer-coding-system 'utf-8)
 (set-language-environment 'utf-8)
 (setenv "LC_CTYPE" "zh_CN.UTF-8")
+(setq mode-require-final-newline nil)
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (eval-after-load "vc-hooks" '(define-key vc-prefix-map "=" 'vc-ediff))
