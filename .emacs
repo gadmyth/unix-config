@@ -20,6 +20,7 @@
 		'dirtree 'cal-china-x 'hydra 'window-numbering))
 (setq generated-autoload-file "~/emacs/autoloads.el")
 (update-directory-autoloads "~/emacs")
+(kill-buffer "autoloads.el")
 (require 'autoloads)
 (mapcar #'require-package required-packages)
 
