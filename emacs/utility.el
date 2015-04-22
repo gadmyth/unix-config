@@ -1,6 +1,16 @@
 (eval-when-compile (require 'cl))
 
 ;;;###autoload
+(defun require-package (package &optional min-version no-refresh)
+  (if (package-installed-p package min-version)
+      t
+    (if (or (assoc package package-archive-contents) no-refresh)
+        (package-install package)
+      (progn
+        (package-refresh-contents)
+        (require-package package min-version t)))))
+
+;;;###autoload
 (defun switch-proxy (enable)
   (interactive "Senable? ")
   (let ((proxy
@@ -91,20 +101,6 @@
 		   (interactive)
 		   (goto-workspace-by-number ,(- i 1))))
   (global-set-key (kbd (format "C-c C-%s" i)) (intern (format "goto-workspace-%s" i))))
-
-(require 'ov)
-(defun ov-double-height ()
-  (interactive)
-  (ov (point-min) (point-max) '(face (:height 1.25))))
-(defun ov-half-height ()
-  (interactive)
-  (ov (point-min) (point-max) '(face (:height 0.8))))
-(defun ov-reset-height ()
-  (interactive)
-  (ov-clear))
-(global-set-key (kbd "C-x C-=") 'ov-double-height)
-(global-set-key (kbd "C-x C--") 'ov-half-height)
-(global-set-key (kbd "C-x C-0") 'ov-reset-height)
 
 (setq *must-loading-files*
 	  (mapcar (lambda (n) (expand-file-name n))

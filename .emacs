@@ -5,18 +5,24 @@
 (load-theme 'tango)
 (add-to-list 'load-path (expand-file-name "~/emacs"))
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 ;; the slime should git clone from github
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/elpa/slime"))
+(add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
 (defvar required-packages
-  (list 'alpha 'diff-hl 'windmove 'textmate
-		'helm 'xcscope 'org-mode 'evil
-		'evil-visualstar 'pretty-mode 'slime 'slime-fuzzy
-		'elscreen 'projectile 'annot 'yasnippet
-		'ov 'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck
-		'dirtree 'cal-china-x 'hydra))
+  (list 'alpha 'diff-hl 'windmove 'textmate 'smex 'helm-dash
+		'helm 'xcscope 'org 'evil 'auto-complete 'magit
+		'ov 'evil-visualstar 'pretty-mode 'slime
+		'elscreen 'projectile 'yasnippet 'smartparens
+		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck
+		'dirtree 'cal-china-x 'hydra 'window-numbering))
+(setq generated-autoload-file "~/emacs/autoloads.el")
+(update-directory-autoloads "~/emacs")
+(require 'autoloads)
+(mapcar #'require-package required-packages)
+
 (window-numbering-mode 1)
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -126,7 +132,6 @@
 (setq uniquify-buffer-name-style 'post-forward)
 (setq uniquify-separator " :: ") 
 (setq uniquify-after-kill-buffer-p t)
-(require 'autoloads)
 (require 'workspace)
 (if (not (file-exists-p def-dir))
   (mkdir def-dir))
@@ -172,6 +177,20 @@
 (setq projectile-indexing-method 'native)
 (setq projectile-enable-caching t)
 (setq projectile-file-exists-remote-cache-expire nil)
+
+(require 'ov)
+(defun ov-double-height ()
+  (interactive)
+  (ov (point-min) (point-max) '(face (:height 1.25))))
+(defun ov-half-height ()
+  (interactive)
+  (ov (point-min) (point-max) '(face (:height 0.8))))
+(defun ov-reset-height ()
+  (interactive)
+  (ov-clear))
+(global-set-key (kbd "C-x C-=") 'ov-double-height)
+(global-set-key (kbd "C-x C--") 'ov-half-height)
+(global-set-key (kbd "C-x C-0") 'ov-reset-height)
 
 ;; scale-amount has been defined in workspace.el
 (defvar *mac-scale-amount* 2)
@@ -300,7 +319,7 @@
 (setq islamic-holidays nil)
 (setq bahai-holidays nil)
 
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/one"))
+(add-to-list 'load-path (expand-file-name "one" user-emacs-directory))
 (require 'one)
 
 (require 'helm-dash)
