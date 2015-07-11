@@ -15,9 +15,9 @@
   (list 'alpha 'diff-hl 'windmove 'textmate 'smex 'helm-dash
 		'helm 'xcscope 'org 'evil 'auto-complete 'magit
 		'ov 'evil-visualstar 'pretty-mode 'slime
-		'elscreen 'projectile 'yasnippet 'smartparens
+		'projectile 'yasnippet 'smartparens
 		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck
-		'dirtree 'cal-china-x 'hydra 'window-numbering))
+		'dirtree 'cal-china-x 'hydra 'window-numbering 'google-translate))
 (setq generated-autoload-file "~/emacs/autoloads.el")
 (update-directory-autoloads "~/emacs")
 (kill-buffer "autoloads.el")
@@ -168,10 +168,6 @@
   (setenv "PATH" path)
   (setq exec-path
 		(append (split-string-and-unquote path ":") exec-path))) 
-
-(require 'elscreen)
-(elscreen-set-prefix-key "\C-k")
-(elscreen-start)
 
 (require 'projectile)
 (projectile-global-mode)
