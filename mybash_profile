@@ -274,7 +274,9 @@ export NDK=~/ndk
 
 #for X
 #setxkbmap dvorak
-#xmodmap ~/.Xmodmap
+if [ -f ".Xmodmap" ]; then
+    xmodmap ~/.Xmodmap
+fi
 
 #for tty
 #sudo loadkeys dvorak
