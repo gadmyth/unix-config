@@ -335,9 +335,6 @@
 (setq islamic-holidays nil)
 (setq bahai-holidays nil)
 
-(add-to-list 'load-path (expand-file-name "one" user-emacs-directory))
-(require 'one)
-
 (require 'helm-dash)
 (setq helm-dash-common-docsets '("Android"))
 
