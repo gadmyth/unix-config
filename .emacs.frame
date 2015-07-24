@@ -171,6 +171,8 @@
   (setq exec-path
 		(append (split-string-and-unquote path ":") exec-path))) 
 
+(setq shell-command-switch "-ic")
+
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-indexing-method 'native)
