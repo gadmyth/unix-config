@@ -23,7 +23,8 @@
                            (?B . (:background "DarkOrange" :foreground "white" :weight bold))
                            (?C . (:background "yellow" :foreground "DarkGreen" :weight bold))
                            (?D . (:background "DodgerBlue" :foreground "black" :weight bold))
-                           (?E . (:background "SkyBlue" :foreground "black" :weight bold))))
+                           (?E . (:background "SkyBlue" :foreground "black" :weight bold))
+                           (?F . (:background "LightSkyBlue" :foreground "black" :weight bold))))
 
 ;;; taglist
 ;;(setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
