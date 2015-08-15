@@ -37,6 +37,7 @@
 (setq org-agenda-ndays 14)
 (setq org-agenda-include-diary t)
 (global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "<f6>") 'org-todo-list)
 
 ;;; capture
 (setq org-default-notes-file (concat org-directory "/notes.org"))
