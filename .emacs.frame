@@ -25,6 +25,7 @@
 (mapcar #'require-package required-packages)
 
 (window-numbering-mode 1)
+(global-set-key (kbd "C-x 3") (lambda () (interactive) (select-window (split-window-right))))
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (boundp 'blink-cursor-mode) (blink-cursor-mode -1))
