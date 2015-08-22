@@ -190,9 +190,26 @@
 (defun ov-reset-height ()
   (interactive)
   (ov-clear))
-(global-set-key (kbd "C-x C-=") 'ov-double-height)
-(global-set-key (kbd "C-x C--") 'ov-half-height)
-(global-set-key (kbd "C-x C-0") 'ov-reset-height)
+
+(defun manual-scale (delta)
+  (if (zerop delta)
+      (progn 
+        (ov-reset-height)
+        (setq *mac-scale-amount* 0
+              *linux-scale-amount* 0))
+    (if (> delta 0)
+        (progn
+          (ov-double-height)
+          (incf *mac-scale-amount*)
+          (incf *linux-scale-amount*))
+      (progn
+        (ov-half-height)
+        (decf *mac-scale-amount*)
+        (decf *linux-scale-amount*)))))
+
+(global-set-key (kbd "C-x C-=") (lambda () (interactive) (manual-scale 1)))
+(global-set-key (kbd "C-x C--") (lambda () (interactive) (manual-scale -1)))
+(global-set-key (kbd "C-x C-0") (lambda () (interactive) (manual-scale 0)))
 
 ;; scale-amount has been defined in workspace.el
 (defvar *mac-scale-amount* 2)
