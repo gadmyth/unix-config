@@ -49,4 +49,23 @@
          "* %A %^g %i")
         ("f" "Someday" entry (file+headline "~/org/task.org" "Someday")
          "* %?")))
+
+;;; org html config
+(let ((+org-css+ "org.css"))
+  (setq org-html-head (format "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\"/>" +org-css+)))
+
+(defun m/org-html-checkbox (checkbox)
+  "Format CHECKBOX into HTML."
+  (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
+        (off "<span class=\"checkbox\">&#x2610;</span>")
+        (trans "<code>[-]</code>")
+        (t "")))
+
+(defadvice org-html-checkbox (around sacha activate)
+  (setq ad-return-value (m/org-html-checkbox (ad-get-arg 0))))
+
+(eval-after-load "org"
+  '(progn
+	 (setq org-startup-indented t)))
+
 (provide 'org-config)

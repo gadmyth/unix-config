@@ -104,10 +104,6 @@
 (global-set-key (kbd "C-,") 'helm-imenu-anywhere)
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
 (eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
-(eval-after-load "org"
-  '(progn
-	 (setq org-startup-indented t)))
-
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
 
 (evil-mode 1)
@@ -302,17 +298,6 @@
 			x
 			nil))
 		evil-markers-alist))
-
-(let ((+org-css+ "org.css"))
-  (setq org-html-head (format "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\"/>" +org-css+)))
-(defun m/org-html-checkbox (checkbox)
-  "Format CHECKBOX into HTML."
-  (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
-        (off "<span class=\"checkbox\">&#x2610;</span>")
-        (trans "<code>[-]</code>")
-        (t "")))
-(defadvice org-html-checkbox (around sacha activate)
-  (setq ad-return-value (m/org-html-checkbox (ad-get-arg 0))))
 
 (if (and (not (eq window-system 'x))
 	   (or (not (boundp 'server-process))
