@@ -76,11 +76,11 @@
   (interactive)
   (other-window +1))
 
-(global-set-key (kbd "C-c m") 'goto-main-window)
+(global-set-key (kbd "C-c C-m") 'goto-main-window)
 (global-set-key (kbd "C-c RET") 'swap-to-main-window)
-(global-set-key (kbd "C-c n") 'goto-next-window)
-(global-set-key (kbd "C-c l") 'helm-buffers-list)
-(global-set-key (kbd "C-c f") 'ido-find-file)
+(global-set-key (kbd "C-c C-n") 'goto-next-window)
+(global-set-key (kbd "C-c C-l") 'helm-buffers-list)
+(global-set-key (kbd "C-c C-f") 'ido-find-file)
 
 (defun get-workspace (index from-end)
   (let* ((frame-num (length (frame-list)))
