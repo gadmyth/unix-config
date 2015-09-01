@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: prop-def
+# key: prop-def
+# --
+@property(nonatomic, ${1:strong}) ${2:NSString} *${3:name};$0
