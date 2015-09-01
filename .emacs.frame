@@ -12,7 +12,7 @@
 ;; the slime should git clone from github
 (add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
 (defvar required-packages
-  (list 'alpha 'diff-hl 'windmove 'textmate 'smex 'helm-dash
+  (list 'alpha 'diff-hl 'windmove 'textmate 'smex 'helm-dash 'smart-compile
 		'helm 'xcscope 'org 'evil 'auto-complete 'magit
 		'ov 'evil-visualstar 'pretty-mode 'slime
 		'projectile 'yasnippet 'smartparens 'multi-term
