@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: class-extension
-# key: class-ex
+# key: class-extension
 # --
 @interface ${1:name}()
 $0
