@@ -16,7 +16,7 @@
 		'helm 'xcscope 'org 'evil 'auto-complete 'magit
 		'ov 'evil-visualstar 'pretty-mode 'slime
 		'projectile 'yasnippet 'smartparens 'multi-term
-		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck
+		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck 'anything
 		'dirtree 'cal-china-x 'hydra 'window-numbering 'google-translate))
 (setq generated-autoload-file "~/emacs/autoloads.el")
 (update-directory-autoloads "~/emacs")
@@ -113,6 +113,17 @@
 (yas-global-mode)
 (yas-load-directory (expand-file-name "~/emacs/snippets/"))
 (global-auto-complete-mode)
+(require 'anything)
+(require 'anything-config)
+(defvar anything-c-source-objc-headline
+  '((name . "Objective-C Headline")
+    (headline  "^[-+@]\\|^#pragma mark")))
+(defun objc-headline ()
+  (interactive)
+  ;; Set to 500 so it is displayed even if all methods are not narrowed down.
+  (let ((anything-candidate-number-limit 500))
+    (anything-other-buffer '(anything-c-source-objc-headline)
+                           "*ObjC Headline*")))
 (setq evil-emacs-state-cursor  '("#ae7865" box))
 (setq evil-normal-state-cursor '("gray" box))
 (setq evil-visual-state-cursor '("yellow" box))
