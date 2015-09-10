@@ -98,6 +98,11 @@ function setvolume() {
 alias frontoff="amixer set Front off"
 alias fronton="amixer set Front on"
 
+# for fedora open
+if [ -f /etc/fedora-release ]; then
+    alias open="exo-open --launch FileManager"
+fi
+
 # for command program
 export null="/dev/null 2>&1 &"
 export nil=/dev/null
