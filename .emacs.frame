@@ -245,22 +245,27 @@
 
 (add-hook 'slime-repl-mode-hook
 		  (lambda ()
+            (evil-mode)
 			(evil-emacs-state)))
 
 (add-hook 'inferior-emacs-lisp-mode-hook
 		  (lambda ()
+            (evil-mode)
 			(evil-emacs-state)))
 
 (add-hook 'term-mode-hook
 		  (lambda ()
+            (evil-mode)
 			(evil-emacs-state)))
 
 (add-hook 'eshell-mode-hook
 		  (lambda ()
+            (evil-mode)
 			(evil-emacs-state)))
 
 (add-hook 'calendar-mode-hook
 		  (lambda ()
+            (evil-mode)
 			(evil-emacs-state)
 			(scale-large 2)))
 
@@ -270,10 +275,12 @@
 
 (add-hook 'erc-mode-hook
 		  (lambda ()
+            (evil-mode)
 			(evil-emacs-state)))
 
 (add-hook 'ielm-mode-hook
 		  (lambda ()
+            (evil-mode)
 			(evil-emacs-state)))
 
 (add-hook 'after-save-hook
