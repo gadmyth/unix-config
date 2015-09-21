@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: class-extension
-# key: class-extension
-# --
-@interface ${1:name}()
-$0
-@end

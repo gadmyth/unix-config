@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: class-ext-def
+# key: class-ext-def
+# --
+@interface ${1:name}($2)
+$0
+@end

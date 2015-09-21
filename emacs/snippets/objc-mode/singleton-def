@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: singleton-def
+# key: singleton-def
+# --
+static dispatch_once_t onceToken;
+static ${1:id} ${2:instance};
+dispatch_once(&onceToken, ^{
+    ${3:instance} = $4;
+});
+$0
