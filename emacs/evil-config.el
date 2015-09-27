@@ -4,7 +4,7 @@
 (setq evil-emacs-state-cursor  '("#ae7865" box))
 (setq evil-normal-state-cursor '("gray" box))
 (setq evil-visual-state-cursor '("yellow" box))
-(setq evil-insert-state-cursor '("green" bar))
+(setq evil-insert-state-cursor '("gray" hollow))
 (setq evil-motion-state-cursor '("red" box))
 (define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
 (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
