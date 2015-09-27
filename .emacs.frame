@@ -39,6 +39,7 @@
 (yas-global-mode)
 (yas-load-directory (expand-file-name "~/emacs/snippets/"))
 (global-auto-complete-mode)
+(require 'abbrev-config)
 (require 'anythings)
 
 (require 'wcy-desktop)
