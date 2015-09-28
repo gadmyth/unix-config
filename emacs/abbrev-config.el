@@ -27,6 +27,7 @@
         ("ieb" . "ifelse-block")
         ("fore" . "for-enum")
         ("fb" . "func-bracket")
+        ("sb" . "sync-block")
         )))))
 
 (setq save-abbrevs nil)
