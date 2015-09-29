@@ -8,6 +8,13 @@
 (setq evil-motion-state-cursor '("red" box))
 (define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
 (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
+(define-key evil-insert-state-map (kbd "C-j") 'evil-complete-next)
+(define-key evil-insert-state-map (kbd "C-k") 'evil-complete-previous)
+(define-key evil-insert-state-map (kbd "C-h") 'evil-backward-char)
+(define-key evil-insert-state-map (kbd "C-l") 'evil-forward-char)
+(define-key evil-insert-state-map (kbd "C-n") 'evil-next-line)
+(define-key evil-insert-state-map (kbd "C-p") 'evil-previous-line)
+
 (global-set-key (kbd "C-6") 'evil-buffer)
 
 (require 'ace-jump-mode)
