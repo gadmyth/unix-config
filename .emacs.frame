@@ -36,8 +36,8 @@
 
 (smartparens-global-mode)
 ;(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
+(require 'yas-config)
 (yas-global-mode)
-(yas-load-directory (expand-file-name "~/emacs/snippets/"))
 (global-auto-complete-mode)
 (require 'abbrev-config)
 (require 'anythings)
