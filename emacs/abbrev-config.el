@@ -6,7 +6,7 @@
          (word
           (if bounds
               (buffer-substring-no-properties (car bounds) (cdr bounds))
-            "hello")))
+            nil)))
     word))
 
 (require 'yasnippet)
