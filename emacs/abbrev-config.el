@@ -1,6 +1,22 @@
 (require 'evil)
 
-(define-key evil-insert-state-map (kbd "TAB") 'expand-abbrev)
+(defun word-at-point ()
+  (interactive)
+  (let* ((bounds (bounds-of-thing-at-point 'word))
+         (word
+          (if bounds
+              (buffer-substring-no-properties (car bounds) (cdr bounds))
+            "hello")))
+    word))
+
+(require 'yasnippet)
+(defadvice yas-expand (around expand-abbrev-when-word-p)
+  (interactive)
+  (let ((word (word-at-point)))
+    (when word
+      (expand-abbrev)))
+  ad-do-it)
+(ad-activate 'yas-expand)
 
 ;; for objc-mode
 (add-hook
@@ -29,6 +45,15 @@
         ("fb" . "func-bracket")
         ("sb" . "sync-block")
         )))))
+
+(add-hook
+ 'swift-mode-hook
+ (lambda ()
+   (mapc
+    (lambda (pair)
+      (define-abbrev swift-mode-abbrev-table (car pair) (cdr pair)))
+    '(("pi" . "π")
+      ))))
 
 (setq save-abbrevs nil)
 
