@@ -5,6 +5,6 @@
 static dispatch_once_t onceToken;
 static ${1:id} ${2:instance};
 dispatch_once(&onceToken, ^{
-    ${3:instance} = $4;
+    $2 = $4;
 });
 $0
