@@ -31,7 +31,11 @@
         ("ci" . "class-impl")
         ("ced" . "class-ext-def")
         ("cei" . "class-ext-impl")
+        ("pd" . "prop-def")
+        ("p2d" . "prop2-def")
+        ("pbd" . "prop-block-def")
         ("ai" . "allocinit")
+        ("initd" . "init-demo")
         ("cd" . "class-def")
         ("fd" . "func-def")
         ("gfd" . "gfunc-def")
@@ -44,6 +48,7 @@
         ("fore" . "for-enum")
         ("fb" . "func-bracket")
         ("sb" . "sync-block")
+        ("pm" . "pragma-mark")
         )))))
 
 (add-hook
