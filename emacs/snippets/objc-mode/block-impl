@@ -2,6 +2,6 @@
 # name: block-impl
 # key: block-impl
 # --
-^$1($2) {
+^${1:void}${2:(${3:void}) }{
     $0
 }
