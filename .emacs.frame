@@ -120,6 +120,8 @@
 (load-must-files)
 
 ;(require 'annot)
+
+(require 'emoji-config)
 	          
 (require 'frames)
 (maximize-frame (selected-frame))

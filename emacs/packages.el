@@ -10,7 +10,7 @@
 		'helm 'xcscope 'org 'evil 'auto-complete 'magit
 		'ov 'evil-visualstar 'pretty-mode 'slime
 		'projectile 'yasnippet 'smartparens 'multi-term
-		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck 'anything
+		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck 'anything 'ac-emoji
 		'dirtree 'cal-china-x 'hydra 'window-numbering 'google-translate))
 (setq generated-autoload-file "~/emacs/autoloads.el")
 (update-directory-autoloads "~/emacs")
