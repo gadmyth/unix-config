@@ -1,6 +1,8 @@
 (require 'ac-emoji)
 
-(set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+(set-fontset-font
+ t 'symbol
+ (font-spec :family (if (eq window-system 'ns) "Apple Color Emoji" "Symbola") nil 'prepend))
 
 (add-hook
  'swift-mode-hook
