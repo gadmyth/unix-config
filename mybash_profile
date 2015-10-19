@@ -290,8 +290,8 @@ fi
 # for terminal beep off
 
 #for gaia
-export PYTHONPATH=~/gaia_trunk/pylib/:~/lib:.
-export LD_LIBRARY_PATH=~/gaia_trunk/lib:.
+#export PYTHONPATH=~/gaia_trunk/pylib/:~/lib:.
+#export LD_LIBRARY_PATH=~/gaia_trunk/lib:.
 
 #for temp source file
 bash_source_dir=~/Library/bashes
