@@ -300,3 +300,11 @@ if [ -d $bash_source_dir ]; then
         source $bash_source_dir/$src_file
     done
 fi
+
+#for temp source file
+bash_source_dir=~/alias/bashes
+if [ -d $bash_source_dir ]; then
+    for src_file in `ls $bash_source_dir`; do
+        source $bash_source_dir/$src_file
+    done
+fi
