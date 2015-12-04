@@ -23,7 +23,7 @@ alias la="ls -a"
 alias lla="ls -lha"
 alias lf="ls -F"
 alias ld="ls -d */"
-alias ltr="ls -tr"
+alias ltr="ll -tr"
 alias lzip="ls *.zip"
 alias lrar="ls *.rar"
 
