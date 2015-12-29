@@ -21,3 +21,5 @@
   loge = log --graph --pretty=format:'%C(yellow)%d%Creset %s %C(bold blue)%Creset'
 [push]
 	default = simple
+[core]
+	quotepath = false
