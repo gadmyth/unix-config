@@ -49,6 +49,7 @@
         ("fb" . "func-bracket")
         ("sb" . "sync-block")
         ("pm" . "pragma-mark")
+        ("ass" . "assign-statement")
         )))))
 
 (add-hook
