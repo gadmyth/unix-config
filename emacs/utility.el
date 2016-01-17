@@ -104,7 +104,7 @@
 
 (setq *must-loading-files*
 	  (mapcar (lambda (n) (expand-file-name n))
-			  '("~/diary" "~/org/notes.org" "~/org/task.org" "~/unix-config/.emacs")))
+			  '("~/diary" "~/org/notes.org" "~/org/task.org" "~/org/timeline.org" "~/unix-config/.emacs")))
 
 (defun ensure-mkdir (dirname)
   (if (not (file-exists-p dirname))
