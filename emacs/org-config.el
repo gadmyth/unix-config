@@ -45,6 +45,8 @@
 (setq org-capture-templates
       '(("t" "Todo" entry (file+datetree "~/org/task.org")
          "* TODO %^{Decription} %^T %^g\n %i")
+        ("T" "Timeline" entry (file+datetree "~/org/timeline.org")
+         "* %^{Decription} %^T %^g\n %i")
         ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
          "* %A %^g %i")
         ("f" "Someday" entry (file+headline "~/org/task.org" "Someday")
