@@ -35,7 +35,7 @@ alias cdsd="cd $sd"
 
 export PATH=.:~/bin:~/vim/java:~/.cabal/bin:/data/bin:/usr/local/bin:/usr/local/heroku/bin:$PATH
 export EDITOR="emacsclient -c"
-alias ed="emacsclient -c"
+alias emc="emacsclient -c"
 
 alias sdUpdateVersion="pushd $smartd && ./update_build_version.sh . && popd"
 

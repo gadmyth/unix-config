@@ -5,8 +5,8 @@ alias emacs-debug='/Applications/Emacs.app/Contents/MacOS/Emacs --debug-init'
 alias emacs-daemon='/Applications/Emacs.app/Contents/MacOS/Emacs -fs --daemon' 
 alias emacsclient="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --frame-parameters=\"(list (width . 234) (height . 63))\""
 alias emacs-daemon="/Applications/Emacs.app/Contents/MacOS/Emacs --daemon"
-alias ed="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --frame-parameters=\"(list (width . 234) (height . 63))\""
-alias et='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -t'
+alias emc="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --frame-parameters=\"(list (width . 234) (height . 63))\""
+alias emt='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -t'
 export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --frame-parameters=\"(list (width . 234) (height . 63))\""
 
 ##
