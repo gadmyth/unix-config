@@ -70,4 +70,7 @@
   '(progn
 	 (setq org-startup-indented t)))
 
+;;; setup org src code color
+(setq org-src-fontify-natively t)
+
 (provide 'org-config)
