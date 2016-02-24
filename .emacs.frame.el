@@ -30,7 +30,7 @@
 (require 'version-controll)
 (require 'helm-config)
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
-(eval-after-load "xcscope" '(add-to-list 'cscope-indexer-suffixes "*.java"))
+(eval-after-load "xcscope" '(ignore-errors (add-to-list 'cscope-indexer-suffixes "*.java")))
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
 
 
