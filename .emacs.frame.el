@@ -4,6 +4,7 @@
 
 (require 'frames)
 (require 'windows)
+(require 'files-config)
 (require 'mode-bars)
 (require 'themes)
 
