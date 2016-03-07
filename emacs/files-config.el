@@ -29,6 +29,18 @@
                   (push dir *customized-dir*)))
             (read (current-buffer))))))
 
+(defun save-customized-dir-without-confirm ()
+  (with-temp-file +customized-dir-file-name+
+    (print *customized-dir* (current-buffer))))
+
+(defun save-customized-dir (confirmed)
+  (interactive (list (y-or-n-p (format "Sure to add %s to customized-dir? " default-directory))))
+  (if confirmed
+      (progn
+        (save-customized-dir-without-confirm)
+        (message "Save succeed!"))
+    (message "Save canceled!")))
+
 (defun customized-dired ()
   (interactive)
   (switch-to-buffer (get-buffer-create "*Customized*"))
@@ -53,6 +65,31 @@
     (insert "  " "wildcard dirs" "\n")
     (dired-insert-set-properties point (point)))
   (setq buffer-read-only t))
+
+(defun add-customized-dir (confirm)
+  (interactive (list (y-or-n-p (format "Sure to add %s to customized-dir? " default-directory))))
+  (if confirm
+      (progn
+        (let ((dir (expand-file-name default-directory)))
+          (unless (member dir *customized-dir*)
+            (push dir *customized-dir*))
+          (message "%s added." dir)))
+    (message "Action canceled!")))
+
+(defun remove-customized-dir (confirm)
+  (interactive (list (y-or-n-p (format "Sure to remove %s to customized-dir? " default-directory))))
+  (if confirm
+      (let ((dir (expand-file-name default-directory)))
+        (if (member dir *customized-dir*)
+          (progn
+            (setq *customized-dir* (delete dir *customized-dir*))
+            (message "%s removed." dir))
+          (message "%s is not a customized dir!" dir)))
+    (message "Action canceled!")))
+
+(defun customized-dir-init ()
+  (add-hook 'kill-emacs-hook 'save-customized-dir-without-confirm)
+  (load-customized-dir))
 
 (global-set-key (kbd "C-x <f1>") 'customized-dired)
 (global-set-key (kbd "C-x <f2>") 'switch-buffer)

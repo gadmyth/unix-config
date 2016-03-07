@@ -5,7 +5,7 @@
 (require 'frames)
 (require 'windows)
 (require 'files-config)
-(load-customized-dir)
+(customized-dir-init)
 
 (require 'mode-bars)
 (require 'themes)
