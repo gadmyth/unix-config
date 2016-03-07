@@ -37,7 +37,6 @@
   (setq buffer-read-only nil)
   (erase-buffer)
   (mapc (lambda (dir)
-          (message dir)
           (insert +dired-al-mode-header+ dir "\n"))
         *customized-dir*)
   (goto-char (point-min))
