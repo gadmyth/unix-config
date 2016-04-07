@@ -50,6 +50,7 @@
         ("sb" . "sync-block")
         ("pm" . "pragma-mark")
         ("ass" . "assign-statement")
+        ("sng" . "singleton-def")
         )))))
 
 (add-hook
@@ -59,6 +60,7 @@
     (lambda (pair)
       (define-abbrev swift-mode-abbrev-table (car pair) (cdr pair)))
     '(("pi" . "π")
+      ("sng" . "singleton-def")
       ))))
 
 (setq save-abbrevs nil)
