@@ -1,10 +1,12 @@
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("popkit" . "http://elpa.popkit.org/packages/"))
 (package-initialize)
 ;; the slime should git clone from github
 (add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "elpa/swiper" user-emacs-directory))
 (defvar required-packages
   (list 'alpha 'diff-hl 'windmove 'textmate 'smex 'helm-dash 'smart-compile
 		'helm 'xcscope 'org 'evil 'auto-complete 'magit
