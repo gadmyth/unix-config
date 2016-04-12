@@ -115,6 +115,7 @@
 (require 'servers)
 (require 'key-bindings)
 ;; ace-jump-buffer
+(require 'avy-config)
 (require 'ace-jump-buffer)
 (global-set-key (kbd "<f4>") 'ace-jump-buffer)
 
