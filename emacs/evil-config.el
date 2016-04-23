@@ -72,5 +72,11 @@
             (evil-mode)
 			(evil-emacs-state)))
 
-
+;; when back to evil mode we auto save buffer
+(defadvice evil-normal-state (after auto-save last activate)
+  (when (evil-normal-state-p)
+   (if (and (buffer-file-name) (buffer-modified-p))
+        (save-buffer)
+      ))) 
+      
 (provide 'evil-config)
