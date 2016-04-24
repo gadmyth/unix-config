@@ -36,41 +36,20 @@
 			nil))
 		evil-markers-alist))
 
-
-(add-hook 'slime-repl-mode-hook
-		  (lambda ()
-            (evil-mode)
-			(evil-emacs-state)))
-
-(add-hook 'inferior-emacs-lisp-mode-hook
-		  (lambda ()
-            (evil-mode)
-			(evil-emacs-state)))
-
-(add-hook 'term-mode-hook
-		  (lambda ()
-            (evil-mode)
-			(evil-emacs-state)))
-
-(add-hook 'calendar-mode-hook
-		  (lambda ()
-            (evil-mode)
-			(evil-emacs-state)
-			(scale-large 2)))
-
-(add-hook 'org-agenda-mode-hook
-		  (lambda ()
-			(scale-large 2)))
-
-(add-hook 'erc-mode-hook
-		  (lambda ()
-            (evil-mode)
-			(evil-emacs-state)))
-
-(add-hook 'ielm-mode-hook
-		  (lambda ()
-            (evil-mode)
-			(evil-emacs-state)))
+(mapc (lambda (hook)
+        (add-hook
+         hook
+         (lambda ()
+           (evil-mode)
+           (evil-emacs-state))))
+      '(slime-repl-mode-hook
+        inferior-emacs-lisp-mode-hook
+        term-mode-hook
+        calendar-mode-hook
+        org-agenda-mode-hook
+        erc-mode-hook
+        ielm-mode-hook
+        diff-mode-hook))
 
 ;; when back to evil mode we auto save buffer
 (defadvice evil-normal-state (after auto-save last activate)
@@ -78,5 +57,73 @@
    (if (and (buffer-file-name) (buffer-modified-p))
         (save-buffer)
       ))) 
+
+
+;; modify evil-show-marks, copy and show the content of the marks
+(evil-define-command my-evil-show-marks (mrks)
+  "Shows all marks.
+If MRKS is non-nil it should be a string and only registers
+corresponding to the characters of this string are shown."
+  :repeat nil
+  (interactive "<a>")
+  ;; To get markers and positions, we can't rely on 'global-mark-ring'
+  ;; provided by Emacs (although it will be much simpler and faster),
+  ;; because 'global-mark-ring' does not store mark characters, but
+  ;; only buffer name and position. Instead, 'evil-markers-alist' is
+  ;; used; this is list maintained by Evil for each buffer.
+  (let ((all-markers
+         ;; get global and local marks
+         (append (cl-remove-if (lambda (m)
+                                 (or (evil-global-marker-p (car m))
+                                     (not (markerp (cdr m)))))
+                               evil-markers-alist)
+                 (cl-remove-if (lambda (m)
+                                 (or (not (evil-global-marker-p (car m)))
+                                     (not (markerp (cdr m)))))
+                               (default-value 'evil-markers-alist)))))
+    (when mrks
+      (setq mrks (string-to-list mrks))
+      (setq all-markers (cl-delete-if (lambda (m)
+                                        (not (member (car m) mrks)))
+                                      all-markers)))
+    ;; map marks to list of 4-tuples (char row col file)
+    (setq all-markers
+          (mapcar (lambda (m)
+                    (with-current-buffer (marker-buffer (cdr m))
+                      (save-excursion
+                        (goto-char (cdr m))
+                        (beginning-of-line)
+                        (list (car m)
+                              (line-number-at-pos (point))
+                              (string-trim (buffer-substring (point) (line-end-position)))
+                              (buffer-name)))))
+                  all-markers))
+    (evil-with-view-list
+      :name "evil-marks"
+      :mode-name "Evil Marks"
+      :format [("Mark" 8 nil)
+               ("Line" 8 nil)
+               ("Content" 40 nil)
+               ("Buffer" 1000 nil)]
+      :entries (cl-loop for m in (sort all-markers (lambda (a b) (< (car a) (car b))))
+                        collect `(nil [,(char-to-string (nth 0 m))
+                                       ,(number-to-string (nth 1 m))
+                                       ,(nth 2 m)
+                                       (,(nth 3 m))]))
+      :select-action #'my-evil--show-marks-select-action)))
+
+(defun my-evil--show-marks-select-action (entry)
+  (kill-this-buffer)
+  (delete-window)
+  (switch-to-buffer (car (elt entry 3)))
+  (evil-goto-mark (string-to-char (elt entry 0))))
+
+(define-key evil-list-view-mode-map (kbd "C-g") #'evil-list-view-quit)
+(defun evil-list-view-quit ()
+  (interactive)
+  (kill-this-buffer)
+  (delete-window))
+
+(global-set-key (kbd "C-x <f3>") 'my-evil-show-marks)
       
 (provide 'evil-config)
