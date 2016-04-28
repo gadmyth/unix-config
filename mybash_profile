@@ -17,15 +17,6 @@ export EDITOR=vim
 
 # for sumsung_oms
 export ss="/home/ibm/workspace/cmcc_oms/sumsung_oms"
-# for android
-export app="/home/ibm/android1.5/out/target/product/generic/system/app"
-export appp="/home/ibm/android1.6/out/target/product/generic/system/app"
-export andrc="/home/ibm/android1.5"
-export andrcc="/home/ibm/android1.6"
-export smartd="/home/ibm/androidrc/development/workspace/SmartDialer/"
-export trsmartd="/home/ibm/androidrc/development/workspace/SmartDialer-trunk/"
-export asr8="/opt/asr8"
-export ext=".apk"
 alias adbstall="adb install -r"
 alias adbunstall="adb uninstall"
 alias adbdev="adb devices"
@@ -44,41 +35,8 @@ export GIT_SSL_NO_VERIFY=true
 
 function adbrestart() {
 	adb kill-server;
-	pushd $android_sdk_home;
-	sudo ./adb start-server;
+	sudo adb start-server;
 
-}
-#set -x
-function restall() {
-	if [ $1 == "1.5" ]; then
-		pushd $andrc && make $2
-		popd
-		pushd $app && adbstall $2$ext
-		popd
-	elif [ $1 == "1.6" ]; then
-		pushd $andrcc && make $2
-		popd
-		pushd $appp && adbstall $2$ext
-		popd
-	fi
-}
-
-function anmake() {
-	export ext=".apk"
-	if [ $1 == "1.5" ]; then
-		cd $andrc && make $2
-	elif [ $1 == "1.6" ]; then
-		cd $andrcc && make $2
-	fi
-}
-
-function anstall() {
-	export ext=".apk"
-	if [ $1 == "1.5" ]; then
-		cd $app && adbstall $2$ext
-	elif [ $1 == "1.6" ]; then
-		cd $appp && adbstall $2$ext
-	fi
 }
 
 # for windows
@@ -273,9 +231,6 @@ fi
 
 # for perl
 export PERLLIB=$PERLLIB:/usr/local/lib/perl/5.10.0/IO:/usr/local/lib/perl/5.10.0/IO/Socket/:/usr/local/lib/perl/5.10.0/Object
-
-#for android-ndk
-export NDK=~/ndk
 
 #for X
 #setxkbmap dvorak

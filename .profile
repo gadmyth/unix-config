@@ -1,6 +1,5 @@
 source ~/.bashrc
-export PATH=~/android-sdks/tools/:~/android-sdks/platform-tools:~/.cabal/bin:~/android-sdks/platform-tools:~/android-sdks/build-tools/android-4.4/:$PATH
-export NDK=~/android-ndk-r8e
+export PATH=~/.cabal/bin:$PATH
 alias emacs-debug='/Applications/Emacs.app/Contents/MacOS/Emacs --debug-init' 
 alias emacs-daemon='/Applications/Emacs.app/Contents/MacOS/Emacs -fs --daemon' 
 alias emacsclient="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --frame-parameters=\"(list (width . 234) (height . 63))\""
