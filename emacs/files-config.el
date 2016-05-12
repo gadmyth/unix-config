@@ -95,4 +95,10 @@
 (global-set-key (kbd "C-x <f2>") 'switch-buffer)
 (global-set-key (kbd "C-x <f4>") 'new-buffer)
 
+;; ace-jump-buffer
+(require 'avy-config)
+(require 'ace-jump-buffer)
+(global-set-key (kbd "<f4>") 'ace-jump-buffer)
+
+
 (provide 'files-config)

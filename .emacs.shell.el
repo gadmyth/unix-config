@@ -64,6 +64,3 @@
                                       (if (equal "h" suffix)
                                           (find-file (concatenate 'string prename ".m"))))))))
 
-;; ace-jump-buffer
-(require 'ace-jump-buffer)
-(global-set-key (kbd "<f4>") 'ace-jump-buffer)

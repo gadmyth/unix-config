@@ -124,6 +124,4 @@ corresponding to the characters of this string are shown."
   (kill-this-buffer)
   (delete-window))
 
-(global-set-key (kbd "C-x <f3>") 'my-evil-show-marks)
-      
 (provide 'evil-config)
