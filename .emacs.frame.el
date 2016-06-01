@@ -40,6 +40,7 @@
 
 (smartparens-global-mode)
 ;(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
+(require 'lisping-snippet)
 (require 'yas-config)
 (yas-global-mode)
 (global-auto-complete-mode)
