@@ -1,4 +1,7 @@
-(setq ts-init (current-time))
+;;; package --- .emacs.frame.el
+;;; Commentary:
+;;; Code:
+(defvar ts-init (current-time))
 (add-to-list 'load-path (expand-file-name "~/emacs"))
 (require 'packages)
 
@@ -119,6 +122,8 @@
 (add-hook 'after-init-hook 'global-flycheck-mode)
 (require 'dired++)
 (load-must-files)
+(require 'scrit-extends)
+(load-extend-script-files)
 
 ;(require 'annot)
 
@@ -127,3 +132,6 @@
 (require 'frames)
 (maximize-frame (selected-frame))
 (message "end : %.2f" (float-time (time-since ts-init)))
+
+(provide '.emacs.frame)
+;;; .emacs.frame.el ends here
