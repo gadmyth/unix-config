@@ -13,5 +13,4 @@ ln -s .gvimrc .vimrc
 ln -sf unix-config/emacs
 ln -sf unix-config/emacs.init.el
 ln -sf unix-config/mybash_profile
-
-mkdir el-extends
+ln -sf unix-config/emacs/el-extends
