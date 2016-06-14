@@ -96,24 +96,6 @@
 		  (lambda () (if (string= (buffer-name) ".emacs")
 					(byte-compile-file (expand-file-name "~/.emacs")))))
 
-;; install lua-mode
-(setq auto-mode-alist
-	  (let* ((lst auto-mode-alist)
-			(no-png-list (remove-if (lambda (x) (equal "\\.png\\'" (car x))) lst))
-			(new-png-list 
-			 (append no-png-list
-					 '(("\\.mm\\'" . objc-mode)
-					   ("\\.sur\\.png\\'" . lua-mode)
-					   ("\\.trt\\.png\\'" . lua-mode)
-					   ("\\.lng\\.png\\'" . lua-mode)
-					   ("\\.lua\\.png\\'" . lua-mode)
-					   ("\\([^s][^u][^r]\\)\\.png\\'" . image-mode) ;;negative-lookahead not supported
-					   ("\\([^t][^r][^t]\\)\\.png\\'" . image-mode) 
-					   ("\\([^l][^u][^a]\\)\\.png\\'" . image-mode) 
-					   ("\\([^l][^n][^][^g]\\)\\.png\\'" . image-mode)))))
-		new-png-list))
-
-
 (require 'evil-config)
 
 (require 'servers)
