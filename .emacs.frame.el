@@ -104,7 +104,7 @@
 (add-hook 'after-init-hook 'global-flycheck-mode)
 (require 'dired++)
 (load-must-files)
-(require 'scrit-extends)
+(require 'script-extends)
 (load-extend-script-files)
 
 ;(require 'annot)
