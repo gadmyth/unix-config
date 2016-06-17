@@ -48,7 +48,9 @@
         ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
          "* %A %^g %i")
         ("f" "Someday" entry (file+headline "~/org/task.org" "Someday")
-         "* %?")))
+         "* %?")
+        ("o" "Off Duty" entry (file+datetree "~/org/offduty.org")
+         "* %^T\n %i")))
 
 ;;; org html config
 (let ((+org-css+ "org.css"))
