@@ -14,7 +14,7 @@
 		'projectile 'yasnippet 'smartparens 'multi-term
 		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck 'anything 'ac-emoji
 		'dirtree 'cal-china-x 'hydra 'window-numbering 'google-translate
-        'restclient))
+        'restclient 'eredis))
 (setq generated-autoload-file "~/emacs/autoloads.el")
 (update-directory-autoloads "~/emacs")
 (kill-buffer "autoloads.el")
