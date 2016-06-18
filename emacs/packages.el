@@ -7,6 +7,7 @@
 ;; the slime should git clone from github
 (add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "elpa/swiper" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "el-extends" "~/emacs"))
 (defvar required-packages
   (list 'alpha 'diff-hl 'windmove 'textmate 'smex 'helm-dash 'smart-compile
 		'helm 'xcscope 'org 'evil 'auto-complete 'magit
