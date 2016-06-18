@@ -110,6 +110,7 @@
 ;(require 'annot)
 
 (require 'emoji-config)
+(require 'redis-config)
 	          
 (require 'frames)
 (maximize-frame (selected-frame))
