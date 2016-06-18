@@ -43,7 +43,7 @@
 
 (defun customized-dired ()
   (interactive)
-  (switch-to-buffer (get-buffer-create "*Customized*"))
+  (switch-to-buffer-other-window (get-buffer-create "*Customized*"))
   (widen)
   (kill-all-local-variables)
   (setq buffer-read-only nil)
