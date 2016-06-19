@@ -111,6 +111,7 @@
 
 (require 'emoji-config)
 (require 'redis-config)
+(require 'sudo-edit)
 	          
 (require 'frames)
 (maximize-frame (selected-frame))
