@@ -14,10 +14,10 @@
   "."
   (interactive)
   (if (file-exists-p WORK-FILE)
-      (find-file WORK-FILE)
+      (find-file-other-window WORK-FILE)
     (progn
       (new-buffer "work.org")
-      (switch-to-buffer "work.org")
+      (switch-to-buffer-other-window "work.org")
       (write-file WORK-FILE))))
 
 (defun visit-work-html()
@@ -31,6 +31,28 @@
   (interactive)
   (org-html-export-to-html))
 
+(defvar *org-cap-temp*)
+(defun org-capture-current-line (description)
+  "DESCRIPTION: ."
+  (interactive "sSet the line description here: ")
+  (re-search-backward "^" nil t)
+  (re-search-forward "^ *\\(.*?\\)$" nil t 1)
+  (let* ((line (match-string-no-properties 1))
+         (encoded-line (url-encode-url line))
+         (formatted-line (format "[[file:%s::%s][%s]]" (buffer-file-name) encoded-line description)))
+    (setq *org-cap-temp* formatted-line)
+    (visit-work-file)))
+
+(defun org-capture-insert-temp ()
+  "."
+  (interactive)
+  (if (not (null *org-cap-temp*))
+      (progn
+        (insert-string *org-cap-temp*)
+        (setq *org-cap-temp* nil))))
+
+(global-set-key (kbd "<f7>") 'org-capture-current-line)
+(global-set-key (kbd "<f8>") 'org-capture-insert-temp)
 
 (provide 'work)
 ;;; work.el ends here
