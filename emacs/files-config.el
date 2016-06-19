@@ -95,6 +95,17 @@
 (global-set-key (kbd "C-x <f2>") 'switch-buffer)
 (global-set-key (kbd "C-x <f4>") 'new-buffer)
 
+
+(define-key dired-mode-map "V" '(lambda () (interactive)
+                                  (let ((file (dired-get-file-for-visit)))
+                                    (if (file-directory-p file)
+                                        (magit-status file)))))
+
+(define-key dired-mode-map "v" '(lambda () (interactive)
+                                  (let ((file (dired-get-file-for-visit)))
+                                    (if (file-directory-p file)
+                                        (vc-dir file)))))
+
 ;; ace-jump-buffer
 (require 'avy-config)
 (require 'ace-jump-buffer)
