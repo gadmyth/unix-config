@@ -51,8 +51,19 @@
         (insert-string *org-cap-temp*)
         (setq *org-cap-temp* nil))))
 
+(defun org-capture-dired-file ()
+  "."
+  (interactive)
+  (let* ((file (dired-get-file-for-visit))
+        (formatted-line (format "[[file:%s][%s]]" file file)))
+    (setq *org-cap-temp* formatted-line)
+    (visit-work-file)))
+
 (global-set-key (kbd "<f7>") 'org-capture-current-line)
 (global-set-key (kbd "<f8>") 'org-capture-insert-temp)
+
+(require 'dired)
+(add-hook 'dired-mode-hook (lambda () (define-key dired-mode-map (kbd "<f7>") 'org-capture-dired-file)))
 
 (provide 'work)
 ;;; work.el ends here
