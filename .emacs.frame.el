@@ -72,7 +72,7 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
-(setq browse-url-browser-function 'eww-browse-url)
+(require 'eww-config)
 
 (require 'slime-config)
 (require 'projectile-config)
