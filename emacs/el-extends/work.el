@@ -61,7 +61,7 @@
 
 
 
-(defun org-open-dir ()
+(defun org-parse-file-link ()
   "."
   (interactive)
   (save-excursion
@@ -71,13 +71,34 @@
                (org-link-dir (if (file-directory-p org-link-file)
                                  org-link-file
                                (file-name-directory org-link-file))))
-          (dired-other-window org-link-dir)
-          (dired-goto-file org-link-file)
-          (message "We goto dir: %s" org-link-dir)))))
+          (cons org-link-file org-link-dir))
+      (cons nil nil))))
+
+(defun org-open-dir ()
+  "."
+  (interactive)
+  (let* ((parse-result (org-parse-file-link))
+         (file (car parse-result))
+         (dir (cdr parse-result)))
+    (when (and (not (null file))
+               (not (null dir)))
+      (dired-other-window dir)
+      (dired-goto-file file)
+      (message "Selected file is: %s" file))))
+
+(defun org-show-link ()
+  "."
+  (interactive)
+  (let* ((parse-result (org-parse-file-link))
+         (file (car parse-result))
+         (dir (cdr parse-result)))
+    (if (and (not (null file)) (not (null dir)))
+      (message "The file of link is: %s" file))))
 
 (global-set-key (kbd "<f7>") 'org-capture-current-line)
 (global-set-key (kbd "<f8>") 'org-capture-insert-temp)
 (global-set-key (kbd "C-c d") 'org-open-dir)
+(global-set-key (kbd "C-c P") 'org-show-link)
 
 (require 'dired)
 (add-hook 'dired-mode-hook (lambda () (define-key dired-mode-map (kbd "<f7>") 'org-capture-dired-file)))
