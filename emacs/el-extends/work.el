@@ -59,8 +59,25 @@
     (setq *org-cap-temp* formatted-line)
     (visit-work-file)))
 
+
+
+(defun org-open-dir ()
+  "."
+  (interactive)
+  (save-excursion
+    (re-search-backward "^" nil t)
+    (if (re-search-forward "^.*?file:\\([^]:]*\\).*$" nil t 1)
+        (let* ((org-link-file (match-string-no-properties 1))
+               (org-link-dir (if (file-directory-p org-link-file)
+                                 org-link-file
+                               (file-name-directory org-link-file))))
+          (dired-other-window org-link-dir)
+          (dired-goto-file org-link-file)
+          (message "We goto dir: %s" org-link-dir)))))
+
 (global-set-key (kbd "<f7>") 'org-capture-current-line)
 (global-set-key (kbd "<f8>") 'org-capture-insert-temp)
+(global-set-key (kbd "C-c d") 'org-open-dir)
 
 (require 'dired)
 (add-hook 'dired-mode-hook (lambda () (define-key dired-mode-map (kbd "<f7>") 'org-capture-dired-file)))
