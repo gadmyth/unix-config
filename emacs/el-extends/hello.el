@@ -71,5 +71,18 @@
   (interactive)
   (add-pair-around-region "\"" "\""))
 
+(defun wrap-p-pair-around-region ()
+  (interactive)
+  (add-pair-around-region "<p>" "</p>"))
+
+(defun wrap-red-span ()
+  (interactive)
+  (add-pair-around-region "<span style=\"color: red\">" "</span>"))
+
+(defun wrap-lisp-not ()
+  "."
+  (interactive)
+  (add-pair-around-region "(not " ")"))
+
 (provide 'hello)
 ;;; hello.el ends here
