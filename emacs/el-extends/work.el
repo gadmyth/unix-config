@@ -51,11 +51,11 @@
         (insert-string *org-cap-temp*)
         (setq *org-cap-temp* nil))))
 
-(defun org-capture-dired-file ()
-  "."
-  (interactive)
+(defun org-capture-dired-file (description)
+  "DESCRIPTION: ."
+  (interactive "sSet the dir description here: ")
   (let* ((file (dired-get-file-for-visit))
-        (formatted-line (format "[[file:%s][%s]]" file file)))
+        (formatted-line (format "[[file:%s][%s]]" file description)))
     (setq *org-cap-temp* formatted-line)
     (visit-work-file)))
 
