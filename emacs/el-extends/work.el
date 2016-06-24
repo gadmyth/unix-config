@@ -95,6 +95,17 @@
     (if (and (not (null file)) (not (null dir)))
       (message "The file of link is: %s" file))))
 
+(defun org-copy-link ()
+  "."
+  (interactive)
+  (save-excursion
+    (re-search-backward "^" nil t)
+    (if (re-search-forward "^.*?\\(https?:[^]]*\\).*$" nil t 1)
+        (let* ((org-link (match-string-no-properties 1)))
+          (kill-new org-link)
+          (message org-link)
+          org-link))))
+
 (global-set-key (kbd "<f7>") 'org-capture-current-line)
 (global-set-key (kbd "<f8>") 'org-capture-insert-temp)
 (global-set-key (kbd "C-c d") 'org-open-dir)
