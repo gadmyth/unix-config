@@ -73,4 +73,8 @@
 ;;; setup org src code color
 (setq org-src-fontify-natively t)
 
+;;; superscripts
+(setq-default org-use-sub-superscripts nil)
+
 (provide 'org-config)
+;;; org-config.el ends here
