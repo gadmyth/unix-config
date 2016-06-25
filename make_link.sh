@@ -14,3 +14,5 @@ ln -sf unix-config/emacs
 ln -sf unix-config/emacs.init.el
 ln -sf unix-config/mybash_profile
 ln -sf unix-config/emacs/el-extends
+ln -sf unix-config/sh-extends
+
