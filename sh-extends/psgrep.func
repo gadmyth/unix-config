@@ -1,0 +1,2 @@
+#!/bin/bash
+function psgrep() {  ps aux | grep $1 | grep -v grep; }
