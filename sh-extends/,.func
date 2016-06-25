@@ -1,0 +1,2 @@
+#!/bin/bash
+function ,() {  a=(`ls`); cd ${a[$1]}; }

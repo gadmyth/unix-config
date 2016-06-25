@@ -1,0 +1,2 @@
+#!/bin/bash
+function ,e() {  a=(`ls`); emc ${a[$1]}; }
