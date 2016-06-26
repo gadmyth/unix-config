@@ -9,11 +9,11 @@ function load_scripts_in_directory() {
     fi
 }
 
-#for temp source file
-load_scripts_in_directory ~/Library/bashes
+#for extend source file (from ~/alias/bashes)
+load_scripts_in_directory ~/sh-extends
 
 #for temp source file
 load_scripts_in_directory ~/alias/bashes
 
-#for extend source file (from ~/alias/bashes)
-load_scripts_in_directory ~/sh-extends
+#for temp source file
+load_scripts_in_directory ~/Library/bashes
