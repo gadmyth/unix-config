@@ -1,4 +1,11 @@
 BODY {
+    margin: 0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    background-color: #FFF;
+    color: #2C3E50
+    /*
 	padding : 0.7in;
 	font-size : 14px;
 	line-height: 1.6;
@@ -9,6 +16,7 @@ BODY {
 	border-color: lightgray;
 	width: 1000px;
 	margin: 0 auto;
+*/
 }
 
 body.framed {
@@ -19,6 +27,14 @@ body.framed {
 body.ascii{
             background-color : Black;
             }
+
+body,button,input,select {
+    font-family: PingFang SC,Hiragino Sans GB,Microsoft Yahei,WenQuanYi Micro Hei,sans-serif
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-weight: 500;
+}
 
 P{
    text-indent : 2em;
@@ -56,29 +72,28 @@ OL.roman{
           list-style-type: lower-roman;
           }
 
-A{
-	color: #813A66;
-	font-weight: bold;
-	text-decoration: none;
-   }
+a {
+    color: #08c;
+    text-decoration: none
+}
 
-A:Hover {
-	caption-side : left;
-	background-color: #FF80FF;
-	text-decoration: none;
-          }
+a:Hover {
+    color: #005580;
+    text-decoration: underline
+}
 
-HR {
-     color: #2E8B57;
-     height: 1pt;
-     }
+hr {
+    border: 0;
+    border-bottom: 1px dashed #cfcfcf;
+    margin: 30px 0
+}
 
 UL {
      list-style-type : circle;
      }
 
 div{
-     border : 1pt;
+     border : 0px;
      border-color : white;
      border-style : solid;
      padding-left: 10pt;
@@ -138,59 +153,31 @@ em.phrase {
             }
 
 h1 {
-	font-size:  28px;
-	border-bottom: solid black 2pt;
-	padding: 0.1em;
-	padding-top: 0.2em;
-	padding-left: 0.3em;
-	padding-bottom: 2pt;
-    background: ;
-	color: #1E2A37;
-     }
+    margin: 50px 0 20px;
+    font-size: 30px
+}
+
 
 h1.home{
          color: #102C4A;
          font-size: 34px;
          }
+h2 {
+    margin: 35px 0 20px;
+    font-size: 26px
+}
+h3 {
+    margin: 20px 0;
+    font-size: 21px
+}
 
-h2 { 
-     color:#666;
-     font-size: 24px;
-     border-top: solid black 1px;
-     border-bottom: solid black 1px;
-     padding: 0.1em;
-     padding-top: 0.2em;
-     padding-left: 0.3em;
-     padding-bottom: 0.3em;
-     background: LightGray;
-     }
+h4 {
+    font-size: 18px
+}
 
-h3 { 
-     color:#666;
-     font-size: 22px;
-     border-left: solid black 1px;
-     border-bottom: solid black 1px;
-     padding: 0.1em;
-     padding-top: 0.2em;
-     padding-left: 0.3em;
-     padding-bottom: 0.3em;
-     width: 70%;
-     }
-
-h4 { 
-     color:#666;
-     font-size: 20px;
-     padding: 2px;
-     margin-top: 5px;
-     }
-
-h5 {
-     color: #666;
-     text-align: left;
-     font-size: 12px;
-     font-size: 12px;
-     }
-
+h5,h6 {
+    font-size: 16px
+}
 
 LI {
      margin-top: 5px;
@@ -247,4 +234,18 @@ code {
 	border: 1px solid #eaeaea;
 	background-color: #f8f8f8;
 	border-radius: 3px;
+}
+
+span.tag {
+    border: 0;
+    background-color: #D6DBDF;
+    border-radius: 4px;
+    color: #2C3E50;
+    font-size: 90%;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+
+span.tag {
+    font-family: PingFang SC,Hiragino Sans GB,Microsoft Yahei,WenQuanYi Micro Hei,sans-serif;
 }

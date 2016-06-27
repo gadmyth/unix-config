@@ -53,8 +53,11 @@
          "* %^T\n %i")))
 
 ;;; org html config
-(let ((+org-css+ "org.css"))
-  (setq org-html-head (format "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\"/>" +org-css+)))
+(setq org-html-head
+      (format "<style type='text/css'>%s</style>"
+              (with-temp-buffer
+                (insert-file-contents "org.css")
+                (buffer-string))))
 
 (defun m/org-html-checkbox (checkbox)
   "Format CHECKBOX into HTML."
@@ -74,7 +77,8 @@
 (setq org-src-fontify-natively t)
 
 ;;; superscripts
-(setq-default org-use-sub-superscripts nil)
+(setq-default org-use-sub-superscripts '{})
+(setq-default org-export-with-sub-superscripts '{})
 
 (provide 'org-config)
 ;;; org-config.el ends here
