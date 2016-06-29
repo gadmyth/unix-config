@@ -56,6 +56,7 @@
 (setq org-html-head
       (format "<style type='text/css'>%s</style>"
               (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs"))
                 (insert-file-contents "org.css")
                 (buffer-string))))
 
