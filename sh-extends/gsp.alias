@@ -1,0 +1,2 @@
+#!/bin/bash
+alias gsp="git stash pop"

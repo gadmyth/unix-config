@@ -1,0 +1,2 @@
+#!/bin/bash
+alias gs="git stash"
