@@ -46,11 +46,12 @@
         ("ifb" . "if-block")
         ("ieb" . "ifelse-block")
         ("fore" . "for-enum")
-        ("fb" . "func-bracket")
+        ("fb" . "func-brace")
         ("sb" . "sync-block")
         ("pm" . "pragma-mark")
         ("ass" . "assign-statement")
         ("sng" . "singleton-def")
+        ("marray" . "[NSMutableArray array]")
         )))))
 
 (add-hook
