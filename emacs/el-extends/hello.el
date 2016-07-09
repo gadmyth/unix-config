@@ -54,49 +54,5 @@
       (re-search-backward "^" nil t)
       (replace-regexp word new-word nil (line-beginning-position) (line-end-position)))))
 
-(defun add-pair-around-region (pair-left pair-right)
-  (interactive)
-  (if (region-active-p)
-      (let ((b (region-beginning))
-            (e (region-end)))
-        (deactivate-mark)
-        (goto-char e)
-        (insert pair-right)
-        (goto-char b)
-        (insert pair-left))))
-
-(defun add-paren-around-region ()
-  (interactive)
-  (add-pair-around-region "(" ")"))
-
-(defun add-bracket-around-region ()
-  (interactive)
-  (add-pair-around-region "[" "]"))
-
-(defun add-brace-around-region ()
-  (interactive)
-  (add-pair-around-region "{" "}"))
-
-(defun add-single-quote-around-region ()
-  (interactive)
-  (add-pair-around-region "'" "'"))
-
-(defun add-double-quote-around-region ()
-  (interactive)
-  (add-pair-around-region "\"" "\""))
-
-(defun wrap-p-pair-around-region ()
-  (interactive)
-  (add-pair-around-region "<p>" "</p>"))
-
-(defun wrap-red-span ()
-  (interactive)
-  (add-pair-around-region "<span style=\"color: red\">" "</span>"))
-
-(defun wrap-lisp-not ()
-  "."
-  (interactive)
-  (add-pair-around-region "(not " ")"))
-
 (provide 'hello)
 ;;; hello.el ends here
