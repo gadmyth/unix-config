@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: func-bracket
-# key: func-bracket
+# name: func-brace
+# key: func-brace
 # --
 {
     $0
