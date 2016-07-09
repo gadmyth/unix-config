@@ -39,6 +39,20 @@
   (interactive)
   (edit-value "^ *?\\([^:]*?\\) *: *\\(.*?\\)[,;] *?$" 2))
 
+(defun replace-point-word (new-word)
+  "NEW-WORD: ."
+  (interactive (list (read-string "Replace by: " (car kill-ring))))
+  (save-excursion
+    (let ((bounds (bounds-of-thing-at-point 'word)))
+      (replace-regexp ".*" new-word nil (car bounds) (cdr bounds)))))
+
+(defun replace-point-word-current-line (new-word)
+  "NEW-WORD: ."
+  (interactive (list (read-string "Replace by: " (car kill-ring))))
+  (save-excursion
+    (let ((word (word-at-point)))
+      (re-search-backward "^" nil t)
+      (replace-regexp word new-word nil (line-beginning-position) (line-end-position)))))
 
 (defun add-pair-around-region (pair-left pair-right)
   (interactive)
