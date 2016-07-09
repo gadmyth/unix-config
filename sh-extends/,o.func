@@ -1,0 +1,2 @@
+#!/bin/bash
+function ,o() {  a=(`ls`); open ${a[$1]}; }
