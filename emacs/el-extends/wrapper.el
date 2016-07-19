@@ -28,7 +28,7 @@
     (setq *wrapper-content* import)
     (message import)))
 
-(defun insert-wrapper-content ()
+(defun output-wrapper-content ()
   "."
   (interactive)
   (when *wrapper-content*
