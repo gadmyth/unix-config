@@ -114,5 +114,16 @@
 (require 'dired)
 (add-hook 'dired-mode-hook (lambda () (define-key dired-mode-map (kbd "<f7>") 'org-capture-dired-file)))
 
+(defun open-current-buffer()
+  "."
+  (interactive)
+  (let* ((buffer (current-buffer))
+         (file-name (buffer-file-name buffer)))
+    (if (and (not (null file-name)) (file-exists-p file-name))
+        (progn
+          (shell-command-to-string (format "open %s" file-name))
+          (message "Open succeed: %s" file-name))
+      (message "File doesn't not exists!"))))
+
 (provide 'work)
 ;;; work.el ends here
