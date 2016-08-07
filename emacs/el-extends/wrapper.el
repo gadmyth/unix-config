@@ -57,6 +57,16 @@
         (goto-char b)
         (insert pair-left))))
 
+(defun prepend-word (prefix)
+  "PREFIX: ."
+  (interactive "sGive me the prefix: ")
+  (save-excursion
+    (let ((bounds (bounds-of-thing-at-point 'word)))
+      (if bounds
+          (progn
+            (goto-char (car bounds))
+            (insert prefix))))))
+
 (defun wrap-paren ()
   "."
   (interactive)
