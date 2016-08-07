@@ -2,6 +2,6 @@
 # name: ns-enum-def
 # key: ns-enum-def
 # --
-typedef NS_ENUM(NSUInteger, ${MyEnum}) {
-    ${1:MyEnumA},$0
+typedef NS_ENUM(NSUInteger, ${1:MyEnum}) {
+    ${2:MyEnumA},$0
 };
