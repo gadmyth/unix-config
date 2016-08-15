@@ -1,2 +1,3 @@
 autoloads.*
 .DS_Store
+*-temp.el
