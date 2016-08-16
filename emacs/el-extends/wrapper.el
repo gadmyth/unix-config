@@ -47,7 +47,7 @@
 
 (defun add-pair-around-region (pair-left pair-right)
   "PAIR-LEFT: , PAIR-RIGHT: ."
-  (interactive)
+  (interactive "spair-left: \nspair-right: ")
   (if (region-active-p)
       (let ((b (region-beginning))
             (e (region-end)))
