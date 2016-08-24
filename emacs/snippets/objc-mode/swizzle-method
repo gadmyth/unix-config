@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: swizzle-method
+# key: swizzle-method
+# --
+SEL originalSelector = @selector(${1:originalSelector});
+SEL swizzledSelector = @selector(${2:swizzledSelector});
+Method originalMethod = class_getInstanceMethod(${3:obj}, originalSelector);
+Method swizzledMethod = class_getInstanceMethod($3, swizzledSelector);
+
+IMP swizzledIMP = method_getImplementation(swizzledMethod);
+char *swizzledType = method_getTypeEncoding(swizzledMethod);
+BOOL added = class_addMethod($3, originalSelector, swizzledIMP, swizzledType);
+
+if (added) {
+    IMP originalIMP = method_getImplementation(originalMethod);
+    char *originalType = method_getTypeEncoding(originalMethod);
+    class_replaceMethod($3, swizzledSelector, originalIMP, originalType);
+} else {
+    method_exchangeImplementations(originalMethod, swizzledMethod);
+}
