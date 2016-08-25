@@ -20,6 +20,9 @@
 (update-directory-autoloads "~/emacs")
 (kill-buffer "autoloads.el")
 (require 'autoloads)
-(mapcar #'require-package required-packages)
+
+(defvar *sync-package* t)
+(if *sync-package*
+    (mapcar #'require-package required-packages))
 
 (provide 'packages)
