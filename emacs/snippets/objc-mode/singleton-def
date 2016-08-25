@@ -7,3 +7,15 @@ static ${2:id} ${3:instance};
 dispatch_once(&$1, ^{
 $3 = $0;
 });
+
+- (id)init {
+    return self;
+}
+
+- (instancetype)self {
+    return nil;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
