@@ -60,17 +60,23 @@
 
 (defun get-ppi (i-device)
   "I-DEVICE."
-  (let ((width (iphone-device-width i-device))
-        (height (iphone-device-height i-device))
-        (size (iphone-device-physical-size i-device)))
-    (/ (sqrt (+ (* width width) (* height height))) size)))
+  (interactive "XPlease input the device(iphone3gs, iphone4, iphone5, iphone6, iphone6p[-a, -b, -c]): ")
+  (let* ((width (iphone-device-width i-device))
+         (height (iphone-device-height i-device))
+         (size (iphone-device-size i-device))
+         (ppi (/ (sqrt (+ (* width width) (* height height))) size)))
+    (message "%f" ppi)
+    ppi))
 
 (defun get-logic-res (i-device)
   "I-DEVICE."
-  (let ((width (iphone-device-width i-device))
-        (height (iphone-device-height i-device))
-        (scale (iphone-device-scale i-device)))
-    `(,(/ width scale) . ,(/ height scale))))
+  (interactive "XPlease input the device(iphone3gs, iphone4, iphone5, iphone6, iphone6p[-a, -b, -c]): ")
+  (let* ((width (iphone-device-width i-device))
+         (height (iphone-device-height i-device))
+         (scale (iphone-device-scale i-device))
+         (res `(,(/ width scale) . ,(/ height scale))))
+    (message "%f" res)
+    res))
 
 (provide 'iphone)
 ;;; iphone.el ends here
