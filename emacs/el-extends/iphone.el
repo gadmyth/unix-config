@@ -75,7 +75,7 @@
          (height (iphone-device-height i-device))
          (scale (iphone-device-scale i-device))
          (res `(,(/ width scale) . ,(/ height scale))))
-    (message "%f" res)
+    (message "[%f, %f]" (car res) (cdr res))
     res))
 
 (provide 'iphone)
