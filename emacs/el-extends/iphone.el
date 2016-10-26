@@ -11,7 +11,7 @@
 
 (defvar iphone3gs (make-iphone-device
                    :width  320
-                   :height 640
+                   :height 480
                    :size 3.5
                    :scale 1))
 
