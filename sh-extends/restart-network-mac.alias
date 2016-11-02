@@ -1,0 +1,2 @@
+#!/bin/bash
+alias restart-network-mac="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder; say DNS cache flushed"
