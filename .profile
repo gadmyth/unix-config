@@ -1,5 +1,5 @@
 source ~/.bashrc
-export PATH=~/.cabal/bin:$PATH
+export PATH=.:~/.cabal/bin:$PATH
 alias emacs-debug='/Applications/Emacs.app/Contents/MacOS/Emacs --debug-init' 
 alias emacs-daemon='/Applications/Emacs.app/Contents/MacOS/Emacs -fs --daemon' 
 alias emacsclient="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --frame-parameters=\"(list (width . 234) (height . 63))\""
