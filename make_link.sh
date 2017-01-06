@@ -10,6 +10,7 @@ ln -sf unix-config/.gitconfig
 ln -sf unix-config/.gvimrc
 ln -sf unix-config/.profile
 ln -s .gvimrc .vimrc
+ln -sf unix-config/.vumrc
 ln -sf unix-config/emacs
 ln -sf unix-config/emacs.init.el
 ln -sf unix-config/mybash_profile
