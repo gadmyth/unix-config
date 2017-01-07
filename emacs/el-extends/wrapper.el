@@ -87,6 +87,11 @@
   (interactive)
   (add-pair-around-region "'" "'"))
 
+(defun wrap-back-quote ()
+  "."
+  (interactive)
+  (add-pair-around-region "`" "`"))
+
 (defun wrap-double-quote ()
   "."
   (interactive)
