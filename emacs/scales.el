@@ -25,6 +25,9 @@
         (decf *mac-scale-amount*)
         (decf *linux-scale-amount*)))))
 
+(defun manual-scale (delta)
+  (text-scale-adjust delta))
+
 (global-set-key (kbd "C-x C-=") (lambda () (interactive) (manual-scale 1)))
 (global-set-key (kbd "C-x C--") (lambda () (interactive) (manual-scale -1)))
 (global-set-key (kbd "C-x C-0") (lambda () (interactive) (manual-scale 0)))
