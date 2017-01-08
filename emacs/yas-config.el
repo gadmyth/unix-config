@@ -4,4 +4,6 @@
  (lambda ()
    (add-to-list 'yas-snippet-dirs (expand-file-name "~/emacs/snippets"))))
 
+(setq yas-indent-line 'fixed)
+
 (provide 'yas-config)
