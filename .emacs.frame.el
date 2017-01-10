@@ -63,7 +63,6 @@
 (switch-proxy nil)
 (require 'alpha)
 (transparency-set-value *default-trans-value*)
-(require 'pretty-mode+)
 (require 'org-config)
 (require 'hydra-config)
 
@@ -90,7 +89,7 @@
 			(textmate-mode)
 			(require 'xcscope)
 			(cscope-minor-mode)
-			(pretty-mode)))))
+			))))
 
 (add-hook 'after-save-hook
 		  (lambda () (if (string= (buffer-name) ".emacs")

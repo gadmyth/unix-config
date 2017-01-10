@@ -11,7 +11,7 @@
 (defvar required-packages
   (list 'alpha 'diff-hl 'windmove 'textmate 'smex 'helm-dash 'smart-compile
 		'helm 'xcscope 'org 'evil 'auto-complete 'magit
-		'ov 'evil-visualstar 'pretty-mode 'slime
+		'ov 'evil-visualstar 'slime
 		'projectile 'yasnippet 'smartparens 'multi-term
 		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck 'anything 'ac-emoji
 		'dirtree 'cal-china-x 'hydra 'window-numbering 'google-translate
