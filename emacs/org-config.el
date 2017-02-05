@@ -60,6 +60,12 @@
                 (insert-file-contents "org.css")
                 (buffer-string))))
 
+(setq org-html-head
+      (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs"))
+                (insert-file-contents "theme-readtheorg.style")
+                (buffer-string)))
+
 (defun m/org-html-checkbox (checkbox)
   "Format CHECKBOX into HTML."
   (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
@@ -80,6 +86,21 @@
 ;;; superscripts
 (setq-default org-use-sub-superscripts '{})
 (setq-default org-export-with-sub-superscripts '{})
+
+;;; babel language
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((ditaa . t)
+   (plantuml . t)
+   (dot . t)
+   ))
+
+(setq org-ditaa-jar-path (expand-file-name "~/libs/ditaa.jar"))
+(setq org-plantuml-jar-path (expand-file-name "~/libs/plantuml.jar"))
+
+(add-hook 'org-babel-after-execute-hook
+          '(lambda () (condition-case nil (org-display-inline-images) (error nil)))
+          'append)
 
 (provide 'org-config)
 ;;; org-config.el ends here
