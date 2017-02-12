@@ -49,8 +49,7 @@
          "* %A %^g %i")
         ("f" "Someday" entry (file+headline "~/org/task.org" "Someday")
          "* %?")
-        ("o" "Off Duty" entry (file+datetree "~/org/offduty.org")
-         "* %^T\n %i")))
+        ))
 
 ;;; org html config
 (setq org-html-head
@@ -70,7 +69,7 @@
   "Format CHECKBOX into HTML."
   (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
         (off "<span class=\"checkbox\">&#x2610;</span>")
-        (trans "<code>[-]</code>")
+        (trans "<span class=\"checkbox\">&#x229F;")
         (t "")))
 
 (defadvice org-html-checkbox (around sacha activate)
@@ -101,6 +100,13 @@
 (add-hook 'org-babel-after-execute-hook
           '(lambda () (condition-case nil (org-display-inline-images) (error nil)))
           'append)
+
+(setq org-confirm-babel-evaluate
+      '(lambda (lang body)
+         "LANG: , BODY."
+         (and (not (string= lang "ditaa"))
+              (not (string= lang "dot"))
+              (not (string= lang "plantuml")))))
 
 (provide 'org-config)
 ;;; org-config.el ends here
