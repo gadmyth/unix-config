@@ -75,6 +75,8 @@
 (defadvice org-html-checkbox (around sacha activate)
   (setq ad-return-value (m/org-html-checkbox (ad-get-arg 0))))
 
+(setq org-export-preserve-breaks "<br>")
+
 (eval-after-load "org"
   '(progn
 	 (setq org-startup-indented t)))
