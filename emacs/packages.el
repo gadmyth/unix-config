@@ -10,7 +10,7 @@
 (add-to-list 'load-path (expand-file-name "el-extends" "~/emacs"))
 (defvar required-packages
   (list 'alpha 'diff-hl 'windmove 'textmate 'smex 'helm-dash 'smart-compile
-		'helm 'xcscope 'org 'evil 'auto-complete 'magit
+		'helm 'xcscope 'org 'ob-restclient 'evil 'auto-complete 'magit
 		'ov 'evil-visualstar 'slime
 		'projectile 'yasnippet 'smartparens 'multi-term
 		'ace-jump-buffer 'ace-jump-mode 'elnode 'flycheck 'anything 'ac-emoji

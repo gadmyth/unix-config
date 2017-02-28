@@ -84,6 +84,12 @@
 ;;; setup org src code color
 (setq org-src-fontify-natively t)
 
+;;; src block indent
+(setq org-edit-src-content-indentation 0)
+
+;;; inline image size
+(setq org-image-actual-width nil)
+
 ;;; superscripts
 (setq-default org-use-sub-superscripts '{})
 (setq-default org-export-with-sub-superscripts '{})
@@ -94,6 +100,7 @@
  '((ditaa . t)
    (plantuml . t)
    (dot . t)
+   (restclient . t)
    ))
 
 (setq org-ditaa-jar-path (expand-file-name "~/libs/ditaa.jar"))
