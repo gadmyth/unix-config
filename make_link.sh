@@ -9,6 +9,7 @@ ln -sf unix-config/.emacs.shell.el
 ln -sf unix-config/.gitconfig
 ln -sf unix-config/.gvimrc
 ln -sf unix-config/.profile
+rm -f .vimrc
 ln -s .gvimrc .vimrc
 ln -sf unix-config/.vumrc
 ln -sf unix-config/emacs
@@ -17,3 +18,9 @@ ln -sf unix-config/mybash_profile
 ln -sf unix-config/emacs/el-extends
 ln -sf unix-config/sh-extends
 
+if [ ! -d ~/.vim ]; then
+    mkdir ~/.vim
+fi
+
+cd ~/.vim
+ln -sf ~/unix-config/vim/syntax
