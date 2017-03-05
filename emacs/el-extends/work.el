@@ -57,7 +57,8 @@
   (let* ((file (dired-get-file-for-visit))
         (formatted-line (format "[[file:%s][%s]]" file description)))
     (setq *org-cap-temp* formatted-line)
-    (visit-work-file)))
+    ;(visit-work-file)
+    ))
 
 
 
