@@ -1,3 +1,3 @@
-(load-theme 'tango)
+(load-theme 'whiteboard)
 
 (provide 'themes)
