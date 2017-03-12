@@ -65,6 +65,34 @@
                 (insert-file-contents "theme-readtheorg.style")
                 (buffer-string)))
 
+(setq org-html-head
+      (format "<style type='text/css'>%s</style><style type='text/css'>%s</style><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script>"
+              (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs/org/res"))
+                (insert-file-contents "htmlize.css")
+                (buffer-string))
+              (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs/org/res"))
+                (insert-file-contents "readtheorg.css")
+                (buffer-string))
+              (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs/org/res"))
+                (insert-file-contents "jquery.min.js")
+                (buffer-string))
+              (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs/org/res"))
+                (insert-file-contents "bootstrap.min.js")
+                (buffer-string))
+              (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs/org/res"))
+                (insert-file-contents "jquery.stickytableheaders.min.js")
+                (buffer-string))
+              (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs/org/res"))
+                (insert-file-contents "readtheorg.js")
+                (buffer-string)))
+      )
+
 (defun m/org-html-checkbox (checkbox)
   "Format CHECKBOX into HTML."
   (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
