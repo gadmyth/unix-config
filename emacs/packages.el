@@ -27,6 +27,7 @@
         'evil
         'auto-complete
         'magit
+        'git-timemachine
         'ov
         'evil-visualstar
         'slime
