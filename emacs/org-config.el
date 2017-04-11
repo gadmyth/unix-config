@@ -45,11 +45,22 @@
          "* TODO %^{Decription} %^T %^g\n %i")
         ("T" "Timeline" entry (file+datetree "~/org/timeline.org")
          "* %^{Decription} %^T %^g\n %i")
+        ("e" "event" entry (file+datetree "~/org/timeline.org")
+         "* %^{Decription} %T :event:\n %i")
+        ("r" "routine" entry (file+datetree "~/org/timeline.org")
+         "* %^{Decription} %T :routine:\n %i")
+        ("p" "problem" entry (file+datetree "~/org/timeline.org")
+         "* %^{Decription} %T :problem:\n %i")
+        ("s" "summary" entry (file+datetree "~/org/timeline.org")
+         "* %^{Decription} %T :summary:\n %i")
         ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
          "* %A %^g %i")
         ("f" "Someday" entry (file+headline "~/org/task.org" "Someday")
          "* %?")
         ))
+
+(require 'org-id)
+(setq org-id-link-to-org-use-id t)
 
 ;;; org html config
 (setq org-html-head
