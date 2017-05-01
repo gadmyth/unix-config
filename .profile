@@ -1,4 +1,3 @@
-source ~/.bashrc
 export PATH=.:~/.cabal/bin:$PATH
 alias emacs-debug='/Applications/Emacs.app/Contents/MacOS/Emacs --debug-init' 
 alias emacs-daemon='/Applications/Emacs.app/Contents/MacOS/Emacs -fs --daemon' 
@@ -13,6 +12,7 @@ export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --frame
 ##
 
 # MacPorts Installer addition on 2014-06-18_at_10:31:53: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/bin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
+source ~/.bashrc
