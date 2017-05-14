@@ -38,6 +38,7 @@
         ("initd" . "init-demo")
         ("cd" . "class-def")
         ("fd" . "func-def")
+        ("fd2" . "func2-def")
         ("gfd" . "gfunc-def")
         ("bd" . "block-declare")
         ("bi" . "block-impl")

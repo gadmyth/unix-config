@@ -2,4 +2,4 @@
 # name: string-format
 # key: string-format
 # --
-[NSString stringWithFormat:@"${1:format}"$2];$0
+[NSString stringWithFormat:@"${1:format}"$2]$0

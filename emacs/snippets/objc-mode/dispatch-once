@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: dispatch-once
-# key: dispatch-once
+# key: dispatch-once-block
 # --
 static dispatch_once_t onceToken;
 dispatch_once(&onceToken, ^{
