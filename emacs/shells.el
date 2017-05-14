@@ -9,7 +9,8 @@
   (setq exec-path
 		(append (split-string-and-unquote path ":") exec-path))) 
 
-(setq shell-command-switch "-ic")
+;; The following will cause the bash problem: "bash: shell_session_update: command not found"
+;; (setq shell-command-switch "-ic")
 
 (add-hook 'eshell-mode-hook
 		  (lambda ()
@@ -21,6 +22,5 @@
               (define-key eshell-mode-map
                 [remap eshell-pcomplete]
                 'helm-esh-pcomplete)))
-
 
 (provide 'shells)

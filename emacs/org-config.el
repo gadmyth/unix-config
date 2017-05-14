@@ -51,6 +51,8 @@
          "* %^{Decription} %T :routine:\n %i")
         ("p" "problem" entry (file+datetree "~/org/timeline.org")
          "* %^{Decription} %T :problem:\n %i")
+        ("P" "plan" entry (file+datetree "~/org/timeline.org")
+         "* %^{Decription} %T :plan:\n %i")
         ("s" "summary" entry (file+datetree "~/org/timeline.org")
          "* %^{Decription} %T :summary:\n %i")
         ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
@@ -140,6 +142,7 @@
    (plantuml . t)
    (dot . t)
    (restclient . t)
+   (sh . t)
    ))
 
 (setq org-ditaa-jar-path (expand-file-name "~/libs/ditaa.jar"))
@@ -155,6 +158,34 @@
          (and (not (string= lang "ditaa"))
               (not (string= lang "dot"))
               (not (string= lang "plantuml")))))
+
+
+(require 'ox-publish)
+(setq org-publish-project-alist
+      '(("blog-notes"
+         :base-directory "~/Documents/homo2/notes" ;存放笔记目录
+         :base-extension "org"
+         :publishing-directory "~/Documents/homo2/public_html/" ; 导出目录
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4
+         :auto-preamble t
+         :section-numbers nil
+         :author "gadmyth"
+         :email "gadmyth@gmail.com"
+         :auto-sitemap t
+         :sitemap-filename "sitemap.org"
+         :sitemap-title "Sitemap"
+         :sitemap-sort-files anti-chronologically
+         :sitemap-file-entry-format "%d %t")
+        ("blog-static"
+         :base-directory "~/Documents/homo2/notes"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-extension "~/Documents/homo2/public_html/"
+         :recursive t
+         :publishing-function org-publish-attachment)
+        ("blog" :components ("blog-notes" "blog-static"))
+        ))
 
 (provide 'org-config)
 ;;; org-config.el ends here

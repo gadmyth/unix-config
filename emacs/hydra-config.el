@@ -4,6 +4,7 @@
 
 (defhydra hydra-shell (:exit t)
   "Shell"
+  ("m" multi-term "multi-term")
   ("e" eshell "eshell")
   ("i" ielm "ielm")
   ("q" nil "cancel"))
@@ -21,5 +22,12 @@
   ("m" helm-imenu "imenu")
   ("q" nil "cancel"))
 (global-set-key (kbd "C-c h") 'hydra-helm/body)
+
+(defhydra hydra-buffer (:exit t)
+  "buffer"
+  ("t" (switch-to-buffer "timeline.org") "timeline")
+  ("w" (switch-to-buffer "wd-proj.org") "wd-proj")
+  ("q" nil "cancel"))
+(global-set-key (kbd "C-c b") 'hydra-buffer/body)
 
 (provide 'hydra-config)
