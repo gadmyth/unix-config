@@ -1,0 +1,2 @@
+#!/bin/bash
+function gphc() {  git push origin `gbrc`; }
