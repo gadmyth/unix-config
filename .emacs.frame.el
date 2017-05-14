@@ -32,6 +32,8 @@
   )
 
 (require 'codings)
+(require 'codec)
+(require 'dates)
 
 (require 'version-controll)
 (require 'helm-config)

@@ -2,8 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(defvar *wrapper-content*)
-
 (defun mk-import-at-point ()
   "."
   (interactive)
@@ -20,30 +18,6 @@
   (wrapping
    '(lambda (origin-content)
       (format format origin-content))))
-
-(defun wrapping (wrapper)
-  "WRAPPER: ."
-  (let* ((word (word-at-point))
-        (import (funcall wrapper word)))
-    (setq *wrapper-content* import)
-    (message import)))
-
-(defun output-wrapper-content ()
-  "."
-  (interactive)
-  (when *wrapper-content*
-    (insert-string *wrapper-content*)
-    (setq *wrapper-content* nil)))
-
-(defun wrap-line-with-oc-method ()
-  "."
-  (interactive)
-  (save-excursion
-    (re-search-backward "^" nil t)
-    (re-search-forward " *" nil t 1)
-    (insert "[")
-    (re-search-forward "$" nil t 1)
-    (insert "];")))
 
 (defun add-pair-around-region (pair-left pair-right)
   "PAIR-LEFT: , PAIR-RIGHT: ."
