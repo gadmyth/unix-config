@@ -26,8 +26,8 @@
     (re-search-forward " *" nil t 1)
     (insert "[")
     (re-search-forward "$" nil t 1)
-    (insert "];")
-    (end-of-line)))
+    (insert "];"))
+  (end-of-line))
 
 (defun wrap-right-part-with-oc-method ()
   "."

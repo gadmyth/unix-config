@@ -46,30 +46,27 @@
   (interactive)
   (add-pair-around-region "(" ")"))
 
-(defun wrap-bracket ()
-  "."
-  (interactive)
-  (add-pair-around-region "[" "]"))
-
-(defun wrap-brace ()
-  "."
-  (interactive)
-  (add-pair-around-region "{" "}"))
-
-(defun wrap-single-quote ()
-  "."
-  (interactive)
-  (add-pair-around-region "'" "'"))
-
-(defun wrap-back-quote ()
-  "."
-  (interactive)
-  (add-pair-around-region "`" "`"))
-
-(defun wrap-double-quote ()
-  "."
-  (interactive)
-  (add-pair-around-region "\"" "\""))
+(defun wrap-pair (one-pair)
+  "ONE-PAIR: ."
+  (interactive "sPlease input one pair: ")
+  (cond ((or (string-equal one-pair "(")
+             (string-equal one-pair ")"))
+         (wrap-paren))
+        ((or (string-equal one-pair "[")
+             (string-equal one-pair "]"))
+         (add-pair-around-region "[" "]"))
+        ((or (string-equal one-pair "{")
+             (string-equal one-pair "}"))
+         (add-pair-around-region "{" "}"))
+        ((or (string-equal one-pair "<")
+             (string-equal one-pair ">"))
+         (add-pair-around-region "<" ">"))
+        ((string-equal one-pair "`")
+         (add-pair-around-region "`" "`"))
+        ((string-equal one-pair "'")
+         (add-pair-around-region "'" "'"))
+        ((string-equal one-pair "\"")
+         (add-pair-around-region "\"" "\""))))
 
 (defun wrap-p-pair ()
   "."

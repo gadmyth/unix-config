@@ -25,6 +25,7 @@
         'xcscope
         'org
         'ob-restclient
+        'htmlize
         'evil
         'auto-complete
         'magit

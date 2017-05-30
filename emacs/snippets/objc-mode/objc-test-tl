@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: objc-test-template
-# key: objc-test-tl
+# key: objc-test-template
 # --
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>

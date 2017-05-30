@@ -25,12 +25,7 @@
 (global-unset-key (kbd "C-SPC"))
 (require 'irc-config)
 (require 'tab-config)
-(when (eq window-system 'x)
-  (setq x-select-enable-clipboard t)
-  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-  (setq x-stretch-cursor t)
-  )
-
+(require 'clipboard)
 (require 'codings)
 (require 'codec)
 (require 'dates)
@@ -114,6 +109,7 @@
 (require 'redis-config)
 (require 'sudo-edit)
 (require 'web-config)
+(require 'smart-compile-config)
 	          
 (require 'frames)
 (maximize-frame (selected-frame))
