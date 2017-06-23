@@ -23,6 +23,13 @@
     (message date-str)
     date-str))
 
+(defun org-current-timestamp ()
+  "."
+  (interactive)
+  (let ((ct (format-time-string "%Y-%m-%d %a %H:%M" (current-time))))
+    (message ct)
+    ct))
+
 
 (provide 'dates)
 ;;; dates.el ends here
