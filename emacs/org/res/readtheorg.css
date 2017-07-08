@@ -1,6 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700);
 @import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
 
+* {
+    text-align: justify !important;
+}
+
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
@@ -323,6 +327,11 @@ code{
     background:#fff;
     margin:1px 0 24px 0}
 
+pre {
+    border-radius: 4px !important;
+    box-shadow: 0px 0px 0px #eee !important;
+}
+
 pre.src{
     /* color:#404040; */
     display:block;
@@ -378,11 +387,13 @@ table caption{
 }
 
 table tr:nth-child(2n-1) td{
-    background-color:#f3f6f6;
+    /*background-color:#f3f6f6;*/
+    background-color:#fcfcfc;
 }
 
 table tr:nth-child(2n) td{
-    background-color:white;
+    /*background-color:white;*/
+    background-color:#fcfcfc;
 }
 
 .figure p{
@@ -1055,3 +1066,22 @@ h2.footnotes{
     padding: 9px 12px;
     margin-bottom: 24px;
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.info-icon {
+    color: #13ce66;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.warning-icon {
+    color: #f1ba00;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.error-icon {
+    color: #ff6262;
+    margin-left: 5px;
+    margin-right: 5px;
+}

@@ -79,7 +79,7 @@
                 (buffer-string)))
 
 (setq org-html-head
-      (format "<style type='text/css'>%s</style><style type='text/css'>%s</style><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script>"
+      (format "<style type='text/css'>%s</style><style type='text/css'>%s</style><style type='text/css'>%s</style><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script>"
               (with-temp-buffer
                 (setq default-directory (expand-file-name "~/emacs/org/res"))
                 (insert-file-contents "htmlize.css")
@@ -87,6 +87,10 @@
               (with-temp-buffer
                 (setq default-directory (expand-file-name "~/emacs/org/res"))
                 (insert-file-contents "readtheorg.css")
+                (buffer-string))
+              (with-temp-buffer
+                (setq default-directory (expand-file-name "~/emacs/org/res"))
+                (insert-file-contents "icon.css")
                 (buffer-string))
               (with-temp-buffer
                 (setq default-directory (expand-file-name "~/emacs/org/res"))
@@ -186,6 +190,10 @@
          :publishing-function org-publish-attachment)
         ("blog" :components ("blog-notes" "blog-static"))
         ))
+
+;;; mobile org
+;(setq org-mobile-directory "/usr/uploads/")
+;(setq org-mobile-use-encryption t)
 
 (provide 'org-config)
 ;;; org-config.el ends here
