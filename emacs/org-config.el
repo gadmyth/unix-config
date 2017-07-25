@@ -79,7 +79,8 @@
                 (buffer-string)))
 
 (setq org-html-head
-      (format "<style type='text/css'>%s</style><style type='text/css'>%s</style><style type='text/css'>%s</style><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script>"
+      (format "%s<style type='text/css'>%s</style><style type='text/css'>%s</style><style type='text/css'>%s</style><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script>"
+              "<link rel=\"shortcut icon\" href=\"images/favicon.ico\" type=\"image/x-icon\">"
               (with-temp-buffer
                 (setq default-directory (expand-file-name "~/emacs/org/res"))
                 (insert-file-contents "htmlize.css")

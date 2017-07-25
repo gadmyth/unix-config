@@ -1,8 +1,8 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700);
-@import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
+/*@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700);*/
+/*@import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);*/
 
 * {
-    text-align: justify !important;
+    text-align: justify;
 }
 
 h1,h2,h3,h4,h5,h6,legend{
@@ -741,7 +741,7 @@ hr{
     width:300px;
     overflow-x:hidden;
     overflow-y:scroll;
-    height:100%;
+    height:85%;
     background:#fafafa;
     z-index:200;
     scrollbar-base-color: #1F1D1D;
@@ -855,6 +855,7 @@ footer p{
     bottom:0;
     left:0;
     width:300px;
+    height: 15%;
     color:#fcfcfc;
     background:#2980B9;
     /*border-top:solid 10px #343131;*/
@@ -990,7 +991,7 @@ h2.footnotes{
 
 .footnum, .footref{
     color: #2980b9;
-    font-size: 170%;
+    /*font-size: 170%;*/
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
