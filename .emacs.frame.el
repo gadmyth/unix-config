@@ -11,6 +11,7 @@
 (customized-dir-init)
 
 (require 'mode-bars)
+(require 'fonts)
 (require 'themes)
 
 (require 'shells)

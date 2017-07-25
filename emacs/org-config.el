@@ -195,5 +195,12 @@
 ;(setq org-mobile-directory "/usr/uploads/")
 ;(setq org-mobile-use-encryption t)
 
+;;; font, make the org table the right align
+(require 'fonts)
+
+(when-font-exist
+ "Ubuntu Mono"
+ (custom-set-faces `(org-table ((t (:foreground "#6c71c4" :family ,font-name))))))
+
 (provide 'org-config)
 ;;; org-config.el ends here
