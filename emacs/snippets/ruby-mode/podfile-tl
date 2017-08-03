@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: podfile-tl
+# key: podfile-tl
+# --
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '8.0'
+
+target '${1:ProjectName}' do
+    pod '${10:PodName}', '~> ${11:1.0.0}', :inhibit_warnings => true
+    #pod 'PodName', :git=>'${20:<Pod Repo>}', :tag=>'${21:0.0.1}'
+end
