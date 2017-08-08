@@ -46,6 +46,8 @@
       do
       (with-current-buffer (find-file-noselect org-file)
         (progn
+          (when (string-equal mode-name "not loaded yet")
+            (revert-buffer nil t))
           (setq org-export-show-temporary-export-buffer nil)
           (let ((exported-buffer (org-html-export-as-html)))
             (setq org-export-show-temporary-export-buffer t)
