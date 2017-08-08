@@ -168,25 +168,26 @@
 (require 'ox-publish)
 (setq org-publish-project-alist
       '(("blog-notes"
-         :base-directory "~/Documents/homo2/notes" ;存放笔记目录
+         :base-directory "~/org/homogenius" ;存放笔记目录
          :base-extension "org"
-         :publishing-directory "~/Documents/homo2/public_html/" ; 导出目录
+         :publishing-directory "~/org/homo_public_html/" ; 导出目录
          :recursive t
          :publishing-function org-html-publish-to-html
          :headline-levels 4
          :auto-preamble t
-         :section-numbers nil
+         :section-numbers t
          :author "gadmyth"
          :email "gadmyth@gmail.com"
+         :with-email t
          :auto-sitemap t
-         :sitemap-filename "sitemap.org"
-         :sitemap-title "Sitemap"
+         :sitemap-filename "index.org"
+         :sitemap-title "Gadmyth Workspace"
          :sitemap-sort-files anti-chronologically
          :sitemap-file-entry-format "%d %t")
         ("blog-static"
-         :base-directory "~/Documents/homo2/notes"
-         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-         :publishing-extension "~/Documents/homo2/public_html/"
+         :base-directory "~/org/homogenius"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|ico\\|pdf\\|mp3\\|mp4\\|ogg\\|swf"
+         :publishing-directory "~/org/homo_public_html/"
          :recursive t
          :publishing-function org-publish-attachment)
         ("blog" :components ("blog-notes" "blog-static"))

@@ -2,8 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(eval-when-compile (require 'cl))
-
 (require 'elnode)
 
 (defvar server-dir "~/server")
@@ -37,27 +35,23 @@
    (with-current-buffer org
      (buffer-substring-no-properties (point-min) (point-max)))))
 
-(defconst my-org-dir "~/org/doc/")
-(defun my-org-dir-handler (httpcon)
-  "HTTPCON: ."
-  (elnode-docroot-for my-org-dir
-	with org-file
-	on httpcon
-    do
-    (with-current-buffer (find-file-noselect org-file)
-         (progn
-           (setq org-export-show-temporary-export-buffer nil)
-           (let ((exported-buffer (org-html-export-as-html)))
-             (setq org-export-show-temporary-export-buffer t)
-             (with-current-buffer exported-buffer
-               (let ((org-html (buffer-substring-no-properties (point-min) (point-max))))
-                 (elnode-send-html httpcon org-html))))))))
-
-(defconst my-org-image-dir "~/org/doc/images/")
-(setq org-dir-image-handler (elnode-webserver-handler-maker my-org-image-dir))
-(defun my-org-dir-image-handler (httpcon)
-  "HTTPCON: ."
-  (funcall org-dir-image-handler httpcon))
+(defmacro org-dir-handler-maker (dir)
+  "DIR: ."
+  "This body must be a macro, because elnode-docroot-for is a macro, the dir should be evaluated."
+  (byte-compile
+  `(lambda (httpcon)
+    (elnode-docroot-for ,dir
+      with org-file
+      on httpcon
+      do
+      (with-current-buffer (find-file-noselect org-file)
+        (progn
+          (setq org-export-show-temporary-export-buffer nil)
+          (let ((exported-buffer (org-html-export-as-html)))
+            (setq org-export-show-temporary-export-buffer t)
+            (with-current-buffer exported-buffer
+              (let ((org-html (buffer-substring-no-properties (point-min) (point-max))))
+                (elnode-send-html httpcon org-html))))))))))
 
 (defun my-elnode-editor-update-handler (httpcon)
   "HTTPCON: ."
@@ -73,12 +67,14 @@
   (elnode-http-return httpcon))
 
 (setq my-elnode-editor-urls
-  '(("^/text/$" . my-elnode-editor-handler)
-    ("^/update/\\(.*\\)" . my-elnode-editor-update-handler)
-	;("^/org/$" . my-org-handler)
-    ("^/orgs/images/\\(.*\\)" . my-org-dir-image-handler)
-	("^/orgs/\\(.*\\.org\\)" . my-org-dir-handler)
-	("/$" . my-elnode-editor-webserver-handler)))
+  `(("^/orgs/\\(.*\\.org\\)$" . ,(org-dir-handler-maker "~/org/doc/"))
+    ("^/orgs/\\(.*\\.\\(png\\|gif\\|mp4\\|jpeg\\|jpg\\|ico\\)\\)$" . ,(elnode-webserver-handler-maker "~/org/doc/"))
+    ("^/homo/\\(.*\\.org\\)$" . ,(org-dir-handler-maker "~/org/homogenius/"))
+    ("^/homo/\\(.*\\.\\(png\\|gif\\|mp4\\|jpeg\\|jpg\\|ico\\)\\)$" . ,(elnode-webserver-handler-maker "~/org/homogenius/"))
+    ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))
+    ("^/$" . my-elnode-editor-webserver-handler)
+    ("^/text/$" . my-elnode-editor-handler)
+    ("^/update/\\(.*\\)$" . my-elnode-editor-update-handler)))
 
 (defun my-elnode-editor-dispatcher-handler (httpcon)
   "HTTPCON: ."

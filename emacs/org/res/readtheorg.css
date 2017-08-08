@@ -1055,6 +1055,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: #fff;
+}
+
+.timestamp-wrapper .timestamp {
     color: navy;
 }
 
