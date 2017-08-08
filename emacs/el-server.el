@@ -4,6 +4,54 @@
 
 (require 'elnode)
 
+(defun current-ip ()
+  "."
+  (interactive)
+  (let* ((ruby-command-string "print Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address")
+         (shell-command-string (format "ruby -r socket -e \"%s\"" ruby-command-string))
+         (result (shell-command-to-string shell-command-string)))
+    (message result)))
+
+(defun elnode--ip-host (ip-addr)
+  "IP-ADDR: ."
+  (destructuring-bind (a b c d port)
+      (mapcar 'identity ip-addr)
+    (format "%s.%s.%s.%s" a b c d)))
+
+(defun elnode--ip-port (ip-addr)
+  "IP-ADDR: ."
+  (destructuring-bind (a b c d port)
+      (mapcar 'identity ip-addr)
+    port))
+
+(defun elnode-remote-host (httpcon)
+  "HTTPCON: ."
+  (elnode--ip-host
+   (plist-get
+    (process-contact httpcon t)
+    :remote)))
+
+(defun elnode-remote-port (httpcon)
+  "HTTPCON: ."
+  (elnode--ip-port
+   (plist-get
+    (process-contact httpcon t)
+    :remote)))
+
+(defun elnode-local-host (httpcon)
+  "HTTPCON: ."
+  (elnode--ip-host
+   (plist-get
+    (process-contact (process-get httpcon :server) t)
+    :local)))
+
+(defun elnode-local-port (httpcon)
+  "HTTPCON: ."
+  (elnode--ip-port
+   (plist-get
+    (process-contact (process-get httpcon :server) t)
+    :local)))
+
 (defvar server-dir "~/server")
 (defconst my-elnode-editor-webserver-handler (elnode-webserver-handler-maker server-dir))
 
@@ -48,12 +96,27 @@
         (progn
           (when (string-equal mode-name "not loaded yet")
             (revert-buffer nil t))
-          (setq org-export-show-temporary-export-buffer nil)
-          (let ((exported-buffer (org-html-export-as-html)))
-            (setq org-export-show-temporary-export-buffer t)
-            (with-current-buffer exported-buffer
-              (let ((org-html (buffer-substring-no-properties (point-min) (point-max))))
-                (elnode-send-html httpcon org-html))))))))))
+          (message "remote: %s" (elnode-get-remote-ipaddr httpcon))
+          (message "local: %s" (elnode-server-info httpcon))
+          (let ((remote-host (elnode-remote-host httpcon))
+                (remote-port (elnode-remote-port httpcon))
+                (local-host (elnode-local-host httpcon))
+                (local-port (elnode-local-port httpcon)))
+            (message (format "remote host: %s, remote port: %s" remote-host remote-port))
+            (message (format "local host: %s, local port: %s" local-host local-port))
+            (if (or (equal "0.0.0.0" remote-host)
+                    (equal "127.0.0.1" remote-host)
+                    (equal "localhost" remote-host))
+                (let ((new-url (format "http://%s:%s%s" (current-ip) local-port (elnode-http-pathinfo httpcon))))
+                  (message "new server: %s" new-url)
+                  (elnode-send-redirect httpcon new-url))
+              (progn
+                (setq org-export-show-temporary-export-buffer nil)
+                (let ((exported-buffer (org-html-export-as-html)))
+                  (setq org-export-show-temporary-export-buffer t)
+                  (with-current-buffer exported-buffer
+                    (let ((org-html (buffer-substring-no-properties (point-min) (point-max))))
+                      (elnode-send-html httpcon org-html)))))))))))))
 
 (defun my-elnode-editor-update-handler (httpcon)
   "HTTPCON: ."
