@@ -54,6 +54,7 @@
         'js2-refactor
         'web-mode
         'emmet-mode
+        'json-reformat
         'sudo-edit))
 (setq generated-autoload-file "~/emacs/autoloads.el")
 (update-directory-autoloads "~/emacs")
