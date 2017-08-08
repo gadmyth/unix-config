@@ -148,6 +148,8 @@
    (dot . t)
    (restclient . t)
    (sh . t)
+   (ruby . t)
+   (python . t)
    ))
 
 (setq org-ditaa-jar-path (expand-file-name "~/libs/ditaa.jar"))
