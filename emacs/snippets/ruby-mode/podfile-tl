@@ -7,6 +7,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target '${1:ProjectName}' do
-    pod '${10:PodName}', '~> ${11:1.0.0}', :inhibit_warnings => true
-    #pod 'PodName', :git=>'${20:<Pod Repo>}', :tag=>'${21:0.0.1}'
+    pod '${10:PodName}', '~> ${15:0.0.1}'
+    #pod 'PodName', :git=>'<Pod Repo>', :tag=>'0.0.1', :inhibit_warnings => true
+    #pod 'PodName', :path=>'<Local Repo Path>'
 end
