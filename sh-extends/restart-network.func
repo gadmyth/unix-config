@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function restart-network() {
+    if type -p systemctl; then
+        restart-network-fedora
+    elif type -p dscacheutil; then
+        restart-network-mac
+    else
+        echo "Can't resatr-network for" `uname`
+    fi
+}
