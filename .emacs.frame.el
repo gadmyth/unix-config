@@ -114,7 +114,7 @@
 (require 'smart-compile-config)
 	          
 (require 'frames)
-(maximize-frame (selected-frame))
+(toggle-frame-maximized)
 (message "end : %.2f" (float-time (time-since ts-init)))
 
 (provide '.emacs.frame)

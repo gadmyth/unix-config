@@ -2,16 +2,22 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'frame)
+
 (defvar *max-frame-width* 0)
 (defvar *max-frame-height* 0)
 
-(defun maximize-frame (frame)
-  "FRAME: ."
-  (set-frame-parameter frame 'fullscreen 'maximized)
-  (setq *max-frame-width*  (frame-width frame)
-        *max-frame-height* (frame-height frame)))
+(defadvice toggle-frame-maximized (after mark-frame-maxsize activate)
+  "AFTER: , ACTIVATE: ."
+  (message "toggle-frame-maximized advice")
+  (let* ((frame (selected-frame))
+         (fullscreen-value (frame-parameter frame 'fullscreen)))
+    (if (or (eq fullscreen-value 'maximized)
+            (eq fullscreen-value 'fullboth))
+        (setq *max-frame-width*  (frame-width frame)
+              *max-frame-height* (frame-height frame)))))
 
-(add-to-list 'after-make-frame-functions 'maximize-frame)
+(add-to-list 'after-make-frame-functions 'toggle-frame-maximized)
 
 (defun set-suitable-frame-size ()
   "."
