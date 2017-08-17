@@ -7,15 +7,17 @@
 (defvar *max-frame-width* 0)
 (defvar *max-frame-height* 0)
 
-(defadvice toggle-frame-maximized (after mark-frame-maxsize activate)
+(defadvice toggle-frame-maximized (before mark-frame-maxsize activate)
   "AFTER: , ACTIVATE: ."
   (message "toggle-frame-maximized advice")
   (let* ((frame (selected-frame))
          (fullscreen-value (frame-parameter frame 'fullscreen)))
-    (if (or (eq fullscreen-value 'maximized)
+    (message "width: %d, height: %d, %s" (frame-width frame) (frame-height frame) fullscreen-value)
+    (when (or (eq fullscreen-value 'maximized)
             (eq fullscreen-value 'fullboth))
         (setq *max-frame-width*  (frame-width frame)
-              *max-frame-height* (frame-height frame)))))
+              *max-frame-height* (frame-height frame))
+        (message "max-width: %d, max-height: %d" *max-frame-width* *max-frame-height*))))
 
 (add-to-list 'after-make-frame-functions 'toggle-frame-maximized)
 
