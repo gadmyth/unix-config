@@ -25,6 +25,7 @@
         'xcscope
         'org
         'ob-restclient
+        'gnuplot
         'htmlize
         'evil
         'auto-complete
@@ -55,7 +56,10 @@
         'web-mode
         'emmet-mode
         'json-reformat
+        'jq-mode
         'sudo-edit))
+
+(require 'autoload)
 (setq generated-autoload-file "~/emacs/autoloads.el")
 (update-directory-autoloads "~/emacs")
 (kill-buffer "autoloads.el")

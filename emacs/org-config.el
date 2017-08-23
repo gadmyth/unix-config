@@ -150,6 +150,8 @@
    (sh . t)
    (ruby . t)
    (python . t)
+   (gnuplot . t)
+   (jq . t)
    ))
 
 (setq org-ditaa-jar-path (expand-file-name "~/libs/ditaa.jar"))
@@ -164,7 +166,9 @@
          "LANG: , BODY."
          (and (not (string= lang "ditaa"))
               (not (string= lang "dot"))
-              (not (string= lang "plantuml")))))
+              (not (string= lang "plantuml"))
+              (not (string= lang "gnuplot"))
+              )))
 
 
 (require 'ox-publish)
