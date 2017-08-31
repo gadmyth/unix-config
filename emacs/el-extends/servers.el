@@ -39,12 +39,12 @@
                     (let ((org-html (buffer-substring-no-properties (point-min) (point-max))))
                       (elnode-send-html httpcon org-html)))))))))))))
 
-(setq my-default-elnode-url-mapping-table
-  `(("^/orgs/\\(.*\\.org\\)$" . ,(org-dir-handler-maker "~/org/doc/"))
-    ("^/orgs/\\(.*\\.\\(png\\|gif\\|mp4\\|jpeg\\|jpg\\|ico\\)\\)$" . ,(elnode-webserver-handler-maker "~/org/doc/"))
-    ("^/homo/\\(.*\\.org\\)$" . ,(org-dir-handler-maker "~/org/homogenius/"))
-    ("^/homo/\\(.*\\.\\(png\\|gif\\|mp4\\|jpeg\\|jpg\\|ico\\)\\)$" . ,(elnode-webserver-handler-maker "~/org/homogenius/"))
-    ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))))
+(my-elnode-add-handlers
+ `(("^/orgs/\\(.*\\.org\\)$" . ,(org-dir-handler-maker "~/org/doc/"))
+   ("^/orgs/\\(.*\\.\\(png\\|gif\\|mp4\\|jpeg\\|jpg\\|ico\\)\\)$" . ,(elnode-webserver-handler-maker "~/org/doc/"))
+   ("^/homo/\\(.*\\.org\\)$" . ,(org-dir-handler-maker "~/org/homogenius/"))
+   ("^/homo/\\(.*\\.\\(png\\|gif\\|mp4\\|jpeg\\|jpg\\|ico\\)\\)$" . ,(elnode-webserver-handler-maker "~/org/homogenius/"))
+   ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))))
 
 (provide 'servers)
 ;;; servers.el ends here

@@ -52,7 +52,12 @@
     (process-contact (process-get httpcon :server) t)
     :local)))
 
-(defvar my-default-elnode-url-mapping-table)
+(defvar my-default-elnode-url-mapping-table '())
+
+(defun my-elnode-add-handlers (handlers)
+  "HANDLERS: ."
+  (dolist (handler handlers)
+    (add-to-list 'my-default-elnode-url-mapping-table handler)))
 
 (defun my-default-elnode-dispatcher-handler (httpcon)
   "HTTPCON: ."
