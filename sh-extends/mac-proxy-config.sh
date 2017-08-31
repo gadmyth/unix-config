@@ -1,20 +1,20 @@
 #!/bin/bash
 
-function mac-wifi-proxy-on() {
+function turn-on-mac-wifi-proxy() {
     sudo networksetup -setsecurewebproxystate 'Wi-Fi' on
     sudo networksetup -setwebproxystate 'Wi-Fi' on
 }
 
-function mac-wifi-proxy-off() {
+function turn-off-mac-wifi-proxy() {
     sudo networksetup -setsecurewebproxystate 'Wi-Fi' off
     sudo networksetup -setwebproxystate 'Wi-Fi' off
 }
 
-function mac-wifi-autoproxy-on() {
+function turn-on-mac-wifi-autoproxy() {
     sudo networksetup -setautoproxyurl 'Wi-Fi' "http://autoproxy.wanda.cn/proxy.pac"
 }
 
-function mac-wifi-autoproxy-off() {
+function turn-off-mac-wifi-autoproxy() {
     sudo networksetup -setautoproxystate 'Wi-Fi' off
 }
 
