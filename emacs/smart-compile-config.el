@@ -9,7 +9,7 @@
   "."
   (interactive)
   (with-current-buffer (current-buffer)
-    (let* ((command (format "clang -fobjc-arc -framework Foundation -rewrite-objc -w %s" buffer-file-name))
+    (let* ((command (format "clang -fobjc-arc -framework Foundation -rewrite-objc -mmacosx-version-min=10.7 -fobjc-runtime=macosx-10.7 -w %s" buffer-file-name))
            (result (shell-command-to-string command)))
       (message command)
       (message result))))
