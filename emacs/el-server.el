@@ -3,6 +3,7 @@
 ;;; Code:
 
 (require 'elnode)
+(require 'mimes)
 
 (defun current-ip ()
   "."
