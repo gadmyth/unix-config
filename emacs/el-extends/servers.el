@@ -13,7 +13,7 @@
        on httpcon
        do
        (if (not (string-suffix-p "org" org-file))
-           (elnode-send-file httpcon org-file)
+           (elnode--webserver-handler-proc httpcon ,dir elnode-webserver-extra-mimetypes)
          (with-current-buffer (find-file-noselect org-file)
            (progn
              (when (string-equal mode-name "not loaded yet")
