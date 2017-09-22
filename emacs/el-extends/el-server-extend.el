@@ -1,4 +1,4 @@
-;;; package --- servers.el
+;;; package --- el-server-extend.el
 ;;; Commentary:
 ;;; Code:
 
@@ -67,5 +67,5 @@
    ("^/homo/\\(.*\\.org\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))
    ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))))
 
-(provide 'servers)
-;;; servers.el ends here
+(provide 'el-server-extend)
+;;; el-server-extend.el ends here
