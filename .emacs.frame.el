@@ -96,6 +96,7 @@
 (require 'evil-config)
 
 (require 'el-server)
+(require 'el-server-extend)
 (require 'servers)
 (require 'key-bindings)
 (require 'holiday-config)
