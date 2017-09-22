@@ -12,8 +12,7 @@
        with org-file
        on httpcon
        do
-       (message "remote: %s" (elnode-remote-ipaddr httpcon))
-       (message "local: %s" (elnode-server-info httpcon))
+       (message (format "\nrequest: http://%s%s\n" (elnode-http-header httpcon "Host") (elnode-http-pathinfo httpcon)))
        (let ((remote-host (elnode-remote-host httpcon))
              (remote-port (elnode-remote-port httpcon))
              (local-host (elnode-local-host httpcon))
