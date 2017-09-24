@@ -17,10 +17,4 @@
             (evil-mode)
 			(evil-emacs-state)))
 
-(add-hook 'eshell-mode-hook
-          #'(lambda ()
-              (define-key eshell-mode-map
-                [remap eshell-pcomplete]
-                'helm-esh-pcomplete)))
-
 (provide 'shells)

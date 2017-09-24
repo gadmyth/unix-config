@@ -125,7 +125,8 @@
 
 (eval-after-load "org"
   '(progn
-	 (setq org-startup-indented t)))
+	 (setq org-startup-indented t)
+     (setq org-startup-folded "showall")))
 
 ;;; setup org src code color
 (setq org-src-fontify-natively t)

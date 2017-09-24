@@ -18,10 +18,8 @@
         'textmate
         'smex
         'swiper
-        'helm-dash
-        'smart-compile
-        'helm
         'counsel
+        'smart-compile
         'xcscope
         'org
         'ob-restclient

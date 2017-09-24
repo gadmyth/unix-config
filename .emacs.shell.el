@@ -20,11 +20,6 @@
 (setq-default tab-width 4)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;;; helm
-(eval-after-load "helm" '(setq helm-split-window-default-side 'right))
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-(setf helm-buffers-fuzzy-matching t)
-
 ;;; diff
 (require 'diff-hl)
 (global-diff-hl-mode t)

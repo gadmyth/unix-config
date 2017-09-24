@@ -20,7 +20,4 @@
                                           (find-file (concatenate 'string prename ".m"))))))))
 
 
-(require 'helm)
-(global-set-key (kbd "<f4>") 'helm-buffers-list)
-
 (provide 'key-bindings)

@@ -1,3 +1,7 @@
+;;; package --- utility.el
+;;; Commentary:
+;;; Code:
+
 (eval-when-compile (require 'cl))
 
 ;;;###autoload
@@ -79,7 +83,6 @@
 (global-set-key (kbd "C-c C-m") 'goto-main-window)
 (global-set-key (kbd "C-c RET") 'swap-to-main-window)
 (global-set-key (kbd "C-c C-n") 'goto-next-window)
-(global-set-key (kbd "C-c C-l") 'helm-buffers-list)
 (global-set-key (kbd "C-c C-f") 'ido-find-file)
 
 (defun get-workspace (index from-end)
@@ -137,3 +140,4 @@
 		*must-loading-files*))
 
 (provide 'utility)
+;;; utility.el ends here

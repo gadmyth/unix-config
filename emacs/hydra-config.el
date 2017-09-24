@@ -14,15 +14,6 @@
   ("q" nil "cancel"))
 (global-set-key (kbd "C-c C-r") 'hydra-launcher/body)
 
-(require 'helm)
-(defhydra hydra-helm (:exit t)
-  "helm"
-  ("o" helm-occur "occur")
-  ("r" helm-resume "resume")
-  ("m" helm-imenu "imenu")
-  ("q" nil "cancel"))
-(global-set-key (kbd "C-c h") 'hydra-helm/body)
-
 (defhydra hydra-buffer (:exit t)
   "buffer"
   ("t" (switch-to-buffer "timeline.org") "timeline")
