@@ -1,3 +1,7 @@
+;;; package --- windows.el
+;;; Commentary:
+;;; Code:
+
 (global-linum-mode t)
 (global-visual-line-mode t)
 (global-auto-revert-mode t)
@@ -13,4 +17,14 @@
 (windmove-default-keybindings)
 (window-numbering-mode 1)
 
+
+(defun quit-help-window ()
+  "."
+  (interactive)
+  (if-let ((help-window (get-buffer-window "*Help*")))
+      (quit-window nil help-window)))
+
+(global-set-key (kbd "C-x q") 'quit-help-window)
+
 (provide 'windows)
+;;; windows.el ends here
