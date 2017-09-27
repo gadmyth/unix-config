@@ -1,3 +1,9 @@
+;;; package --- files-config.el
+;;; Commentary:
+;;; Code:
+
+(require 'ivy)
+
 (defun new-buffer (name)
   (interactive (list (read-string "Create buffer(*scratch*): " nil nil "*scratch*")))
   (let ((buffer (generate-new-buffer name)))
@@ -14,6 +20,13 @@
           (funcall (and initial-major-mode))
           (setq buffer-offer-save t))
       (message (format "The buffer %s doesn't exist!" name)))))
+
+(defun switch-to-customized-dir ()
+  "."
+  (interactive)
+  (ivy-read "Switch to dir: " *customized-dir*
+            :action (lambda (dir)
+                      (dired dir))))
 
 (defvar +customized-dir-file-name+ "~/.customized-dir-save")
 (defvar +dired-al-mode-header+ "  drwx------.  0 user user     4096 Mar  0 00:00 ")
@@ -91,7 +104,7 @@
   (add-hook 'kill-emacs-hook 'save-customized-dir-without-confirm)
   (load-customized-dir))
 
-(global-set-key (kbd "C-x <f1>") 'customized-dired)
+(global-set-key (kbd "C-x <f1>") 'switch-to-customized-dir)
 (global-set-key (kbd "C-x <f2>") 'switch-buffer)
 (global-set-key (kbd "C-x <f4>") 'new-buffer)
 
@@ -118,3 +131,4 @@
 
 
 (provide 'files-config)
+;;; files-config.el ends here
