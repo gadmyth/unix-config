@@ -55,6 +55,8 @@
         'emmet-mode
         'json-reformat
         'jq-mode
+        'narrow-indirect
+        'multifiles
         'sudo-edit))
 
 (require 'autoload)
