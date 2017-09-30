@@ -2,7 +2,7 @@
 (setq *MAIN-BUFFER* ".emacs")
 (global-set-key (kbd "<f1>") '(lambda () (interactive) (switch-to-buffer *MAIN-BUFFER*)))
 (global-set-key (kbd "<f1>") 'previous-buffer)
-(global-set-key (kbd "<f1>") 'my-evil-show-marks)
+(global-set-key (kbd "<f1>") 'ivy-evil-show-marks)
 (global-set-key (kbd "<f2>") 'evil-buffer)
 (global-set-key (kbd "<f3>") '(lambda () (interactive) (with-current-buffer (setq *MAIN-BUFFER* (buffer-name)))))
 (global-set-key (kbd "<f3>") 'next-buffer)

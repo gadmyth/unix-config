@@ -112,6 +112,50 @@ corresponding to the characters of this string are shown."
                                        (,(nth 3 m))]))
       :select-action #'my-evil--show-marks-select-action)))
 
+
+(defun ivy-evil-show-marks ()
+  "Show evil-marks with ivy-read."
+  (interactive)
+  (let ((all-markers
+         ;; get global and local marks
+         (append (cl-remove-if (lambda (m)
+                                 (or (evil-global-marker-p (car m))
+                                     (not (markerp (cdr m)))))
+                               evil-markers-alist)
+                 (cl-remove-if (lambda (m)
+                                 (or (not (evil-global-marker-p (car m)))
+                                     (not (markerp (cdr m)))))
+                               (default-value 'evil-markers-alist)))))
+    ;; map marks to list of 4-tuples (char row col file)
+    (setq all-markers
+          (mapcar (lambda (m)
+                    (with-current-buffer (marker-buffer (cdr m))
+                      (save-excursion
+                        (goto-char (cdr m))
+                        (beginning-of-line)
+                        (list (car m)
+                              (line-number-at-pos (point))
+                              (string-trim (buffer-substring (point) (line-end-position)))
+                              (buffer-name)))))
+                  all-markers))
+    ;; map marks to ivy-marks
+    (setq all-markers
+          (mapcar (lambda (m)
+                      (let* ((mark (car m))
+                             (line-number (cadr m))
+                             (content (caddr m))
+                             (buffername (cadddr m))
+                             (mark-show-line (format "%c\t\t%s\t\t%s" mark content buffername)))
+                      (list mark-show-line m)))
+                  all-markers))
+
+    (ivy-read "goto evil marks: " all-markers
+              :initial-input "^"
+              :action (lambda (result)
+                        (let ((marker (cadr result)))
+                          (evil-goto-mark (car marker)))))))
+
+
 (defun my-evil--show-marks-select-action (entry)
   (kill-this-buffer)
   (delete-window)
