@@ -29,14 +29,16 @@
     (setq-local current-line-file nil)
     (setq-local current-line-file (dired-file-name-at-point))
     (when current-line-file
-        (copy-xcasset-directory (lambda (imageset)
-                                  (if (string-suffix-p "@2x.png" current-line-file)
-                                      (when-let ((suffix (cond ((string-suffix-p "@2x.png" current-line-file) "@2x.png")
+      (copy-xcasset-directory (lambda (imageset)
+                                (if (or (string-suffix-p "@2x.png" current-line-file)
+                                        (string-suffix-p "@3x.png" current-line-file))
+                                    (when-let ((suffix (cond ((string-suffix-p "@2x.png" current-line-file) "@2x.png")
                                                              ((string-suffix-p "@3x.png" current-line-file) "@3x.png")
                                                              (t nil))))
-                                          (when-let ((to-file (car (split-string (shell-command-to-string (format "find %s -name \"*%s\"" imageset suffix))))))
-                                              (message "from: %s\nto: %s" current-line-file to-file)
-                                              (copy-file current-line-file to-file t)))))))))
+                                      (let ((to-file (or (car (split-string (shell-command-to-string (format "find %s -name \"*%s\"" imageset suffix))))
+                                                         (format "%s/%s%s" imageset (file-name-base imageset) suffix))))
+                                        (message "from: %s\nto: %s" current-line-file to-file)
+                                        (copy-file current-line-file to-file t)))))))))
 
 
 (provide 'xcode)
