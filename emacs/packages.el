@@ -19,6 +19,8 @@
         'smex
         'swiper
         'counsel
+        'wgrep
+        'wgrep-ag
         'smart-compile
         'xcscope
         'org
