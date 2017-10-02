@@ -1,0 +1,4 @@
+#!/bin/bash
+function set-upstream() {
+    git branch --set-upstream-to=origin/`gbrc` `gbrc`
+}

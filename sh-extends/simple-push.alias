@@ -1,2 +1,2 @@
 #!/bin/bash
-alias simple-push="git add -A && git commit -m \"\`date\`\" && git pull --rebase && git push origin \`git rev-parse --abbrev-ref HEAd\`"
+alias simple-push="git add -A && git commit -m \"\`date\`\" && git pull --rebase && git push origin \`gbrc\`"
