@@ -1,18 +1,9 @@
 (require 'evil)
 
-(defun word-at-point ()
-  (interactive)
-  (let* ((bounds (bounds-of-thing-at-point 'word))
-         (word
-          (if bounds
-              (buffer-substring-no-properties (car bounds) (cdr bounds))
-            nil)))
-    word))
-
 (require 'yasnippet)
 (defadvice yas-expand (around expand-abbrev-when-word-p)
   (interactive)
-  (let ((word (word-at-point)))
+  (let ((word (thing-at-point 'word t)))
     (when word
       (expand-abbrev)))
   ad-do-it)

@@ -2,10 +2,14 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'package)
+(require 'wcy-desktop)
+
 (eval-when-compile (require 'cl))
 
 ;;;###autoload
 (defun require-package (package &optional min-version no-refresh)
+  "PACKAGE is package name; MIN-VERSION is min version of package; NO-REFRESH is whether to refresh contents."
   (if (package-installed-p package min-version)
       t
     (if (or (assoc package package-archive-contents) no-refresh)
@@ -16,6 +20,7 @@
 
 ;;;###autoload
 (defun switch-proxy (enable)
+  "ENABLE's value is t or nil."
   (interactive "Senable? ")
   (let ((proxy
 		 (if enable
@@ -24,11 +29,12 @@
 	(setenv "http_proxy"  proxy)
 	(setenv "https_proxy" proxy)))
 
-(setq *find-grep-dired--dir* "~")
+(defvar *find-grep-dired--dir* "~")
 
 ;;;###autoload
 (defun find2-grep-dired (dir regexp)
-  (interactive (list (read-directory-name "What directory? " 
+  "DIR is the root directory of find command, REGEXP is the file's regular expression."
+  (interactive (list (read-directory-name "What directory? "
 										  *find-grep-dired--dir*)
 					 (read-string "What to search? " (car kill-ring))))
   (setq *find-grep-dired--dir* dir)
@@ -105,11 +111,12 @@
 		   (goto-workspace-by-number ,(- i 1))))
   (global-set-key (kbd (format "C-c C-%s" i)) (intern (format "goto-workspace-%s" i))))
 
-(setq *must-loading-files*
+(defvar *must-loading-files*
 	  (mapcar (lambda (n) (expand-file-name n))
 			  '("~/diary" "~/org/notes.org" "~/org/task.org" "~/org/timeline.org" "~/unix-config/.emacs")))
 
 (defun ensure-mkdir (dirname)
+  "DIRNAME: ."
   (if (not (file-exists-p dirname))
 	  (let ((dir (directory-file-name (file-name-directory dirname))))
 		(ensure-mkdir dir)))
@@ -117,6 +124,7 @@
 	  (mkdir dirname)))
 
 (defun load-exist-buffer (filename)
+  "FILENAME: ."
   (dolist (buffer (buffer-list))
 	(with-current-buffer buffer
 	  (if (string-equal buffer-file-name filename)
@@ -127,6 +135,7 @@
 
 ;;;###autoload
 (defun load-must-files ()
+  "."
   (interactive)
   (mapc (lambda (filename)
 		  (if (not (load-exist-buffer filename))
@@ -138,6 +147,16 @@
 				  (with-current-buffer (create-file-buffer filename)
 					(write-file filename))))))
 		*must-loading-files*))
+
+;;;###autoload
+(defun show-symbol-at-point ()
+  "."
+  (interactive)
+  (let* ((sym (symbol-at-point))
+         (value (cond ((fboundp sym) 'function)
+                      ((boundp sym) (symbol-value sym))
+                      (t nil))))
+    (message "Symbol: %S [%S]" sym value)))
 
 (provide 'utility)
 ;;; utility.el ends here
