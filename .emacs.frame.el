@@ -61,7 +61,6 @@
 (require 'alpha)
 (transparency-set-value *default-trans-value*)
 (require 'org-config)
-(require 'hydra-config)
 
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
