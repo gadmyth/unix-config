@@ -158,5 +158,10 @@
                       (t nil))))
     (message "Symbol: %S [%S]" sym value)))
 
+(defun find-library-at-point ()
+  "."
+  (interactive)
+  (find-library (word-at-point)))
+
 (provide 'utility)
 ;;; utility.el ends here
