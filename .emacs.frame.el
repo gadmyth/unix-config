@@ -58,8 +58,9 @@
   (mkdir def-dir))
 (setq default-directory def-dir)
 (switch-proxy nil)
-(require 'alpha)
-(transparency-set-value *default-trans-value*)
+
+(require-if-installed 'alpha (transparency-set-value *default-trans-value*))
+  
 (require 'org-config)
 
 (require 'smex)
@@ -107,7 +108,7 @@
 ;(require 'annot)
 
 (require 'emoji-config)
-(require 'redis-config)
+(require-if-installed 'redis (require 'redis-config))
 (require 'sudo-edit)
 (require 'web-config)
 (require 'smart-compile-config)

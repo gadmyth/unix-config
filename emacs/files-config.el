@@ -126,9 +126,7 @@
 
 ;; ace-jump-buffer
 (require 'avy-config)
-(require 'ace-jump-buffer)
-(global-set-key (kbd "<f4>") 'ace-jump-buffer)
-
+;; the <f4> is empty
 
 (provide 'files-config)
 ;;; files-config.el ends here

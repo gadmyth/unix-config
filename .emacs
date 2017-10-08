@@ -10,4 +10,5 @@
     (when (file-exists-p init-file-name)
       (load-file init-file-name))))
 
+;;; add (package-initialize) here to satisfy contains-init in package.el.gz
 ;;; .emacs ends here

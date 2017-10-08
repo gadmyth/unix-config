@@ -152,7 +152,7 @@
    (ruby . t)
    (python . t)
    (gnuplot . t)
-   (jq . t)
+   ;(jq . t)
    ))
 
 (setq org-ditaa-jar-path (expand-file-name "~/libs/ditaa.jar"))

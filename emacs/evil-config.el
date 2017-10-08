@@ -17,11 +17,12 @@
 
 (global-set-key (kbd "C-6") 'evil-buffer)
 
-(require 'ace-jump-mode)
-(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-word-mode)
-(define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
-(define-key evil-normal-state-map (kbd "M-SPC") 'ace-jump-line-mode)
-(define-key evil-normal-state-map (kbd "S-M-SPC") 'ace-jump-buffer)
+(require-if-installed
+ 'ace-jump-mode
+ (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-word-mode)
+ (define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
+ (define-key evil-normal-state-map (kbd "M-SPC") 'ace-jump-line-mode)
+ (define-key evil-normal-state-map (kbd "S-M-SPC") 'ace-jump-buffer))
 
 (defun is-char? (c)
   (or (and (<= ?A c) (<= c ?Z))

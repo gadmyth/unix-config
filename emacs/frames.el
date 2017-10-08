@@ -3,6 +3,7 @@
 ;;; Code:
 
 (require 'frame)
+(require 'async)
 
 (defvar *max-frame-width* 0)
 (defvar *max-frame-height* 0)

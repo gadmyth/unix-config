@@ -9,57 +9,76 @@
 (package-initialize)
 ;; the slime should git clone from github
 (add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "elpa/swiper" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "el-extends" "~/emacs"))
 (defvar required-packages
-  (list 'alpha
-        'diff-hl
-        'windmove
-        'textmate
+  (list 'try
+        'xcscope
+        'async
+        'window-numbering
+        'evil
+        'evil-visualstar
         'smex
         'swiper
         'counsel
+        'textmate
+        'elnode
+        'sudo-edit
+        'smart-compile
+        'restclient
+        'ob-restclient
         'wgrep
         'wgrep-ag
-        'smart-compile
-        'xcscope
-        'org
-        'ob-restclient
-        'gnuplot
-        'htmlize
-        'evil
+        'htmlize ;; org-export
+        'diff-hl
         'auto-complete
-        'magit
-        'git-timemachine
-        'ov
-        'evil-visualstar
-        'slime
-        'projectile
+        'anything
         'yasnippet
         'smartparens
         'multi-term
-        'ace-jump-buffer
-        'ace-jump-mode
-        'elnode
         'flycheck
-        'anything
-        'ac-emoji
-        'dirtree
+        'vkill
+        ))
+
+(defvar tool-packages
+  (list 'org-jira
+        'emacs-edbi
+        'ace-jump-mode
+        'sos
+        'ov
+        'narrow-indirect
+        'multifiles
+        'lice
         'cal-china-x
-        'hydra
-        'window-numbering
-        'google-translate
-        'restclient
         'eredis
+        'dirtree
+        'foreign-regexp
+        'annotate
+        'expand-region
+        'edit-list
+        'projectile
         'js2-mode
         'js2-refactor
         'web-mode
         'emmet-mode
+        'gnuplot
+        'urlenc
+        'url-shortener
         'json-reformat
+        'ac-emoji
+        'google-translate
         'jq-mode
-        'narrow-indirect
-        'multifiles
-        'sudo-edit))
+        'look-mode))
+
+(defvar option-packages
+  (list 'alpha
+        'elisp-format
+        'with-namespace
+        'vcomp
+        'elisp-sandbox
+        'slime
+        'magit
+        'git-timemachine
+        'datetime-format))
 
 (require 'autoload)
 (setq generated-autoload-file "~/emacs/autoloads.el")
@@ -70,6 +89,24 @@
 (defvar *sync-package* t)
 (if *sync-package*
     (mapcar #'require-package required-packages))
+
+(defmacro require-if-installed (package &rest body)
+  `(if (package-installed-p ,package)
+       (progn
+         (require ,package)
+         (message "%S required!" ,package)
+         (progn ,@body))
+     (message "%S not installed!" ,package)))
+
+(defmacro require-packages-if-installed (packages &rest body)
+  `(let ((all-package-installed t))
+     (dolist (p ,packages)
+       (if (not (package-installed-p p))
+           (setq all-package-installed nil)))
+     (when all-package-installed
+         (dolist (p ,packages)
+           (require p))
+         (progn ,@body))))
 
 (provide 'packages)
 ;;; packages.el ends here
