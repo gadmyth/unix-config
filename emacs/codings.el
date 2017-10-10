@@ -1,3 +1,9 @@
+;;; package --- codings.el
+;;; Commentary:
+;;; Code:
+
+(require 'unicad)
+
 (setq current-language-environment "UTF-8")
 (setq default-input-method "eim-wb")
 (setq locale-coding-system 'utf-8)
@@ -11,3 +17,4 @@
 (setenv "LC_CTYPE" "zh_CN.UTF-8")
 
 (provide 'codings)
+;;; codings.el ends here
