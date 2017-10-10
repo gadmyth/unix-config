@@ -39,6 +39,7 @@
 
 
 (smartparens-global-mode)
+(require-if-installed 'expand-region (global-set-key (kbd "C-=") 'er/expand-region))
 ;(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
 (require 'lisping-snippet)
 (require 'yas-config)
@@ -78,15 +79,14 @@
 	  (lambda ()
 	    (progn
 	      ;(scale-large)
-	      (let ((coding-system-for-read 'utf-8))
-			(interactive)
-			(revert-buffer t t t)
-			(scale-large)
-			(require 'textmate)
-			(textmate-mode)
-			(require 'xcscope)
-			(cscope-minor-mode)
-			))))
+          (interactive)
+          (revert-buffer t t t)
+          (scale-large)
+          (require 'textmate)
+          (textmate-mode)
+          (require 'xcscope)
+          (cscope-minor-mode)
+          )))
 
 (add-hook 'after-save-hook
 		  (lambda () (if (string= (buffer-name) ".emacs")
