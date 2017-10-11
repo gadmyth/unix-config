@@ -63,8 +63,8 @@
 
 (my-elnode-add-handlers
  `(("^/orgs/\\(.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/doc/"))
-   ("^/homo/\\(.*\\.org\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))
-   ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))))
+   ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))
+   ("^/homo/\\(.*\\.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))))
 
 (provide 'el-server-extend)
 ;;; el-server-extend.el ends here
