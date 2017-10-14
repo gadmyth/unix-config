@@ -2,7 +2,15 @@
 ;;; Commentary:
 ;;; Code:
 (defvar ts-init (current-time))
+
+;; load path
 (add-to-list 'load-path (expand-file-name "~/emacs"))
+(add-to-list 'load-path (expand-file-name "el-pre-scripts" "~/emacs"))
+(add-to-list 'load-path (expand-file-name "el-extends" "~/emacs"))
+
+(require 'script-extends)
+(load-pre-script-files)
+
 (require 'packages)
 
 (require 'frames)
@@ -102,7 +110,6 @@
 (add-hook 'after-init-hook 'global-flycheck-mode)
 (require 'dired++)
 (load-must-files)
-(require 'script-extends)
 (load-extend-script-files)
 
 ;(require 'annot)

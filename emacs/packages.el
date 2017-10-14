@@ -3,13 +3,18 @@
 ;;; Code:
 
 (require 'package)
-(add-to-list 'package-archives '("org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/"))
-(add-to-list 'package-archives '("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"))
-(add-to-list 'package-archives '("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/"))
+
+(defun add-to-list-exclusive-key (list element)
+  "LIST: , ELEMENT: ."
+  (add-to-list list element nil (lambda (ele1 ele2) (equal (car ele1) (car ele2)))))
+
+(add-to-list-exclusive-key 'package-archives '("org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/"))
+(add-to-list-exclusive-key 'package-archives '("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"))
+(add-to-list-exclusive-key 'package-archives '("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/"))
+(add-to-list-exclusive-key 'package-archives '("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/"))
 (package-initialize)
 ;; the slime should git clone from github
 (add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "el-extends" "~/emacs"))
 (defvar required-packages
   (list 'try
         'xcscope
