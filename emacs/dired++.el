@@ -1,4 +1,11 @@
-(add-hook 'after-init-hook (lambda () (require 'dirtree)))
+;;; package --- dired++.el
+;;; Commentary:
+;;; Code:
+
+
+(require 'dired)
+
+(add-hook 'after-init-hook (lambda () (require-if-installed 'dirtree)))
 
 (setq dired-recursive-copies 'always)
 (setq dired-recursive-deletes 'always)
@@ -30,3 +37,5 @@
 
 
 (provide 'dired++)
+
+;;; dired++.el ends here
