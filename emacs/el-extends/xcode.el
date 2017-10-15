@@ -41,5 +41,51 @@
                                         (copy-file current-line-file to-file t)))))))))
 
 
+(defun goto-buffer (buffername)
+  (if-let ((buffer (get-buffer buffername)))
+      (switch-to-buffer buffer)
+    (progn
+      (counsel-git buffername))))
+
+(defun objc-goto-with-regexp (regexp prompt empty-message)
+  "."
+  (interactive)
+  (with-current-buffer (current-buffer)
+    (let (imports '())
+      (save-excursion
+        (goto-char (point-min))
+        (while (re-search-forward regexp nil t)
+          (push (list (match-string 0) (line-number-at-pos (point))) imports)))
+      (if (> (length imports) 0)
+          (ivy-read prompt imports :action
+                    (lambda (candidate)
+                      (goto-line (cadr candidate))))
+        (message empty-message)))))
+
+(defun objc-goto-import ()
+  "."
+  (interactive)
+  (objc-goto-with-regexp "^#import .*$" "The import: " "No import here."))
+
+(defun objc-goto-method ()
+  "."
+  (interactive)
+  (objc-goto-with-regexp "^- (.*).*$" "The method: " "No methods here."))
+
+(defun objc-goto-class ()
+  "."
+  (interactive)
+  (objc-goto-with-regexp "^@interface.*$" "The interface: " "No interface here."))
+
+(defun objc-goto-implementation ()
+  "."
+  (interactive)
+  (objc-goto-with-regexp "^@implementation.*$" "The implementation: " "No implementation here."))
+
+(defun objc-goto-property ()
+  "."
+  (interactive)
+  (objc-goto-with-regexp "^@property.*$" "The properties: " "No porperties here."))
+
 (provide 'xcode)
 ;;; xcode.el ends here
