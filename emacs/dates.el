@@ -19,7 +19,7 @@
 (defun timestamp-to-string (timestamp)
   "TIMESTAMP: ."
   (interactive "sInput the timestamp: ")
-  (let ((date-str (format-time-string "%Y-%m-%d %H:%M:%S" (current-time))))
+  (let ((date-str (format-time-string "%Y-%m-%d %H:%M:%S" timestamp)))
     (message date-str)
     date-str))
 
