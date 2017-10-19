@@ -87,5 +87,35 @@
   (interactive)
   (objc-goto-with-regexp "^@property.*$" "The properties: " "No porperties here."))
 
+(defun objc-get-current-function-region ()
+  "."
+  (interactive)
+  (let ((current-pos (point))
+        start-point
+        end-point
+        (func-start-regexp "^- (.*).*$")
+        (func-end-regexp "^}"))
+    (save-excursion
+      (when (re-search-backward func-start-regexp nil t)
+        (setq start-point (point))
+        (when (re-search-forward func-end-regexp nil t)
+          (setq end-point (point)))))
+    (message "%S %S" start-point end-point)
+    (cons start-point end-point)))
+
+(defun objc-mark-current-function ()
+  "."
+  (interactive)
+  (let* ((function-region (objc-get-current-function-region))
+         (start (car function-region))
+         (end (cdr function-region)))
+    (when (and start end)
+      (set-mark start)
+      (goto-char end))))
+
+(defun objc-show-ui-hierachy ()
+  "."
+  (interactive))
+
 (provide 'xcode)
 ;;; xcode.el ends here
