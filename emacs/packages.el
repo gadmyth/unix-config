@@ -8,10 +8,11 @@
   "LIST: , ELEMENT: ."
   (add-to-list list element nil (lambda (ele1 ele2) (equal (car ele1) (car ele2)))))
 
-(add-to-list-exclusive-key 'package-archives '("org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/"))
-(add-to-list-exclusive-key 'package-archives '("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"))
-(add-to-list-exclusive-key 'package-archives '("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/"))
-(add-to-list-exclusive-key 'package-archives '("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/"))
+(defconst package-host "http://mirrors.163.com")
+(add-to-list-exclusive-key 'package-archives `("org" . ,(concat package-host "/elpa/org/")))
+(add-to-list-exclusive-key 'package-archives `("melpa" . ,(concat package-host "/elpa/melpa/")))
+(add-to-list-exclusive-key 'package-archives `("melpa-stable" . ,(concat package-host "/elpa/melpa-stable/")))
+(add-to-list-exclusive-key 'package-archives `("marmalade" . ,(concat package-host "/elpa/marmalade/")))
 (package-initialize)
 ;; the slime should git clone from github
 (add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
