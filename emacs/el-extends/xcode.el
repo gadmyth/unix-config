@@ -42,22 +42,26 @@
 
 
 (defun goto-buffer (buffername)
+  "BUFFERNAME: ."
+  (interactive "bbuffer:")
   (if-let ((buffer (get-buffer buffername)))
       (switch-to-buffer buffer)
     (progn
       (counsel-git buffername))))
 
-(defun objc-goto-with-regexp (regexp prompt empty-message)
-  "."
+(defun objc-goto-with-regexp (regexp prompt empty-message &optional initial-input)
+  "REGEXP:, PROMPT:, EMPTY-MESSAGE:, &KEY INITIAL-INPUT: ."
   (interactive)
   (with-current-buffer (current-buffer)
-    (let (imports '())
+    (let (candidates '())
       (save-excursion
         (goto-char (point-min))
         (while (re-search-forward regexp nil t)
-          (push (list (match-string 0) (line-number-at-pos (point))) imports)))
-      (if (> (length imports) 0)
-          (ivy-read prompt imports :action
+          (push (list (match-string 0) (line-number-at-pos (point))) candidates)))
+      (if (> (length candidates) 0)
+          (ivy-read prompt candidates
+                    :initial-input initial-input
+                    :action
                     (lambda (candidate)
                       (goto-line (cadr candidate))))
         (message empty-message)))))
@@ -82,10 +86,10 @@
   (interactive)
   (objc-goto-with-regexp "^@implementation.*$" "The implementation: " "No implementation here."))
 
-(defun objc-goto-property ()
-  "."
+(defun objc-goto-property (&optional initial-input)
+  "INITIAL-INPUT: ."
   (interactive)
-  (objc-goto-with-regexp "^@property.*$" "The properties: " "No porperties here."))
+  (objc-goto-with-regexp "^@property.*$" "The properties: " "No properties here." initial-input))
 
 (defun objc-get-current-function-region ()
   "."
@@ -117,5 +121,44 @@
   "."
   (interactive))
 
+(defun objc-goto-file (filename project-directory)
+  "FILENAME:, PROJECT-DIRECTORY: ."
+  (let ((default-directory project-directory))
+    ;; COPY START -- counsel.el's counsel-git command
+    (counsel-require-program (car (split-string counsel-git-cmd)))
+    (ivy-set-prompt 'counsel-git counsel-prompt-function)
+    (setq counsel--git-dir (expand-file-name
+                            (counsel-locate-git-root)))
+    (let* ((default-directory counsel--git-dir)
+           (cands (split-string
+                   (shell-command-to-string counsel-git-cmd)
+                   "\n"
+                   t)))
+      ;; COPY END -- counsel.el's counsel-git command
+      (let* ((cands (ivy--filter filename cands))
+             (cands-length (length cands)))
+        (message "%S, cands-length" cands cands-length)
+        (cond ((= cands-length 0)
+               (message "no candidate found!"))
+              ((= cands-length 1)
+               (counsel-git-action (car cands)))
+              (t
+               ;; COPY -- counsel.el's counsel-git command
+               (ivy-read "Find file" cands
+                         :initial-input filename
+                         :action #'counsel-git-action
+                         :caller 'counsel-git)))))))
+
+
+(defun example-goto-property (property-name filename project-directory)
+  "PROPERTY-NAME:, FILENAME:, PROJECT-DIRECTORY."
+  (objc-goto-file filename project-directory)
+  (sleep-for 2)
+  (objc-goto-property property-name))
+
+(if-let ((test t))
+    (objc-goto-file "FloatProductViewController.m" "~/wealthapp-ios"))
+
+(example-goto-property "common" "FloatProductViewController.m" "~/wealthapp-ios")
 (provide 'xcode)
 ;;; xcode.el ends here
