@@ -53,6 +53,8 @@
     (process-contact (process-get httpcon :server) t)
     :local)))
 
+(setq elnode-error-log-to-messages nil)
+
 (defvar my-default-elnode-url-mapping-table '())
 
 (defun my-elnode-add-handlers (handlers)
