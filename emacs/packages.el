@@ -4,15 +4,16 @@
 
 (require 'package)
 
-(defun add-to-list-exclusive-key (list element)
+(defun add-to-list-if-not-exist (list element)
   "LIST: , ELEMENT: ."
   (add-to-list list element nil (lambda (ele1 ele2) (equal (car ele1) (car ele2)))))
 
 (defconst package-host "http://elpa.emacs-china.org")
-(add-to-list-exclusive-key 'package-archives `("org" . ,(concat package-host "/org/")))
-(add-to-list-exclusive-key 'package-archives `("melpa" . ,(concat package-host "/melpa/")))
-(add-to-list-exclusive-key 'package-archives `("melpa-stable" . ,(concat package-host "/melpa-stable/")))
-(add-to-list-exclusive-key 'package-archives `("marmalade" . ,(concat package-host "/marmalade/")))
+(add-to-list-if-not-exist 'package-archives `("gnu" . ,(concat package-host "/gnu/")))
+(add-to-list-if-not-exist 'package-archives `("org" . ,(concat package-host "/org/")))
+(add-to-list-if-not-exist 'package-archives `("melpa" . ,(concat package-host "/melpa/")))
+(add-to-list-if-not-exist 'package-archives `("melpa-stable" . ,(concat package-host "/melpa-stable/")))
+(add-to-list-if-not-exist 'package-archives `("marmalade" . ,(concat package-host "/marmalade/")))
 (package-initialize)
 ;; the slime should git clone from github
 (add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
