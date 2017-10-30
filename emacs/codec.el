@@ -12,7 +12,7 @@
   "."
   (interactive)
   (let ((url-str (delete-and-extract-region (region-beginning) (region-end))))
-    (insert (url-unhex-string url-str))))
+    (insert (decode-coding-string (url-unhex-string url-str) 'utf-8))))
 
 (defun md5-encode-region ()
   "."
