@@ -25,5 +25,12 @@
             :action (lambda (dir)
                       (dired (format "%s/%s" dir major-mode)))))
 
+(defun yasnippet-filter-major-mode-dir ()
+  "."
+  (interactive)
+  (ivy-read "Choose yasnippet dir: " (remove-if-not (lambda (dir) (file-exists-p (format "%s/%s" dir major-mode))) (yas-snippet-dirs))
+            :action (lambda (dir)
+                      (dired (format "%s/%s" dir major-mode)))))
+
 (provide 'yas-config)
 ;;; yas-config.el ends here
