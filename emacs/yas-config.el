@@ -12,14 +12,5 @@
 
 (setq yas-indent-line 'fixed)
 
-(defun new-snippet-with-region ()
-  "."
-  (interactive)
-  (let ((content (buffer-substring-no-properties (region-beginning) (region-end))))
-    (yas-new-snippet)
-    (with-current-buffer yas-new-snippet-buffer-name
-      (goto-char (point-max))
-      (insert content))))
-
 (provide 'yas-config)
 ;;; yas-config.el ends here
