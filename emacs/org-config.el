@@ -155,6 +155,11 @@
    ;(jq . t)
    ))
 
+;;; headline levels
+(setq org-export-headline-levels 5)
+;;; toc level
+(setq org-export-with-toc 5)
+
 (setq org-ditaa-jar-path (expand-file-name "~/libs/ditaa.jar"))
 (setq org-plantuml-jar-path (expand-file-name "~/libs/plantuml.jar"))
 
