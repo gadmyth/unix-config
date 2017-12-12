@@ -5,7 +5,8 @@
 (defun current-timestamp ()
   "."
   (interactive)
-  (let ((ct (shell-command-to-string "gdate +%s")))
+  (let* ((ct (shell-command-to-string "gdate +%s"))
+         (ct (substring ct 0 (- (length ct) 1))))
     (message ct)
     ct))
 
@@ -19,7 +20,9 @@
 (defun timestamp-to-string (timestamp)
   "TIMESTAMP: ."
   (interactive "sInput the timestamp: ")
-  (let ((date-str (format-time-string "%Y-%m-%d %H:%M:%S" timestamp)))
+  (let* ((timestamp (if (stringp timestamp) (string-to-number timestamp)
+                      timestamp))
+         (date-str (format-time-string "%Y-%m-%d %H:%M:%S" timestamp)))
     (message date-str)
     date-str))
 
