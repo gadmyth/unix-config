@@ -16,7 +16,9 @@
        (let ((remote-host (elnode-remote-host httpcon))
              (remote-port (elnode-remote-port httpcon))
              (local-host (elnode-local-host httpcon))
-             (local-port (elnode-local-port httpcon)))
+             (local-port (elnode-local-port httpcon))
+             (link-org-as-html (elnode-http-param httpcon "link-org-as-html"))
+             (force-refresh (elnode-http-param httpcon "force-refresh")))
          (message (format "remote host: %s, remote port: %s" remote-host remote-port))
          (message (format "local host: %s, local port: %s" local-host local-port))
          (if (and (equal "0.0.0.0" local-host)
@@ -24,22 +26,36 @@
                       (equal "127.0.0.1" remote-host)
                       (equal "localhost" remote-host)))
              (let ((new-url (format "http://%s:%s%s" (current-ip) local-port (elnode-http-pathinfo httpcon))))
-               (message "new server: %s" new-url)
+               (message "redirect to new-url: %s" new-url)
                (elnode-send-redirect httpcon new-url))
            (if (not (string-suffix-p "org" org-file))
                (elnode--webserver-handler-proc httpcon ,dir elnode-webserver-extra-mimetypes)
-             (with-current-buffer (find-file-noselect org-file)
-               (progn
-                 (when (string-equal mode-name "not loaded yet")
-                   (revert-buffer nil t))
-                 (progn
-                   (setq org-export-show-temporary-export-buffer nil)
-                   (setq org-html-link-org-files-as-html nil)
-                   (let ((exported-buffer (org-html-export-as-html)))
-                     (setq org-export-show-temporary-export-buffer t)
-                     (with-current-buffer exported-buffer
-                       (let ((org-html (buffer-substring-no-properties (point-min) (point-max))))
-                         (elnode-send-html httpcon org-html)))))))))))))
+             (let* ((org-file-mtime (elnode-file-modified-time org-file))
+                    (html-file (concat (string-remove-suffix "org" org-file) "html"))
+                    (html-file-mtime (elnode-file-modified-time html-file)))
+               (if (and org-file-mtime
+                        html-file-mtime
+                        (time-less-p org-file-mtime html-file-mtime)
+                        (not force-refresh))
+                   (let* ((path (elnode-http-pathinfo httpcon))
+                          (new-path (concat (string-remove-suffix "org" path) "html"))
+                          (new-url (format "http://%s:%s%s" remote-host local-port new-path)))
+                     (message "rediect org file to html file: %s" new-url)
+                     (elnode-send-redirect httpcon new-url))
+                 (with-current-buffer (find-file-noselect org-file)
+                   (progn
+                     (when (string-equal mode-name "not loaded yet")
+                       (revert-buffer nil t))
+                     (progn
+                       (setq org-export-show-temporary-export-buffer nil)
+                       (setq org-html-link-org-files-as-html link-org-as-html)
+                       (let ((exported-buffer (org-html-export-as-html)))
+                         (message "exported-buffer: %s" exported-buffer)
+                         (setq org-export-show-temporary-export-buffer t)
+                         (with-current-buffer exported-buffer
+                           (let ((org-html (buffer-substring-no-properties (point-min) (point-max))))
+                             (write-file html-file)
+                             (elnode-send-html httpcon org-html)))))))))))))))
 
 (defmacro org-dir-compiled-handler-maker (dir)
   "DIR: ."
