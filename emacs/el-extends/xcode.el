@@ -42,30 +42,63 @@
 
 
 (defun goto-buffer (buffername)
+  "BUFFERNAME: ."
   (if-let ((buffer (get-buffer buffername)))
       (switch-to-buffer buffer)
     (progn
       (counsel-git buffername))))
 
-(defun objc-goto-with-regexp (regexp prompt empty-message)
-  "."
+(defun objc-action-with-regexp (regexp prompt empty-message select-action)
+  "REGEXP, PROMPT, EMPTY-MESSAGE, SELECT-ACTION."
   (interactive)
   (with-current-buffer (current-buffer)
-    (let (imports '())
+    (let (collections '())
       (save-excursion
         (goto-char (point-min))
         (while (re-search-forward regexp nil t)
-          (push (list (match-string 0) (line-number-at-pos (point))) imports)))
-      (if (> (length imports) 0)
-          (ivy-read prompt imports :action
-                    (lambda (candidate)
-                      (goto-line (cadr candidate))))
+          (push (list (match-string 0) (line-number-at-pos (point))) collections)))
+      (if (> (length collections) 0)
+          (funcall select-action collections)
         (message empty-message)))))
+
+(defun goto-line-no-interactive (line-num)
+  "LINE-NUM."
+  (goto-char (point-min))
+  (forward-line (1- line-num)))
+
+(defun objc-goto-with-regexp (regexp prompt empty-message)
+  "REGEXP, PROMPT, EMPTY-MESSAGE."
+  (objc-action-with-regexp regexp prompt empty-message
+                           #'(lambda (collections)
+                               (ivy-read prompt (reverse collections) :action
+                                         (lambda (candidate)
+                                           (let ((line-num (cadr candidate))))
+                                           (goto-line-no-interactive line-num))))))
+
+(defun objc-goto-last-with-regexp (regexp prompt empty-message)
+  "REGEXP, PROMPT, EMPTY-MESSAGE."
+  (objc-action-with-regexp regexp prompt empty-message
+                           #'(lambda (collections)
+                               (let ((line-num (cadar (last (reverse collections)))))
+                                 (goto-line-no-interactive line-num)))))
 
 (defun objc-goto-import ()
   "."
   (interactive)
   (objc-goto-with-regexp "^#import .*$" "The import: " "No import here."))
+
+(defun objc-goto-last-import ()
+  "."
+  (interactive)
+  (objc-goto-last-with-regexp "^#import .*$" "The import: " "No import here."))
+
+(defun insert-import (header-string)
+  "HEADER-STRING."
+  (interactive "sHeader File: ")
+  (objc-goto-last-import)
+  (move-end-of-line 1)
+  (insert "\n")
+  (insert (format "#import \"%s.h\"" header-string)))
 
 (defun objc-goto-method ()
   "."
@@ -86,6 +119,43 @@
   "."
   (interactive)
   (objc-goto-with-regexp "^@property.*$" "The properties: " "No porperties here."))
+
+(defun objc-goto-last-property ()
+  "."
+  (interactive)
+  (objc-goto-last-with-regexp "^@property.*$" "The properties: " "No porperties here."))
+
+(defun yas-expand-snippet-with-params (snippet-name &rest params)
+  "SNIPPET-NAME, PARAMS."
+  (interactive)
+  (when-let ((snippet (yas-lookup-snippet snippet-name)))
+    (yas-expand-snippet snippet)
+    (dolist (p params)
+      (if (or (string-equal "__default__" p)
+              (string-equal "" p))
+          (yas-next-field)
+        (progn
+          (insert p)
+          (yas-next-field))))))
+
+(defun prepare-insert-property ()
+  "."
+  (interactive)
+  (objc-goto-last-property)
+  (move-end-of-line 1)
+  (insert "\n"))
+
+(defun insert-property (type prop-name)
+  "TYPE, PROP-NAME."
+  (interactive "sType: \nsProperty name: ")
+  (prepare-insert-property)
+  (yas-expand-snippet-with-params "prop-def" "__default__" type prop-name))
+
+(defun insert-property-2 (type prop-name)
+  "SNIPPET-NAME, TYPE, PROP-NAME."
+  (interactive "sType: \nsProperty name: ")
+  (prepare-insert-property)
+  (yas-expand-snippet-with-params "prop2-def" type prop-name))
 
 (provide 'xcode)
 ;;; xcode.el ends here
