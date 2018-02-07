@@ -48,7 +48,7 @@
                        (revert-buffer nil t))
                      (progn
                        (setq org-export-show-temporary-export-buffer nil)
-                       (setq org-html-link-org-files-as-html link-org-as-html)
+                       (setq-local org-html-link-org-files-as-html link-org-as-html)
                        (let ((exported-buffer (org-html-export-as-html)))
                          (message "exported-buffer: %s" exported-buffer)
                          (setq org-export-show-temporary-export-buffer t)

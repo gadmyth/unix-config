@@ -141,6 +141,9 @@
 (setq-default org-use-sub-superscripts '{})
 (setq-default org-export-with-sub-superscripts '{})
 
+;;; underline
+(setq-default org-export-with-emphasize nil)
+
 ;;; babel language
 (org-babel-do-load-languages
  'org-babel-load-languages
