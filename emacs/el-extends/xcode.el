@@ -72,8 +72,8 @@
                            #'(lambda (collections)
                                (ivy-read prompt (reverse collections) :action
                                          (lambda (candidate)
-                                           (let ((line-num (cadr candidate))))
-                                           (goto-line-no-interactive line-num))))))
+                                           (let ((line-num (cadr candidate)))
+                                             (goto-line-no-interactive line-num)))))))
 
 (defun objc-goto-last-with-regexp (regexp prompt empty-message)
   "REGEXP, PROMPT, EMPTY-MESSAGE."
