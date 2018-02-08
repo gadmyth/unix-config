@@ -19,5 +19,7 @@
                                       (if (equal "h" suffix)
                                           (find-file (concatenate 'string prename ".m"))))))))
 
+(require 'ivy)
+(global-set-key (kbd "<f4>") 'ivy-switch-buffer)
 
 (provide 'key-bindings)

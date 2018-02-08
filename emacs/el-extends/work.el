@@ -126,5 +126,37 @@
           (message "Open succeed: %s" file-name))
       (message "File doesn't not exists!"))))
 
+
+(defun xah-insert-random-string (num)
+  "NUM, Insert a random alphanumerics string of length 5.
+The possible chars are 0 to 9, and a to z (lower case).
+Call `universal-argument' before for different count.
+URL `http://ergoemacs.org/emacs/elisp_insert_random_number_string.html'
+Version 2017-05-24"
+  (interactive "P")
+  (let* ((charset "1234567890abcdefghijklmnopqrstuvwxyz")
+         (base-count (length charset))
+         (random-string ""))
+    (dotimes (_ (if (numberp num) (abs num) 5))
+      (let* ((char (elt charset (random base-count)))
+             (str (concat random-string (char-to-string char))))
+        (setq random-string str)))
+    random-string))
+
+(defun create-test-tmp-file (extension)
+  "EXTENSION."
+  (interactive "sfile extension: ")
+  (new-buffer (format "test-%s.%s" (xah-insert-random-string 5) extension))
+  (write-file (format "/tmp/%s" (buffer-name))))
+
+(defun copy-buffername-without-extension ()
+  "."
+  (interactive)
+  (let* ((buffername (buffer-name))
+         (base-name (file-name-base buffername)))
+    (kill-new base-name)
+    (message base-name)
+    base-name))
+
 (provide 'work)
 ;;; work.el ends here
