@@ -45,5 +45,18 @@
                 (let ((line-num (cadr candidate)))
                   (sj-goto-line-no-interactive line-num))))))
 
+(defun yas-expand-snippet-with-params (snippet-name &rest params)
+  "SNIPPET-NAME, PARAMS."
+  (interactive)
+  (when-let ((snippet (yas-lookup-snippet snippet-name)))
+    (yas-expand-snippet snippet)
+    (dolist (p params)
+      (if (or (string-equal "__default__" p)
+              (string-equal "" p))
+          (yas-next-field)
+        (progn
+          (insert p)
+          (yas-next-field))))))
+
 (provide 'source-jump)
 ;;; source-jump.el ends here
