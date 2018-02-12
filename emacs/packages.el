@@ -43,6 +43,7 @@
         'smartparens
         'multi-term
         'flycheck
+        'eyebrowse
         'vkill
         ))
 

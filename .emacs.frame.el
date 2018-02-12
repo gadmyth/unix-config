@@ -105,6 +105,7 @@
 (require 'el-server)
 (require 'el-server-extend)
 (require 'servers)
+(require 'eyebrowse-config)
 (require 'key-bindings)
 (require 'holiday-config)
 (add-hook 'after-init-hook 'global-flycheck-mode)
