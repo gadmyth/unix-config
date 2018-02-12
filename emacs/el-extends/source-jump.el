@@ -2,15 +2,27 @@
 ;;; Commentary:
 ;;; Code:
 
+
+(defun sj-save-excursion-p ()
+  "."
+  nil)
+
+(defmacro sj-save-excursion (&rest body)
+  "BODY."
+  `(if (sj-save-excursion-p)
+       (save-excursion
+         (progn ,@body))
+     (progn ,@body)))
+
 (defun sj-action-with-regexp (regexp prompt empty-message select-action)
   "REGEXP, PROMPT, EMPTY-MESSAGE, SELECT-ACTION."
   (interactive)
   (with-current-buffer (current-buffer)
     (let (collections '())
-      (save-excursion
-        (goto-char (point-min))
-        (while (re-search-forward regexp nil t)
-          (push (list (match-string 0) (line-number-at-pos (point))) collections)))
+      (sj-save-excursion
+       (goto-char (point-min))
+       (while (re-search-forward regexp nil t)
+         (push (list (match-string 0) (line-number-at-pos (point))) collections)))
       (if (> (length collections) 0)
           (funcall select-action collections)
         (message empty-message)))))

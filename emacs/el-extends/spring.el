@@ -69,18 +69,48 @@
   (interactive)
   (let ((method (word-at-point))
         (current-point (point)))
-    (save-excursion
-      (re-search-backward "\\." nil t)
-      (backward-word)
-      (let* ((class (word-at-point))
-             (first-char (elt class 0)))
-        (goto-char current-point)
-        (message "method: %s, class: %s" method class)
-        (if (not (and (<= ?A first-char) (<= first-char ?Z)))
-            (setq class (java-jump-to-definition class)))
-        (if class
-          (java-goto-class class
-                           #'(lambda () (java-goto-method method))))))))
+    (sj-save-excursion
+     (re-search-backward "\\." nil t)
+     (backward-word)
+     (let* ((class (word-at-point))
+            (first-char (elt class 0)))
+       (goto-char current-point)
+       (message "method: %s, class: %s" method class)
+       (if (not (and (<= ?A first-char) (<= first-char ?Z)))
+           (setq class (java-jump-to-definition class)))
+       (if class
+           (java-goto-class class
+                            #'(lambda () (java-goto-method method))))))))
+
+(defun java-goto-constant (constant)
+  "CONSTANT."
+  (interactive "sConstant: ")
+  (let ((regexp (format "\\(private\\|public\\).*%s.*$\\|^\s*%s(.*).*$" constant constant)))
+    (sj-goto-last-with-regexp regexp "The constant's name: " "No constant here.")))
+
+(defun java-goto-constant-at-point ()
+  "."
+  (interactive)
+  (let* ((word (word-at-point)))
+    (java-goto-constant word)))
+
+(defun java-jump-to-class-constant ()
+  "."
+  (interactive)
+  (let ((constant (word-at-point))
+        (current-point (point)))
+    (sj-save-excursion
+     (re-search-backward "\\." nil t)
+     (backward-word)
+     (let* ((class (word-at-point))
+            (first-char (elt class 0)))
+       (goto-char current-point)
+       (message "constant: %s, class: %s" constant class)
+       (if (not (and (<= ?A first-char) (<= first-char ?Z)))
+           (setq class (java-jump-to-definition class)))
+       (if class
+           (java-goto-class class
+                            #'(lambda () (java-goto-constant constant))))))))
 
 (defun java-goto-last-property ()
   "."
@@ -122,7 +152,7 @@
   (interactive "sMapper: \nsMethod: ")
   (let* ((default-directory (expand-file-name (counsel-locate-git-root)))
          (extension "xml")
-         (full-cmd (format "git ls-files | egrep \"\<%s\\>.%s\"" mapper extension))
+         (full-cmd (format "git ls-files | egrep \"\\<%s\\>.%s\"" mapper extension))
          (cands (split-string (shell-command-to-string full-cmd) "\n" t)))
     (if (equal 1 (length cands))
         (progn
@@ -145,19 +175,41 @@
   (interactive)
   (let ((method (word-at-point))
         (current-point (point)))
-    (save-excursion
-      (re-search-backward "\\." nil t)
-      (backward-word)
-      (let* ((class (word-at-point))
-             (first-char (elt class 0)))
-        (goto-char current-point)
-        (message "method: %s, class: %s" method class)
-        (if (not (and (<= ?A first-char) (<= first-char ?Z)))
-            (setq class (java-jump-to-definition class)))
-        (if class
-            (spring-goto-mapper-xml-file class
-                                         #'(lambda ()
-                                             (sj-goto-last-with-regexp method "The method: " "No method here."))))))))
+    (sj-save-excursion
+     (re-search-backward "\\." nil t)
+     (backward-word)
+     (let* ((class (word-at-point))
+            (first-char (elt class 0)))
+       (goto-char current-point)
+       (if (not (and (<= ?A first-char) (<= first-char ?Z)))
+           (setq class (java-jump-to-definition class)))
+       (message "method: %s, class: %s" method class)
+       (if class
+           (spring-goto-mapper-xml-file class
+                                        #'(lambda ()
+                                            (sj-goto-last-with-regexp method "The method: " "No method here."))))))))
+
+(defun spring-git-grep (word)
+  "WORD."
+  (interactive "sWord: ")
+  (let* ((default-directory (expand-file-name (counsel-locate-git-root)))
+         (full-cmd (format "git grep %s" word))
+         (cands (split-string (shell-command-to-string full-cmd) "\n" t)))
+    (ivy-read "Select candidate: " (reverse cands) :action #'(lambda (candidate)
+                                                               (require 's)
+                                                               (let* ((trim-candidate (s-trim candidate))
+                                                                      (array (split-string trim-candidate ":"))
+                                                                      (file (first array))
+                                                                      (line-content (second array)))
+                                                                 (find-file file)
+                                                                 (goto-char (point-min))
+                                                                 (search-forward line-content))))))
+
+(defun spring-git-grep-at-point ()
+  "."
+  (interactive)
+  (let ((word (word-at-point)))
+    (spring-git-grep word)))
 
 (provide 'spring)
 ;;; spring.el ends here
