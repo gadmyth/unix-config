@@ -28,6 +28,8 @@
                                       (if (equal "h" suffix)
                                           (find-file (concatenate 'string prename ".m"))))))))
 
+(global-set-key (kbd "<f6>") 'find-library)
+
 (require 'ivy)
 (global-set-key (kbd "<f4>") 'ivy-switch-buffer)
 
