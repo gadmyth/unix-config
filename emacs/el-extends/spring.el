@@ -128,6 +128,25 @@
            (java-goto-class class
                             #'(lambda () (java-goto-constant constant))))))))
 
+(defun java-show-class-constant ()
+  "."
+  (interactive)
+  (let ((constant (word-at-point))
+        (current-point (point)))
+    (sj-save-excursion
+     (re-search-backward "\\." nil t)
+     (backward-word)
+     (let* ((class (word-at-point))
+            (first-char (elt class 0)))
+       (goto-char current-point)
+       (message "constant: %s, class: %s" constant class)
+       (if (not (and (<= ?A first-char) (<= first-char ?Z)))
+           (setq class (java-jump-to-definition class)))
+       (if class
+           (java-goto-class class
+                            #'(lambda ()
+                                (java-show-constant constant)
+                                (command-execute 'evil-buffer))))))))
 
 (defconst +java-property-regexp+ "^\s*?private\s*.*;\s*?$")
 
