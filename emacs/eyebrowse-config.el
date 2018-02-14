@@ -5,6 +5,7 @@
 (require 'eyebrowse)
 (require 's)
 
+(eyebrowse-mode t)
 
 (defun ivy-eyebrowse-config-string (slot tag)
   "SLOT, TAG."
