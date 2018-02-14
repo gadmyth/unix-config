@@ -41,12 +41,22 @@
                                            (let ((line-num (cadr candidate)))
                                              (sj-goto-line-no-interactive line-num)))))))
 
-(defun sj-goto-last-with-regexp (regexp prompt empty-message)
-  "REGEXP, PROMPT, EMPTY-MESSAGE."
+(defun sj-goto-last-with-regexp (regexp prompt empty-message &optional finish-block)
+  "REGEXP, PROMPT, EMPTY-MESSAGE, FINISH-BLOCK."
   (sj-action-with-regexp regexp prompt empty-message
                            #'(lambda (collections)
-                               (let ((line-num (cadar (last (reverse collections)))))
-                                 (sj-goto-line-no-interactive line-num)))))
+                               (let ((content (caar (last (reverse collections)))))
+                                 (message content)
+                                 (if finish-block (funcall finish-block))))))
+
+(defun sj-show-last-with-regexp (regexp prompt empty-message &optional finish-block)
+  "REGEXP, PROMPT, EMPTY-MESSAGE, FINISH-BLOCK."
+  (sj-action-with-regexp regexp prompt empty-message
+                         #'(lambda (collections)
+                             (let ((line-num (cadar (last (reverse collections)))))
+                               (sj-goto-line-no-interactive line-num)
+                               (message (thing-at-point 'line))
+                               (if finish-block (funcall finish-block))))))
 
 (defun sj-goto-line-or-select (prompt collections)
   "PROMPT, COLLECTIONS."

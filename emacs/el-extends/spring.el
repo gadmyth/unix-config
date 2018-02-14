@@ -82,10 +82,11 @@
            (java-goto-class class
                             #'(lambda () (java-goto-method method))))))))
 
+(defconst +java-constant-regexp-format+ "\\(private\\|public\\).*%s.*$\\|^\s*%s(.*).*$")
 (defun java-goto-constant (constant)
   "CONSTANT."
   (interactive "sConstant: ")
-  (let ((regexp (format "\\(private\\|public\\).*%s.*$\\|^\s*%s(.*).*$" constant constant)))
+  (let ((regexp (format +java-constant-regexp-format+ constant constant)))
     (sj-goto-last-with-regexp regexp "The constant's name: " "No constant here.")))
 
 (defun java-goto-constant-at-point ()
@@ -93,6 +94,21 @@
   (interactive)
   (let* ((word (word-at-point)))
     (java-goto-constant word)))
+
+(defun java-show-constant (constant)
+  "CONSTANT."
+  (interactive "sConstant: ")
+  (let ((regexp (format +java-constant-regexp-format+ constant constant))
+        (current-point (point)))
+    (sj-show-last-with-regexp regexp "The constant's name: " "No constant here."
+                              #'(lambda ()
+                                  (goto-char current-point)))))
+
+(defun java-show-constant-at-point ()
+  "."
+  (interactive)
+  (let* ((word (word-at-point)))
+    (java-show-constant word)))
 
 (defun java-jump-to-class-constant ()
   "."
@@ -112,10 +128,18 @@
            (java-goto-class class
                             #'(lambda () (java-goto-constant constant))))))))
 
+
+(defconst +java-property-regexp+ "^\s*?private\s*.*;\s*?$")
+
+(defun java-goto-property ()
+  "."
+  (interactive)
+  (sj-goto-with-regexp +java-property-regexp+ "The property name: " "No property here."))
+
 (defun java-goto-last-property ()
   "."
   (interactive)
-  (sj-goto-last-with-regexp "^\s*?private\s*.*;\s*?$" "The property name: " "No property here."))
+  (sj-goto-last-with-regexp +java-property-regexp+ "The property name: " "No property here."))
 
 (defun java-create-property (prop-name type)
   "PROP-NAME, TYPE."
