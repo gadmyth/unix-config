@@ -269,7 +269,7 @@
       (if (string-match regexp line-string-no-properties)
           (push (list line-string (line-number-at-pos (point))) collections))
       (if (not end-of-buffer)
-          (next-line)))
+          (next-line 1)))
     collections))
 
 (defun java-property-file-show-candidates ()
@@ -284,20 +284,18 @@
   (interactive)
   (let* ((default-directory (expand-file-name (counsel-locate-git-root)))
          (extension "java")
-         (full-cmd (format "git ls-files | egrep \"%s\"" "application.properties"))
-         (cands (split-string (shell-command-to-string full-cmd) "\n" t)))
-    (if (equal 1 (length cands))
-        (progn
-          (find-file (car cands))
-          (let ((collections (java-property-file-candidates)))
-            (command-execute 'evil-buffer)
-            (ivy-read "Select property: " (reverse collections) :action nil)))
-      (ivy-read "Select class: " (reverse cands) :action
-              (lambda (candidate)
-                (find-file candidate)
-                (let ((collections (java-property-file-candidates)))
-                  (command-execute 'evil-buffer)
-                  (ivy-read "Select property: " (reverse collections) :action nil)))))))
+         (command (format "git ls-files | egrep \"%s\"" "application.*.properties"))
+         (cands (split-string (shell-command-to-string command) "\n" t)))
+    (flet ((list-properties
+            (properties-file)
+            (with-current-buffer (find-file-noselect properties-file)
+              (let ((collections (java-property-file-candidates)))
+                (ivy-read "Select property: " (reverse collections) :action nil)))))
+      (if (equal 1 (length cands))
+          (list-properties (car cands))
+        (ivy-read "Select class: " (reverse cands) :action
+                  (lambda (candidate)
+                    (list-properties candidate)))))))
 
 
 (defun spring-git-grep-at-point ()
