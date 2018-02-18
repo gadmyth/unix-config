@@ -25,7 +25,7 @@
   "."
   (interactive)
   (let* ((window-configs (eyebrowse--get 'window-configs))
-         (slot 0)
+         (slot 1)
          (current-slot (eyebrowse--get 'current-slot))
          (current-tag (nth 2 (assoc current-slot window-configs)))
          (current-element (ivy-eyebrowse-config-string current-slot current-tag))
