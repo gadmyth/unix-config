@@ -8,6 +8,7 @@
 (add-to-list 'load-path (expand-file-name "el-pre-scripts" "~/emacs"))
 (add-to-list 'load-path (expand-file-name "el-extends" "~/emacs"))
 
+;; load script files at first
 (require 'script-extends)
 (load-pre-script-files)
 
@@ -110,8 +111,6 @@
 (require 'holiday-config)
 (add-hook 'after-init-hook 'global-flycheck-mode)
 (require 'dired++)
-(load-must-files)
-(load-extend-script-files)
 
 ;(require 'annot)
 
@@ -120,8 +119,15 @@
 (require 'sudo-edit)
 (require 'web-config)
 (require 'smart-compile-config)
-	          
 (require 'frames)
+	          
+;; load must files at last
+(load-must-files)
+
+;; load script files at last
+(load-extend-script-files)
+
+;; maximize the frame
 (toggle-frame-maximized)
 (message "end : %.2f" (float-time (time-since ts-init)))
 
