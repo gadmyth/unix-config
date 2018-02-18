@@ -5,21 +5,21 @@
 (require 'counsel)
 (require 'source-jump)
 
-(defun java-goto-class (class &optional finish-block)
-  "CLASS, FINISH-BLOCK."
+(defun java-goto-class (class &optional finish-block noselect)
+  "CLASS, FINISH-BLOCK, NOSELECT."
   (interactive "sClass: ")
   (let* ((default-directory (expand-file-name (counsel-locate-git-root)))
          (extension "java")
          (full-cmd (format "git ls-files | egrep \"%s(Impl)?\\>.*?.%s\"" class extension))
          (cands (split-string (shell-command-to-string full-cmd) "\n" t)))
-    (if (equal 1 (length cands))
-        (progn
-          (find-file (car cands))
-          (if finish-block (funcall finish-block)))
-      (ivy-read "Select class: " (reverse cands) :action
-              (lambda (candidate)
-                (find-file candidate)
-                (if finish-block (funcall finish-block)))))))
+    (flet ((candidate-action (filename)
+                             (let ((buffer (if noselect (find-file-noselect filename) (find-file filename))))
+                               (if finish-block (funcall finish-block buffer)))))
+      (if (equal 1 (length cands))
+          (candidate-action (car cands))
+        (ivy-read "Select class: " (reverse cands) :action
+                  (lambda (candidate)
+                    (candidate-action candidate)))))))
 
 (defun java-goto-class-at-point ()
   "."
@@ -80,7 +80,7 @@
            (setq class (java-jump-to-definition class)))
        (if class
            (java-goto-class class
-                            #'(lambda () (java-goto-method method))))))))
+                            #'(lambda (buffer) (java-goto-method method))))))))
 
 (defconst +java-constant-regexp-format+ "\\(private\\|public\\).*%s.*$\\|^\s*%s(.*).*$")
 (defun java-goto-constant (constant)
@@ -126,7 +126,7 @@
            (setq class (java-jump-to-definition class)))
        (if class
            (java-goto-class class
-                            #'(lambda () (java-goto-constant constant))))))))
+                            #'(lambda (buffer) (java-goto-constant constant))))))))
 
 (defun java-show-class-constant ()
   "."
@@ -144,9 +144,10 @@
            (setq class (java-jump-to-definition class)))
        (if class
            (java-goto-class class
-                            #'(lambda ()
-                                (java-show-constant constant)
-                                (command-execute 'evil-buffer))))))))
+                            #'(lambda (buffer)
+                                (with-current-buffer buffer
+                                  (java-show-constant constant)))
+                            t))))))
 
 (defconst +java-property-regexp+ "^\s*?private\s*.*;\s*?$")
 
