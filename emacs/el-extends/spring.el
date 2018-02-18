@@ -248,6 +248,58 @@
                                                                  (goto-char (point-min))
                                                                  (search-forward line-content))))))
 
+(defun java-property-file-candidates ()
+  "."
+  (interactive)
+  (goto-char (point-min))
+  (let ((regexp "^[^#][^=]+=[^=]+$")
+        (collections '())
+        (end-of-buffer nil)
+        (line-begin-pos 0)
+        (line-end-pos 0)
+        (line-string nil))
+    (while (not end-of-buffer)
+      (skip-chars-backward "^\n")
+      (setq line-begin-pos (point))
+      (skip-chars-forward "^\n")
+      (setq line-end-pos (point))
+      (setq end-of-buffer (equal line-end-pos (point-max)))
+      (setq line-string (buffer-substring line-begin-pos line-end-pos))
+      (setq line-string-no-properties (buffer-substring-no-properties line-begin-pos line-end-pos))
+      (if (string-match regexp line-string-no-properties)
+          (push (list line-string (line-number-at-pos (point))) collections))
+      (if (not end-of-buffer)
+          (next-line)))
+    collections))
+
+(defun java-property-file-show-candidates ()
+  "."
+  (interactive)
+  (let ((regexp "^[^#][^=]+=[^=]+$"))
+    (sj-action-with-regexp regexp nil "No line content here."
+                           (apply-partially #'sj-goto-line-or-select "Line content: "))))
+
+(defun spring-list-application-properties ()
+  "."
+  (interactive)
+  (let* ((default-directory (expand-file-name (counsel-locate-git-root)))
+         (extension "java")
+         (full-cmd (format "git ls-files | egrep \"%s\"" "application.properties"))
+         (cands (split-string (shell-command-to-string full-cmd) "\n" t)))
+    (if (equal 1 (length cands))
+        (progn
+          (find-file (car cands))
+          (let ((collections (java-property-file-candidates)))
+            (command-execute 'evil-buffer)
+            (ivy-read "Select property: " (reverse collections) :action nil)))
+      (ivy-read "Select class: " (reverse cands) :action
+              (lambda (candidate)
+                (find-file candidate)
+                (let ((collections (java-property-file-candidates)))
+                  (command-execute 'evil-buffer)
+                  (ivy-read "Select property: " (reverse collections) :action nil)))))))
+
+
 (defun spring-git-grep-at-point ()
   "."
   (interactive)
