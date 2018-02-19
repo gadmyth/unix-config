@@ -74,10 +74,10 @@
      (backward-word)
      (let* ((class (word-at-point))
             (first-char (elt class 0)))
-       (goto-char current-point)
        (message "method: %s, class: %s" method class)
        (if (not (and (<= ?A first-char) (<= first-char ?Z)))
            (setq class (java-jump-to-definition class)))
+       (goto-char current-point)
        (if class
            (java-goto-class class
                             #'(lambda (buffer) (java-goto-method method))))))))
