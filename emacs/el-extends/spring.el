@@ -4,6 +4,7 @@
 
 (require 'counsel)
 (require 'source-jump)
+(require 'cl)
 
 (defun java-goto-class (class &optional finish-block noselect)
   "CLASS, FINISH-BLOCK, NOSELECT."
@@ -35,10 +36,12 @@
     (sj-action-with-regexp regexp nil "No class here."
                            (apply-partially #'sj-goto-line-or-select "Line content: "))))
 
+(defconst +java-method-format+ "^.*? \\(%s\\)(.*)[^()]*{\s*$")
+
 (defun java-goto-method (method)
   "METHOD."
   (interactive "sMethod: ")
-  (let ((regexp (format "^.*? %s(.*)[^()]*{\s*$" method)))
+  (let ((regexp (format +java-method-format+ method)))
     (sj-action-with-regexp regexp nil "No methods here."
                            (apply-partially #'sj-goto-line-or-select "The method: "))))
 
@@ -64,11 +67,12 @@
     (message variable)
     (java-jump-to-definition variable)))
 
-(defun java-jump-to-class-method ()
-  "."
+(defun java-resolve-class-method (&optional action)
+  "ACTION."
   (interactive)
   (let ((method (word-at-point))
         (current-point (point)))
+    (strip-text-properties method)
     (sj-save-excursion
      (re-search-backward "\\." nil t)
      (backward-word)
@@ -78,9 +82,46 @@
        (if (not (and (<= ?A first-char) (<= first-char ?Z)))
            (setq class (java-jump-to-definition class)))
        (goto-char current-point)
-       (if class
-           (java-goto-class class
-                            #'(lambda (buffer) (java-goto-method method))))))))
+       (cons class method)))))
+
+(defun java-jump-to-class-method ()
+  "."
+  (interactive)
+  (let* ((pair (java-resolve-class-method))
+         (class (car pair))
+         (method (cdr pair)))
+    (java-goto-class class
+                     #'(lambda (buffer) (java-goto-method method)))))
+
+(defun java-list-class-method (&optional action)
+  "ACTION."
+  (interactive)
+  (let* ((current-buffer (current-buffer))
+         (pair (java-resolve-class-method))
+         (class (car pair))
+         (method (cdr pair)))
+    (java-goto-class class
+                     #'(lambda (buffer)
+                         (let ((regexp (format +java-method-format+ "[^\s]*")))
+                           (message "regexp: %s, class: %s, buffer: %S" regexp class buffer)
+                           (sj-action-with-regexp regexp nil "No methods here."
+                                                  (lambda-of-ivy-read
+                                                   "The methods: "
+                                                   (let* ((candidate-string (car candidate))
+                                                          (candidate-string (substring candidate-string)))
+                                                     (if (string-match regexp candidate-string)
+                                                         (let ((matched-method (substring candidate-string (match-beginning 1) (match-end 1))))
+                                                           (message "method: %s" matched-method)
+                                                           (with-current-buffer current-buffer
+                                                             (if action (funcall action matched-method)))))))
+                                                  buffer)))
+                     t)))
+
+(defun java-insert-class-method ()
+  "."
+  (interactive)
+  (java-list-class-method #'(lambda (method)
+                              (insert method))))
 
 (defconst +java-constant-regexp-format+ "\\(private\\|public\\).*%s.*$\\|^\s*%s(.*).*$")
 (defun java-goto-constant (constant)

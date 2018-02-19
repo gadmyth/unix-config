@@ -80,5 +80,12 @@
           (insert p)
           (yas-next-field))))))
 
+(defmacro lambda-of-ivy-read (&rest body)
+  "COLLECTIONS, BODY."
+  `(lambda (collections)
+      (ivy-read "The methods: " (reverse collections) :action
+                #'(lambda (candidate)
+                    ,@body))))
+
 (provide 'source-jump)
 ;;; source-jump.el ends here
