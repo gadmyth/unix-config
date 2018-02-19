@@ -14,10 +14,10 @@
          (progn ,@body))
      (progn ,@body)))
 
-(defun sj-action-with-regexp (regexp prompt empty-message select-action)
-  "REGEXP, PROMPT, EMPTY-MESSAGE, SELECT-ACTION."
+(defun sj-action-with-regexp (regexp prompt empty-message select-action &optional buffer)
+  "REGEXP, PROMPT, EMPTY-MESSAGE, SELECT-ACTION, BUFFER."
   (interactive)
-  (with-current-buffer (current-buffer)
+  (with-current-buffer (or buffer (current-buffer))
     (let (collections '())
       (sj-save-excursion
        (goto-char (point-min))

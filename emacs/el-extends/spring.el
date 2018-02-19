@@ -280,13 +280,19 @@
     (sj-action-with-regexp regexp nil "No line content here."
                            (apply-partially #'sj-goto-line-or-select "Line content: "))))
 
+
+(defun git-ls-files (regexp)
+  "REGEXP."
+  (interactive)
+  (let ((default-directory (expand-file-name (counsel-locate-git-root)))
+        (command (format "git ls-files | egrep \"%s\"" regexp)))
+    (split-string (shell-command-to-string command) "\n" t)))
+
 (defun spring-list-application-properties ()
   "."
   (interactive)
-  (let* ((default-directory (expand-file-name (counsel-locate-git-root)))
-         (extension "java")
-         (command (format "git ls-files | egrep \"%s\"" "application.*.properties"))
-         (cands (split-string (shell-command-to-string command) "\n" t)))
+  (let ((default-directory (expand-file-name (counsel-locate-git-root)))
+        (cands (git-ls-files  "application.*.properties")))
     (flet ((list-properties
             (properties-file)
             (with-current-buffer (find-file-noselect properties-file)
@@ -305,5 +311,39 @@
   (let ((word (word-at-point)))
     (spring-git-grep word)))
 
+(defun strip-text-properties (string)
+  "STRING."
+  (set-text-properties 0 (length string) nil string))
+
+(defun spring-list-api (&optional api-action)
+  "API-ACTION."
+  (interactive)
+  (let ((default-directory (expand-file-name (counsel-locate-git-root)))
+        (candidates (git-ls-files "ApiController.java")))
+    (message "api-file1: %S" candidates)
+    (if-let ((api-file (car candidates)))
+        (let ((buffer (find-file-noselect api-file))
+              (regexp "^\s*\\(public\\|private\\) .*=.*$"))
+          (message "api-file: %s, %s" api-file buffer)
+          (sj-action-with-regexp regexp nil "No constant here."
+                                 #'(lambda (collections)
+                                     (ivy-read "The constant: " (reverse collections) :action
+                                               #'(lambda (candidate)
+                                                   (let* ((candidate-string (car candidate))
+                                                          (candidate-string (substring candidate-string)))
+                                                     (if api-action (funcall api-action candidate-string))))))
+                                 buffer)))))
+
+
+(defun spring-goto-api ()
+  "API."
+  (interactive)
+  (spring-list-api #'(lambda (api-line)
+                       (if (string-match "\s*\\([^\s]*\\)\s*=.*" api-line)
+                           (let* ((api-constant (substring api-line (match-beginning 1) (match-end 1)))
+                                  (regexp (format "\"@RequestMapping(.*\\<%s\\>.*)\"" api-constant)))
+                             (message "regexp: %s" regexp)
+                             (spring-git-grep regexp))))))
+    
 (provide 'spring)
 ;;; spring.el ends here
