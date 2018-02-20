@@ -8,6 +8,9 @@
 (add-to-list 'load-path (expand-file-name "el-pre-scripts" "~/emacs"))
 (add-to-list 'load-path (expand-file-name "el-extends" "~/emacs"))
 
+(require 'warnings)
+(setq display-warning-minimum-level :emergency)
+
 ;; load script files at first
 (require 'script-extends)
 (load-pre-script-files)

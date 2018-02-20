@@ -27,8 +27,9 @@
                          (?L "porce[L]ain" "porcelain")))
  )
  
-(require 'diff-hl)
-(global-diff-hl-mode t)
+(when window-system
+  (require 'diff-hl)
+  (global-diff-hl-mode t))
 
 (setq mode-require-final-newline nil)
 

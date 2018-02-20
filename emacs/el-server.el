@@ -65,8 +65,8 @@
 (defun my-default-elnode-dispatcher-handler (httpcon)
   "HTTPCON: ."
   (elnode-dispatcher httpcon my-default-elnode-url-mapping-table))
-
-(elnode-start 'my-default-elnode-dispatcher-handler :host "localhost" :port 8000)
+(ignore-errors
+  (elnode-start 'my-default-elnode-dispatcher-handler :host "localhost" :port 8000))
 
 (provide 'el-server)
 ;;; el-server.el ends here
