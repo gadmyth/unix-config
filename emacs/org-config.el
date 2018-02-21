@@ -65,51 +65,47 @@
 (setq org-id-link-to-org-use-id t)
 
 ;;; org html config
-(setq org-html-head
-      (format "<style type='text/css'>%s</style>"
-              (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs"))
-                (insert-file-contents "org.css")
-                (buffer-string))))
+;; (setq org-html-head
+;;       (format "<style type='text/css'>%s</style>"
+;;               (with-temp-buffer
+;;                 (setq default-directory (expand-file-name "~/emacs"))
+;;                 (insert-file-contents "org.css")
+;;                 (buffer-string))))
 
-(setq org-html-head
-      (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs"))
-                (insert-file-contents "theme-readtheorg.style")
-                (buffer-string)))
+;; (setq org-html-head
+;;       (with-temp-buffer
+;;                 (setq default-directory (expand-file-name "~/emacs"))
+;;                 (insert-file-contents "theme-readtheorg.style")
+;;                 (buffer-string)))
 
-(setq org-html-head
-      (format "%s<style type='text/css'>%s</style><style type='text/css'>%s</style><style type='text/css'>%s</style><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script><script type='text/javascript'>%s</script>"
-              "<link rel=\"shortcut icon\" href=\"images/favicon.ico\" type=\"image/x-icon\">"
-              (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs/org/res"))
-                (insert-file-contents "htmlize.css")
-                (buffer-string))
-              (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs/org/res"))
-                (insert-file-contents "readtheorg.css")
-                (buffer-string))
-              (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs/org/res"))
-                (insert-file-contents "icon.css")
-                (buffer-string))
-              (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs/org/res"))
-                (insert-file-contents "jquery.min.js")
-                (buffer-string))
-              (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs/org/res"))
-                (insert-file-contents "bootstrap.min.js")
-                (buffer-string))
-              (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs/org/res"))
-                (insert-file-contents "jquery.stickytableheaders.min.js")
-                (buffer-string))
-              (with-temp-buffer
-                (setq default-directory (expand-file-name "~/emacs/org/res"))
-                (insert-file-contents "readtheorg.js")
-                (buffer-string)))
-      )
+(defvar *org-export-res-files* '("htmlize.css"
+                                 "readtheorg.css"
+                                 "icon.css"
+                                 "jquery.min.js"
+                                 "bootstrap.min.js"
+                                 "jquery.stickytableheaders.min.js"
+                                 "readtheorg.js"))
+
+(setq org-html-head-default
+      (apply #'concat
+             "<link rel=\"shortcut icon\" href=\"images/favicon.ico\" type=\"image/x-icon\">"
+             (mapcar #'(lambda (file)
+                         (setq default-directory (expand-file-name "~/emacs/org/res"))
+                         (let* ((css-p (string-suffix-p ".css" file))
+                                (css-left-pair "<style type='text/css'>")
+                                (css-right-pair "</style>")
+                                (js-left-pair "<script type='text/javascript'>")
+                                (js-right-pair "</script>")
+                                (left-pair (if css-p css-left-pair js-left-pair))
+                                (right-pair (if css-p css-right-pair js-right-pair)))
+                           (with-temp-buffer
+                             (insert left-pair)
+                             (insert-file-contents file) (goto-char (point-max))
+                             (insert right-pair)
+                             (buffer-string))))
+                     *org-export-res-files*)))
+
+(setq org-html-head org-html-head-default)
 
 (defun m/org-html-checkbox (checkbox)
   "Format CHECKBOX into HTML."
@@ -207,6 +203,12 @@
          :publishing-function org-publish-attachment)
         ("blog" :components ("blog-notes" "blog-static"))
         ))
+
+(defun org-publish-current-file-without-inner-resource-files ()
+  "."
+  (interactive)
+  (let ((org-html-head ""))
+    (org-publish-current-file)))
 
 ;;; mobile org
 ;(setq org-mobile-directory "/usr/uploads/")

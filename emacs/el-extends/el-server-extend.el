@@ -18,7 +18,8 @@
              (local-host (elnode-local-host httpcon))
              (local-port (elnode-local-port httpcon))
              (link-org-as-html (elnode-http-param httpcon "link-org-as-html"))
-             (force-refresh (elnode-http-param httpcon "force-refresh")))
+             (force-refresh (elnode-http-param httpcon "force-refresh"))
+             (exclude-inner-res (elnode-http-param httpcon "exclude-inner-res")))
          (message (format "remote host: %s, remote port: %s" remote-host remote-port))
          (message (format "local host: %s, local port: %s" local-host local-port))
          (message (format "org-file: %S, is directory: %S" org-file (file-directory-p org-file)))
@@ -52,8 +53,10 @@
                      (progn
                        (setq org-export-show-temporary-export-buffer nil)
                        (setq-local org-html-link-org-files-as-html link-org-as-html)
+                       (setq org-html-head (if exclude-inner-res "" org-html-head-default))
                        (let ((exported-buffer (org-html-export-as-html)))
                          (message "exported-buffer: %s" exported-buffer)
+                         (message "org-html-head: %S" (length org-html-head))
                          (setq org-export-show-temporary-export-buffer t)
                          (with-current-buffer exported-buffer
                            (let ((org-html (buffer-substring-no-properties (point-min) (point-max))))
