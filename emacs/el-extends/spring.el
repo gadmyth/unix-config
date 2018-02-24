@@ -28,6 +28,15 @@
   (let ((class (word-at-point)))
     (java-goto-class class)))
 
+(defun spring-goto-interface ()
+  "."
+  (interactive)
+  (save-excursion
+    (java-goto-class-def)
+    (when (re-search-forward "\\<implements\\>" nil t)
+      (forward-word)
+      (java-goto-class-at-point))))
+
 (defun java-goto-class-def ()
   "."
   (interactive)
@@ -36,12 +45,13 @@
     (sj-action-with-regexp regexp nil "No class here."
                            (apply-partially #'sj-goto-line-or-select "Line content: "))))
 
-(defconst +java-method-format+ "^.*? \\(%s\\)(.*)[^()]*{\s*$")
+(defconst +java-method-format+ "^.*? \\(public\\|private\\) .*\\(%s\\)(.*)[^()]*{\s*$")
 
-(defun java-goto-method (method)
+(defun java-goto-method (&optional method)
   "METHOD."
-  (interactive "sMethod: ")
-  (let ((regexp (format +java-method-format+ method)))
+  (interactive)
+  (let ((regexp (format +java-method-format+ (or method ".*"))))
+    (message "java-goto-method: %s" regexp)
     (sj-action-with-regexp regexp nil "No methods here."
                            (apply-partially #'sj-goto-line-or-select "The method: "))))
 
@@ -50,6 +60,12 @@
   (interactive)
   (let ((method (word-at-point)))
     (java-goto-method method)))
+
+(defun java-goto-last-method ()
+  "."
+  (interactive)
+  (let ((regexp (format +java-method-format+ ".*")))
+    (sj-goto-last-with-regexp regexp  "The method name: " "No method here.")))
 
 (defun java-jump-to-definition (variable)
   "VARIABLE."
@@ -90,6 +106,7 @@
   (let* ((pair (java-resolve-class-method))
          (class (car pair))
          (method (cdr pair)))
+    (message "java-jump-to-class-method: %S, %S" class method)
     (java-goto-class class
                      #'(lambda (buffer) (java-goto-method method)))))
 
@@ -205,6 +222,7 @@
 (defun java-create-property (prop-name type)
   "PROP-NAME, TYPE."
   (interactive "sProperty Name: \nsType: ")
+  (java-goto-class-def)
   (java-goto-last-property)
   (move-end-of-line 1)
   (insert "\n\n")
@@ -280,15 +298,18 @@
   (let* ((default-directory (expand-file-name (counsel-locate-git-root)))
          (full-cmd (format "git grep %s" word))
          (cands (split-string (shell-command-to-string full-cmd) "\n" t)))
-    (ivy-read "Select candidate: " (reverse cands) :action #'(lambda (candidate)
-                                                               (require 's)
-                                                               (let* ((trim-candidate (s-trim candidate))
-                                                                      (array (split-string trim-candidate ":"))
-                                                                      (file (first array))
-                                                                      (line-content (second array)))
-                                                                 (find-file file)
-                                                                 (goto-char (point-min))
-                                                                 (search-forward line-content))))))
+    (ivy-read "Select candidate: " (reverse cands)
+              :initial-input
+              word
+              :action #'(lambda (candidate)
+                          (require 's)
+                          (let* ((trim-candidate (s-trim candidate))
+                                 (array (split-string trim-candidate ":"))
+                                 (file (first array))
+                                 (line-content (second array)))
+                            (find-file file)
+                            (goto-char (point-min))
+                            (search-forward line-content))))))
 
 (defun java-property-file-candidates ()
   "."
