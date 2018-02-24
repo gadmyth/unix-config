@@ -2,6 +2,6 @@
 # name: prop-setter
 # key: prop-setter
 # --
-public void set${1:$(capitalize yas-text)}(${2:String} ${1:property}) {
+public void set${1:$(upcase-initials yas-text)}(${2:String} ${1:property}) {
     this.$1 = $1;
 }
