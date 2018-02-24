@@ -57,6 +57,10 @@
 
 (defvar my-default-elnode-url-mapping-table '())
 
+(defvar *my-default-elnode-port* 8000)
+
+(defvar *my-default-elnode-host* "localhost")
+
 (defun my-elnode-add-handlers (handlers)
   "HANDLERS: ."
   (dolist (handler handlers)
@@ -66,7 +70,7 @@
   "HTTPCON: ."
   (elnode-dispatcher httpcon my-default-elnode-url-mapping-table))
 (ignore-errors
-  (elnode-start 'my-default-elnode-dispatcher-handler :host "localhost" :port 8000))
+  (elnode-start 'my-default-elnode-dispatcher-handler :host *my-default-elnode-host* :port *my-default-elnode-port*))
 
 (provide 'el-server)
 ;;; el-server.el ends here

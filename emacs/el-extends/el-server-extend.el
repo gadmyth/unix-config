@@ -89,5 +89,26 @@
    ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))
    ("^/homo/\\(.*\\.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))))
 
+(defun open-org-file-by-elnode ()
+  "."
+  (interactive)
+  (require 'ivy)
+  (let* ((directory (expand-file-name "~/org/doc"))
+         (org-files (directory-files directory t ".*?\\.org$")))
+    (ivy-read "The org files: " (reverse org-files) :action
+              #'(lambda (org-file)
+                  (let* ((relative-path (file-relative-name org-file directory))
+                         (url (format "http://%s:%s/orgs/%s" *my-default-elnode-host* *my-default-elnode-port* relative-path)))
+                    (browse-url url))))))
+
+(defun open-current-org-file-by-elnode ()
+  "."
+  (interactive)
+  (let* ((directory (expand-file-name "~/org/doc"))
+         (org-file (buffer-file-name (current-buffer))))
+    (let* ((relative-path (file-relative-name org-file directory))
+           (url (format "http://%s:%s/orgs/%s" *my-default-elnode-host* *my-default-elnode-port* relative-path)))
+      (browse-url url))))
+
 (provide 'el-server-extend)
 ;;; el-server-extend.el ends here
