@@ -84,6 +84,9 @@ set expandtab
 " 在命令行用空格补全时，可以看到所有的可以补全的项
 set wildmenu
 
+" 文尾不换行
+set noeol
+
 " for cscope
 set cscopequickfix=e-,d-,c-,g-,i-,t-,f-,s-
 set cscopetag
