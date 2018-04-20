@@ -19,7 +19,25 @@
            (setq value (restclient-replace-all-in-string vars value))
            (let ((symbol (intern ename)))
              (set symbol value))))
-       vars))))
+       vars)))
+
+ (defun restclient-parse-from-alist (json-object key)
+   (let* ((pair (assoc key json-object)))
+     (cdr pair)))
+
+ (defvar restclient-response-loaded-hook nil)
+ (defvar rc--current-token nil)
+ 
+ (setq restclient-response-loaded-hook
+       (lambda ()
+         (message "restclient-response-received-hook")
+         (let* ((result-object (json-read))
+                (access-token (restclient-parse-from-alist result-object 'accessToken)))
+           (when access-token
+             (setq rc--current-token access-token)
+             (message "access-token: %S" access-token))))))
+
+
 
 (provide 'restclient+)
 ;;; restclient+.el ends here
