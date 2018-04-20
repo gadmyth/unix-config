@@ -146,7 +146,7 @@ Version 2017-05-24"
 (defun create-test-tmp-file (extension)
   "EXTENSION."
   (interactive "sfile extension: ")
-  (new-buffer (format "test-%s.%s" (xah-insert-random-string 5) extension))
+  (new-buffer (format "test_%s.%s" (xah-insert-random-string 5) extension))
   (write-file (format "/tmp/%s" (buffer-name))))
 
 (defun copy-buffername-without-extension ()
