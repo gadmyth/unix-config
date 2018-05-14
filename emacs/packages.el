@@ -116,5 +116,11 @@
            (require p))
          (progn ,@body))))
 
+(defmacro require-package (package &rest body)
+  `(progn
+     (require ,package)
+     (message "%S required!" ,package)
+     (progn ,@body)))
+
 (provide 'packages)
 ;;; packages.el ends here

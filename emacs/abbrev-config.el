@@ -1,4 +1,11 @@
+;;; package --- abbrev-config.el
+;;; Commentary:
+;;; Code:
+
 (require 'evil)
+
+(setq default-abbrev-mode t)
+(setq save-abbrevs t)
 
 (require 'yasnippet)
 (defadvice yas-expand (around expand-abbrev-when-word-p)
@@ -59,3 +66,4 @@
 (setq save-abbrevs nil)
 
 (provide 'abbrev-config)
+;;; abbrev-config.el ends here

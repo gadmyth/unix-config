@@ -1,6 +1,11 @@
 (eval-when-compile (require 'cl))
 
 (setq def-dir (expand-file-name "~/emacs-workspace"))
+
+(if (not (file-exists-p def-dir))
+    (mkdir def-dir))
+(setq default-directory def-dir)
+
 (setq *mac-scale-amount* 2
       *linux-scale-amount* 2)
 

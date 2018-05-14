@@ -8,19 +8,22 @@
 (add-to-list 'load-path (expand-file-name "el-pre-scripts" "~/emacs"))
 (add-to-list 'load-path (expand-file-name "el-extends" "~/emacs"))
 
-(require 'warnings)
-(setq display-warning-minimum-level :emergency)
+(require 'packages)
+
+(require-package
+ 'warnings
+ (setq display-warning-minimum-level :emergency))
 
 ;; load script files at first
 (require 'script-extends)
 (load-pre-script-files)
 
-(require 'packages)
-
 (require 'frames)
 (require 'windows)
-(require 'files-config)
-(customized-dir-init)
+
+(require-package
+ 'customized-dir
+ (customized-dir-init))
 
 (require 'mode-bars)
 (require 'fonts)
@@ -33,8 +36,6 @@
 (put 'upcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 
-(setq default-abbrev-mode t)
-(setq save-abbrevs t)
 (global-unset-key (kbd "C-SPC"))
 (require 'irc-config)
 (require 'tab-config)
@@ -47,62 +48,50 @@
 (require 'swiper-config)
 (eval-after-load "textmate" '(add-to-list '*textmate-project-roots* ".svn"))
 (eval-after-load "xcscope" '(ignore-errors (add-to-list 'cscope-indexer-suffixes "*.java")))
-(setq backup-directory-alist (quote (("." . "~/.backups"))))
 
 
-(smartparens-global-mode)
+(require-if-installed
+ 'smartparens
+ (smartparens-global-mode))
+
 (require-if-installed 'expand-region (global-set-key (kbd "C-=") 'er/expand-region))
-;(mapc (lambda (key) (delete key sp-trigger-keys)) '("\"" "'" "`"))
 (require 'lisping-snippet)
-(require 'yas-config)
-(yas-global-mode)
+
+(require-package
+ 'yas-config
+ (yas-global-mode))
+
 (global-auto-complete-mode)
+
 (require 'abbrev-config)
 (require 'anythings)
+(require 'uniquify-config)
 
-(require 'wcy-desktop)
-(wcy-desktop-init)
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward)
-(setq uniquify-separator " :: ") 
-(setq uniquify-after-kill-buffer-p t)
+(require-package
+ 'wcy-desktop
+ (wcy-desktop-init))
+
+
 (require 'workspace)
-(if (not (file-exists-p def-dir))
-  (mkdir def-dir))
-(setq default-directory def-dir)
+
 (switch-proxy nil)
 
 (require-if-installed 'alpha (transparency-set-value *default-trans-value*))
   
 (require 'org-config)
 
-(require 'smex)
-(global-set-key (kbd "M-x") 'smex)
-(ido-mode t)
-(setq ido-enable-flex-matching t)
+(require-if-installed
+ 'smex
+ (global-set-key (kbd "M-x") 'smex))
 
+(require 'ido-config)
 (require 'eww-config)
 
 (require 'slime-config)
 (require 'projectile-config)
 (require 'scales)
 
-(add-hook 'find-file-hook
-	  (lambda ()
-	    (progn
-	      ;(scale-large)
-          (interactive)
-          (revert-buffer t t t)
-          (scale-large)
-          (require 'textmate)
-          (textmate-mode)
-          (require 'xcscope)
-          (cscope-minor-mode)
-          )))
-
-(add-hook 'after-save-hook
-		  (lambda () (if (string= (buffer-name) ".emacs")
-					(byte-compile-file (expand-file-name "~/.emacs")))))
+(require 'files-config)
 
 (require 'evil-config)
 
@@ -112,7 +101,6 @@
 (require 'eyebrowse-config)
 (require 'key-bindings)
 (require 'holiday-config)
-(add-hook 'after-init-hook 'global-flycheck-mode)
 (require 'dired++)
 
 ;(require 'annot)

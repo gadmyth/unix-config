@@ -4,7 +4,7 @@
 
 (require 'eredis)
 
-(defun r-connect-local ()               ;
+(defun r-connect-local ()
   "."
   (interactive)
   (eredis-connect "localhost" 6379))
