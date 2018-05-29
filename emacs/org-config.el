@@ -147,7 +147,7 @@
    (plantuml . t)
    (dot . t)
    (restclient . t)
-   (sh . t)
+   (shell . t)
    (ruby . t)
    (python . t)
    (gnuplot . t)
