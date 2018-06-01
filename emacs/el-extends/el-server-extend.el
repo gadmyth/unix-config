@@ -84,10 +84,35 @@
      :host host)
     webserver-proc))
 
+(defun elnode-cache-getter ()
+  "DOCROOT: , PORT: , HOST: . Make a redis cache server."
+  (lambda (httpcon)
+    (require 'redis-config)
+    (let* ((cache-key (elnode-http-param httpcon "key"))
+           (value (r-get cache-key)))
+      (message "elnode-cache-server, cache-key: %S" cache-key)
+      (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
+      (elnode-http-return httpcon (format "Value for %S is %S" cache-key value)))))
+
+(defun elnode-cache-setter ()
+  "DOCROOT: , PORT: , HOST: . Make a redis cache server."
+  (lambda (httpcon)
+    (require 'redis-config)
+    (let* ((cache-key (elnode-http-param httpcon "key"))
+           (value (elnode-http-param httpcon "value")))
+      (message "elnode-cache-server, cache-key: %S, value: %S" cache-key value)
+      (r-set cache-key value)
+      (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
+      (elnode-http-return httpcon (format "set %S to %S" cache-key value)))))
+
+(reset-my-default-elnode-url-mapping-table)
+
 (my-elnode-add-handlers
  `(("^/orgs/\\(.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/doc/"))
    ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))
-   ("^/homo/\\(.*\\.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))))
+   ("^/homo/\\(.*\\.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))
+   ("^/cache/set/\\(.*\\)$" . ,(byte-compile (elnode-cache-setter)))
+   ("^/cache/get/\\(.*\\)$" . ,(byte-compile (elnode-cache-getter)))))
 
 (defun open-org-file-by-elnode ()
   "."

@@ -50,6 +50,10 @@
 
 (defvar my-default-elnode-url-mapping-table '())
 
+(defun reset-my-default-elnode-url-mapping-table ()
+  "."
+  (setq my-default-elnode-url-mapping-table '()))
+
 (defvar *my-default-elnode-port* 8000)
 
 (defvar *my-default-elnode-host* "localhost")

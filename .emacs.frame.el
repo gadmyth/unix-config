@@ -106,7 +106,7 @@
 ;(require 'annot)
 
 (require 'emoji-config)
-(require-if-installed 'redis (require 'redis-config))
+(require-if-installed 'eredis (require 'redis-config))
 (require 'sudo-edit)
 (require 'web-config)
 (require 'smart-compile-config)
