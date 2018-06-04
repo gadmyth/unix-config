@@ -292,15 +292,16 @@
                                         #'(lambda ()
                                             (sj-goto-last-with-regexp method "The method: " "No method here."))))))))
 
-(defun spring-git-grep (word)
-  "WORD."
+(defun spring-git-grep (regexp initial-word)
+  "REGEXP, INITIAL-WORD."
   (interactive "sWord: ")
   (let* ((default-directory (expand-file-name (counsel-locate-git-root)))
-         (full-cmd (format "git grep %s" word))
-         (cands (split-string (shell-command-to-string full-cmd) "\n" t)))
+         (full-cmd (format "git grep %s" regexp))
+         (results (shell-command-to-string full-cmd))
+         (cands (split-string results "\n" t)))
     (ivy-read "Select candidate: " (reverse cands)
               :initial-input
-              word
+              initial-word
               :action #'(lambda (candidate)
                           (require 's)
                           (let* ((trim-candidate (s-trim candidate))
@@ -371,7 +372,7 @@
   "."
   (interactive)
   (let ((word (word-at-point)))
-    (spring-git-grep word)))
+    (spring-git-grep word word)))
 
 (defun strip-text-properties (string)
   "STRING."
@@ -405,7 +406,7 @@
                            (let* ((api-constant (substring api-line (match-beginning 1) (match-end 1)))
                                   (regexp (format "\"@RequestMapping(.*\\<%s\\>.*)\"" api-constant)))
                              (message "regexp: %s" regexp)
-                             (spring-git-grep regexp))))))
+                             (spring-git-grep regexp api-constant))))))
     
 (provide 'spring)
 ;;; spring.el ends here
