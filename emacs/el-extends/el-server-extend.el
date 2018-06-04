@@ -92,7 +92,8 @@
            (value (r-get cache-key)))
       (message "elnode-cache-server, cache-key: %S" cache-key)
       (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
-      (elnode-http-return httpcon (format "Value for %S is %S" cache-key value)))))
+      (kill-new value)
+      (elnode-http-return httpcon value))))
 
 (defun elnode-cache-setter ()
   "DOCROOT: , PORT: , HOST: . Make a redis cache server."
@@ -105,6 +106,23 @@
       (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
       (elnode-http-return httpcon (format "set %S to %S" cache-key value)))))
 
+(defun elnode-cache-keys ()
+  "DOCROOT: , PORT: , HOST: . Make a redis cache server."
+  (lambda (httpcon)
+    (require 'redis-config)
+    (message "elnode-cache-server, get keys.")
+    (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
+    (elnode-http-return httpcon (format "keys: %S" (r-keys)))))
+
+(defun elnode-cache-delete ()
+  "DOCROOT: , PORT: , HOST: . Make a redis cache server."
+  (lambda (httpcon)
+    (require 'redis-config)
+    (let* ((cache-key (elnode-http-param httpcon "key")))
+      (message "elnode-cache-server, delete key: %S" cache-key)
+      (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
+      (elnode-http-return httpcon (format "keys: %S" (r-del cache-key))))))
+
 (reset-my-default-elnode-url-mapping-table)
 
 (my-elnode-add-handlers
@@ -112,6 +130,8 @@
    ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))
    ("^/homo/\\(.*\\.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))
    ("^/cache/set/\\(.*\\)$" . ,(byte-compile (elnode-cache-setter)))
+   ("^/cache/keys/\\(.*\\)$" . ,(byte-compile (elnode-cache-keys)))
+   ("^/cache/del/\\(.*\\)$" . ,(byte-compile (elnode-cache-delete)))
    ("^/cache/get/\\(.*\\)$" . ,(byte-compile (elnode-cache-getter)))))
 
 (defun open-org-file-by-elnode ()

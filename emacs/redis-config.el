@@ -21,5 +21,15 @@
   (interactive"sKey: \nsValue: \n")
   (eredis-set key value))
 
+(defun r-keys ()
+  "."
+  (interactive)
+  (eredis-keys "*"))
+
+(defun r-del (key)
+  "KEY: ."
+  (interactive)
+  (eredis-del key))
+
 (provide 'redis-config)
 ;;; redis-config.el ends here
