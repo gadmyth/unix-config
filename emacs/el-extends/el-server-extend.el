@@ -84,6 +84,24 @@
      :host host)
     webserver-proc))
 
+(defun elnode-url-encoder ()
+  "."
+  (lambda (httpcon)
+    (require 'redis-config)
+    (let ((content (elnode-http-param httpcon "content")))
+      (message "elnode-url-encoder, content: %S" content)
+      (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
+      (elnode-http-return httpcon (url-hexify-string content)))))
+
+(defun elnode-url-decoder ()
+  "."
+  (lambda (httpcon)
+    (require 'redis-config)
+    (let ((content (elnode-http-param httpcon "content")))
+      (message "elnode-url-decoder, content: %S" content)
+      (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
+      (elnode-http-return httpcon (decode-coding-string (url-unhex-string content) 'utf-8)))))
+
 (defun elnode-cache-getter ()
   "DOCROOT: , PORT: , HOST: . Make a redis cache server."
   (lambda (httpcon)
@@ -110,6 +128,7 @@
   "DOCROOT: , PORT: , HOST: . Make a redis cache server."
   (lambda (httpcon)
     (require 'redis-config)
+    (r-connect-local)
     (message "elnode-cache-server, get keys.")
     (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
     (elnode-http-return httpcon (format "keys: %S" (r-keys)))))
@@ -129,6 +148,8 @@
  `(("^/orgs/\\(.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/doc/"))
    ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))
    ("^/homo/\\(.*\\.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))
+   ("^/url/encode/\\(.*\\)$" . ,(byte-compile (elnode-url-encoder)))
+   ("^/url/decode/\\(.*\\)$" . ,(byte-compile (elnode-url-decoder)))
    ("^/cache/set/\\(.*\\)$" . ,(byte-compile (elnode-cache-setter)))
    ("^/cache/keys/\\(.*\\)$" . ,(byte-compile (elnode-cache-keys)))
    ("^/cache/del/\\(.*\\)$" . ,(byte-compile (elnode-cache-delete)))
