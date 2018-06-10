@@ -27,15 +27,25 @@
 
  (defvar restclient-response-loaded-hook nil)
  (defvar rc--current-token nil)
+ (defvar rc--verify-code nil)
+ (defvar rc--uap-token nil)
  
  (setq restclient-response-loaded-hook
        (lambda ()
          (message "restclient-response-received-hook")
          (let* ((result-object (json-read))
-                (access-token (restclient-parse-from-alist result-object 'accessToken)))
+                (access-token (restclient-parse-from-alist result-object 'accessToken))
+                (verify-code (restclient-parse-from-alist result-object 'verifycode))
+                (token (restclient-parse-from-alist result-object 'token)))
            (when access-token
              (setq rc--current-token access-token)
-             (message "access-token: %S" access-token))))))
+             (message "access-token: %S" access-token))
+           (when verify-code
+             (setq rc--verify-code verify-code)
+             (message "verify-code: %S" verify-code))
+           (when token
+             (setq rc--uap-token token)
+             (message "token: %S" token))))))
 
 
 
