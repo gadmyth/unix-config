@@ -84,6 +84,32 @@
      :host host)
     webserver-proc))
 
+(defun elnode-switch-org ()
+  "."
+  (lambda (httpcon)
+    (require 'redis-config)
+    (let* ((org-file-name (elnode-http-param httpcon "name"))
+           (result (elnode-switch-org-file org-file-name)))
+      (message "elnode-switch-org, file name: %S" org-file-name)
+      (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
+      (elnode-http-return httpcon result))))
+
+(defun elnode-switch-org-file (name)
+  "NAME."
+  (let* ((name (format "%s.org" name))
+         (buffer (get-buffer name)))
+    (if (buffer-live-p buffer)
+        (progn
+          (switch-to-buffer buffer)
+          (format "switch buffer: %s" name))
+      (progn
+        (let* ((default-directory (expand-file-name "~/org/"))
+               (command (format "git ls-files | egrep \"%s$\"" name))
+               (files (split-string (shell-command-to-string command) "\n" t)))
+          (when (= (length files) 1)
+            (find-file (car files))
+            (format "switch to file: %s" (buffer-file-name))))))))
+
 (defun elnode-url-encoder ()
   "."
   (lambda (httpcon)
@@ -131,7 +157,7 @@
     (r-connect-local)
     (message "elnode-cache-server, get keys.")
     (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
-    (elnode-http-return httpcon (format "keys: %S" (r-keys)))))
+    (elnode-http-return httpcon (format "keys:\n%s" (s-join "\n"(r-keys))))))
 
 (defun elnode-cache-delete ()
   "DOCROOT: , PORT: , HOST: . Make a redis cache server."
@@ -142,18 +168,28 @@
       (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
       (elnode-http-return httpcon (format "keys: %S" (r-del cache-key))))))
 
+(defun elnode-cache-saver ()
+  "DOCROOT: , PORT: , HOST: . Make a redis cache server."
+  (lambda (httpcon)
+    (require 'redis-config)
+    (message "elnode-cache-server, cache-save")
+    (elnode-http-start httpcon 200 '("Content-Type" . "text/html"))
+    (elnode-http-return httpcon (r-save))))
+
 (reset-my-default-elnode-url-mapping-table)
 
 (my-elnode-add-handlers
  `(("^/orgs/\\(.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/doc/"))
    ("^/homo/\\(.*\\.html\\)$" . ,(elnode-webserver-handler-maker "~/org/homo_public_html/"))
    ("^/homo/\\(.*\\.*\\)$" . ,(org-dir-compiled-handler-maker "~/org/homogenius/"))
+   ("^/org/switch/\\(.*\\)$" . ,(byte-compile (elnode-switch-org)))
    ("^/url/encode/\\(.*\\)$" . ,(byte-compile (elnode-url-encoder)))
    ("^/url/decode/\\(.*\\)$" . ,(byte-compile (elnode-url-decoder)))
    ("^/cache/set/\\(.*\\)$" . ,(byte-compile (elnode-cache-setter)))
    ("^/cache/keys/\\(.*\\)$" . ,(byte-compile (elnode-cache-keys)))
    ("^/cache/del/\\(.*\\)$" . ,(byte-compile (elnode-cache-delete)))
-   ("^/cache/get/\\(.*\\)$" . ,(byte-compile (elnode-cache-getter)))))
+   ("^/cache/get/\\(.*\\)$" . ,(byte-compile (elnode-cache-getter)))
+   ("^/cache/save/\\(.*\\)$" . ,(byte-compile (elnode-cache-saver)))))
 
 (defun open-org-file-by-elnode ()
   "."

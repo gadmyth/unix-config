@@ -31,5 +31,10 @@
   (interactive)
   (eredis-del key))
 
+(defun r-save ()
+  "."
+  (interactive)
+  (eredis-save))
+
 (provide 'redis-config)
 ;;; redis-config.el ends here
