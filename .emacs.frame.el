@@ -111,6 +111,9 @@
 (require 'web-config)
 (require 'smart-compile-config)
 (require 'frames)
+
+;; languages
+(require 'python-config)
 	          
 ;; load must files at last
 (load-must-files)
