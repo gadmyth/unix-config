@@ -38,13 +38,13 @@
         'htmlize ;; org-export
         'diff-hl
         'auto-complete
-        'anything
+        ;'anything
         'yasnippet
         'smartparens
         'multi-term
         'flycheck
         'eyebrowse
-        'vkill
+        ;'vkill
         ))
 
 (defvar tool-packages
@@ -95,10 +95,14 @@
 (require 'autoloads)
 
 (defvar *sync-package* t)
-(if *sync-package*
-    (mapcar #'require-package required-packages))
+(defun install-packages-if-needed ()
+  "Install packages if not existed."
+  (message "install-packages-if-needed: %S" *sync-package*)
+  (if *sync-package*
+      (mapcar #'install-package required-packages)))
 
 (defmacro require-if-installed (package &rest body)
+  "PACKAGE, BODY."
   `(if (package-installed-p ,package)
        (progn
          (require ,package)
@@ -107,6 +111,7 @@
      (message "%S not installed!" ,package)))
 
 (defmacro require-packages-if-installed (packages &rest body)
+  "PACKAGES, BODY."
   `(let ((all-package-installed t))
      (dolist (p ,packages)
        (if (not (package-installed-p p))
@@ -117,6 +122,7 @@
          (progn ,@body))))
 
 (defmacro require-package (package &rest body)
+  "PACKAGE, BODY."
   `(progn
      (require ,package)
      (message "%S required!" ,package)

@@ -4,7 +4,9 @@ function load_scripts_in_directory() {
     dir=$1
     if [ -d $dir ]; then
         for file in `ls $dir`; do
-            source $dir/$file
+            if [ -f $dir/$file ]; then
+                source $dir/$file
+            fi
         done
     fi
 }

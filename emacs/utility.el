@@ -8,15 +8,17 @@
 (eval-when-compile (require 'cl))
 
 ;;;###autoload
-(defun require-package (package &optional min-version no-refresh)
+(defun install-package (package &optional min-version no-refresh)
   "PACKAGE is package name; MIN-VERSION is min version of package; NO-REFRESH is whether to refresh contents."
   (if (package-installed-p package min-version)
       t
-    (if (or (assoc package package-archive-contents) no-refresh)
-        (package-install package)
-      (progn
-        (package-refresh-contents)
-        (require-package package min-version t)))))
+    (progn
+      (message "Should install-package: %S" package)
+      (if (or (assoc package package-archive-contents) no-refresh)
+	  (package-install package)
+	(progn
+	  (package-refresh-contents)
+	  (require-package package min-version t))))))
 
 ;;;###autoload
 (defun switch-proxy (enable)

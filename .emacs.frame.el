@@ -18,6 +18,8 @@
 (require 'script-extends)
 (load-pre-script-files)
 
+(install-packages-if-needed)
+
 (require 'frames)
 (require 'windows)
 

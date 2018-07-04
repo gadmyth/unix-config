@@ -9,6 +9,7 @@ ln -sf unix-config/.emacs.shell.el
 ln -sf unix-config/.gitconfig
 ln -sf unix-config/.gvimrc
 ln -sf unix-config/.profile
+ln -sf unix-config/.Xmodmap
 rm -f .vimrc
 ln -s .gvimrc .vimrc
 ln -sf unix-config/.vumrc
@@ -25,3 +26,7 @@ fi
 
 cd ~/.vim
 ln -sf ~/unix-config/vim/syntax
+
+if [ ! -d ~/snippets ]; then
+    mkdir ~/snippets
+fi
