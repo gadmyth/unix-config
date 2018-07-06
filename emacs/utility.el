@@ -18,7 +18,7 @@
 	  (package-install package)
 	(progn
 	  (package-refresh-contents)
-	  (require-package package min-version t))))))
+	  (install-package package min-version t))))))
 
 ;;;###autoload
 (defun switch-proxy (enable)
