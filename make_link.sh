@@ -10,6 +10,7 @@ ln -sf unix-config/.gitconfig
 ln -sf unix-config/.gvimrc
 ln -sf unix-config/.profile
 ln -sf unix-config/.Xmodmap
+ln -sf unix-config/.tmux.conf
 rm -f .vimrc
 ln -s .gvimrc .vimrc
 ln -sf unix-config/.vumrc
