@@ -2,10 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
+(defconst +date-command+ (if (eq window-system 'ns) "gdate" "date"))
+
 (defun current-timestamp ()
   "."
   (interactive)
-  (let* ((ct (shell-command-to-string "gdate +%s"))
+  (let* ((ct (shell-command-to-string (format "%s +%%s" +date-command+)))
          (ct (substring ct 0 (- (length ct) 1))))
     (message ct)
     ct))
@@ -13,7 +15,7 @@
 (defun string-to-timestamp (date-str)
   "DATE-STR: ."
   (interactive "sInput the date string: ")
-  (let ((ct (shell-command-to-string (format "gdate -d '%s' +%%s" date-str))))
+  (let ((ct (shell-command-to-string (format "%s -d '%s' +%%s" +date-command+ date-str))))
     (message ct)
     ct))
 
