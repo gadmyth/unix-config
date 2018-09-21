@@ -13,6 +13,7 @@
           (textmate-mode)
           (require 'xcscope)
           (cscope-minor-mode)
+          (display-line-numbers-mode (if (equal major-mode 'org-mode) 0 1))
           )))
 
 (add-hook 'after-save-hook

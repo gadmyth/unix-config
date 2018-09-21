@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(global-linum-mode t)
+(global-linum-mode 0)
 (global-visual-line-mode t)
 (global-auto-revert-mode t)
 
