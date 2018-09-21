@@ -95,7 +95,7 @@
 
 (require 'files-config)
 
-(require 'evil-config)
+;(require 'evil-config)
 
 (require 'el-server)
 (require 'el-server-extend)
