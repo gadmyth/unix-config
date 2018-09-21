@@ -5,10 +5,10 @@
 (package-initialize)
 
 ;;; evil
-(evil-mode 1)
-(define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
-(define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
-(global-set-key (kbd "C-6") 'evil-buffer)
+;(evil-mode 1)
+;(define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
+;(define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
+;(global-set-key (kbd "C-6") 'evil-buffer)
 
 ;;; ido
 (ido-mode t)

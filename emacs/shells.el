@@ -12,9 +12,9 @@
 ;; The following will cause the bash problem: "bash: shell_session_update: command not found"
 ;; (setq shell-command-switch "-ic")
 
-(add-hook 'eshell-mode-hook
-		  (lambda ()
-            (evil-mode)
-			(evil-emacs-state)))
+;; (add-hook 'eshell-mode-hook
+;; 		  (lambda ()
+;;             (evil-mode)
+;; 			(evil-emacs-state)))
 
 (provide 'shells)
