@@ -1,2 +1,2 @@
 #!/bin/bash
-alias emc="emacsclient -c"
+alias emc="emacsclient -c -t"
