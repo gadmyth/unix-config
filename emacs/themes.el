@@ -1,3 +1,3 @@
-(load-theme 'whiteboard)
+;(load-theme 'whiteboard)
 
 (provide 'themes)
