@@ -18,8 +18,8 @@
 (defun ivy-eyebrowse-config-slot (config-string)
   "CONFIG-STRING."
   (if (s-contains? ":" config-string)
-      (string-to-int (first (split-string config-string ":")))
-    (string-to-int config-string)))
+      (string-to-number (first (split-string config-string ":")))
+    (string-to-number config-string)))
 
 (defun eyebrowse-list-configs ()
   "."
