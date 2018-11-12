@@ -34,6 +34,7 @@
 (defvar +dired-al-mode-header+ "  drwx------.  0 user user     4096 Mar  0 00:00 ")
 (defvar *customized-dir* nil)
 (defun load-customized-dir ()
+  "."
   (interactive)
   (when (file-readable-p +customized-dir-file-name+)
     (with-temp-buffer
@@ -45,10 +46,12 @@
             (read (current-buffer))))))
 
 (defun save-customized-dir-without-confirm ()
+  "."
   (with-temp-file +customized-dir-file-name+
     (print *customized-dir* (current-buffer))))
 
 (defun save-customized-dir (confirmed)
+  "CONFIRMED: ."
   (interactive (list (y-or-n-p (format "Sure to add %s to customized-dir? " default-directory))))
   (if confirmed
       (progn
@@ -57,6 +60,7 @@
     (message "Save canceled!")))
 
 (defun customized-dired ()
+  "."
   (interactive)
   (switch-to-buffer-other-window (get-buffer-create "*Customized*"))
   (widen)
@@ -82,6 +86,7 @@
   (setq buffer-read-only t))
 
 (defun add-customized-dir (confirm)
+  "CONFIRM: ."
   (interactive (list (y-or-n-p (format "Sure to add %s to customized-dir? " default-directory))))
   (if confirm
       (progn
@@ -92,6 +97,7 @@
     (message "Action canceled!")))
 
 (defun remove-customized-dir (confirm)
+  "."
   (interactive (list (y-or-n-p (format "Sure to remove %s to customized-dir? " default-directory))))
   (if confirm
       (let ((dir (expand-file-name default-directory)))
@@ -103,12 +109,9 @@
     (message "Action canceled!")))
 
 (defun customized-dir-init ()
+  "."
   (add-hook 'kill-emacs-hook 'save-customized-dir-without-confirm)
   (load-customized-dir))
-
-(global-set-key (kbd "C-x <f1>") 'switch-to-customized-dir)
-(global-set-key (kbd "C-x <f2>") 'switch-buffer)
-(global-set-key (kbd "C-x <f4>") 'new-buffer)
 
 
 (require 'dired)
