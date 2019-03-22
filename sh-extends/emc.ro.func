@@ -1,0 +1,2 @@
+#!/bin/bash
+function emc.ro() { emacsclient -c -t --eval "(view-file \"$1\")"; }
