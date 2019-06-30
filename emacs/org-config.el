@@ -84,7 +84,8 @@
                                  "jquery.min.js"
                                  "bootstrap.min.js"
                                  "jquery.stickytableheaders.min.js"
-                                 "readtheorg.js"))
+                                 "readtheorg.js"
+                                 "customize.js"))
 
 (setq org-html-head-default
       (apply #'concat
