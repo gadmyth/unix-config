@@ -9,15 +9,18 @@
   (add-to-list list element nil (lambda (ele1 ele2) (equal (car ele1) (car ele2)))))
 
 (defconst package-host "http://elpa.emacs-china.org")
+
 (add-to-list-if-not-exist 'package-archives `("gnu" . ,(concat package-host "/gnu/")))
 (add-to-list-if-not-exist 'package-archives `("org" . ,(concat package-host "/org/")))
 (add-to-list-if-not-exist 'package-archives `("melpa" . ,(concat package-host "/melpa/")))
 (add-to-list-if-not-exist 'package-archives `("melpa-stable" . ,(concat package-host "/melpa-stable/")))
 (add-to-list-if-not-exist 'package-archives `("marmalade" . ,(concat package-host "/marmalade/")))
 (package-initialize)
+
 ;; the slime should git clone from github
 (add-to-list 'load-path (expand-file-name "elpa/slime" user-emacs-directory))
-(defvar required-packages
+
+(defconst +required-packages+
   (list 'try
         'xcscope
         'async
@@ -47,7 +50,7 @@
         ;'vkill
         ))
 
-(defvar tool-packages
+(defconst +tool-packages+
   (list 'org-jira
         'emacs-edbi
         'ace-jump-mode
@@ -77,7 +80,7 @@
         'jq-mode
         'look-mode))
 
-(defvar option-packages
+(defconst +option-packages+
   (list 'alpha
         'elisp-format
         'with-namespace
@@ -88,45 +91,13 @@
         'git-timemachine
         'datetime-format))
 
-(require 'autoload)
-(setq generated-autoload-file "~/emacs/autoloads.el")
-(update-directory-autoloads "~/emacs")
-(kill-buffer "autoloads.el")
-(require 'autoloads)
+;; create autoloads
+;(require 'autoload)
+;(setq generated-autoload-file "~/emacs/autoloads.el")
+;(update-directory-autoloads "~/emacs")
+;(kill-buffer "autoloads.el")
+;(require 'autoloads)
 
-(defvar *sync-package* t)
-(defun install-packages-if-needed ()
-  "Install packages if not existed."
-  (message "install-packages-if-needed: %S" *sync-package*)
-  (if *sync-package*
-      (mapcar #'install-package required-packages)))
-
-(defmacro require-if-installed (package &rest body)
-  "PACKAGE, BODY."
-  `(if (package-installed-p ,package)
-       (progn
-         (require ,package)
-         (message "%S required!" ,package)
-         (progn ,@body))
-     (message "%S not installed!" ,package)))
-
-(defmacro require-packages-if-installed (packages &rest body)
-  "PACKAGES, BODY."
-  `(let ((all-package-installed t))
-     (dolist (p ,packages)
-       (if (not (package-installed-p p))
-           (setq all-package-installed nil)))
-     (when all-package-installed
-         (dolist (p ,packages)
-           (require p))
-         (progn ,@body))))
-
-(defmacro require-package (package &rest body)
-  "PACKAGE, BODY."
-  `(progn
-     (require ,package)
-     (message "%S required!" ,package)
-     (progn ,@body)))
 
 (provide 'packages)
 ;;; packages.el ends here
