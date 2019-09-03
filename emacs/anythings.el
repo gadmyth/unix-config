@@ -1,3 +1,8 @@
+;;; package --- anythings.el
+;;; Commentary:
+;;; Code:
+
+
 (require-packages-if-installed
  '(anything 'anything-config)
  (defvar anything-c-source-objc-headline
@@ -12,3 +17,4 @@
 			    "*ObjC Headline*"))))
 
 (provide 'anythings)
+;;; anythings.el ends here

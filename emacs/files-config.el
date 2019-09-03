@@ -9,10 +9,8 @@
           (interactive)
           (revert-buffer t t t)
           (scale-large)
-          (require 'textmate)
-          (textmate-mode)
-          (require 'xcscope)
-          (cscope-minor-mode)
+          (require-if-installed 'textmate (textmate-mode))
+          (require-if-installed 'xcscope (cscope-minor-mode))
           (display-line-numbers-mode (if (equal major-mode 'org-mode) 0 1))
           )))
 

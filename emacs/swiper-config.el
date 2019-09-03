@@ -1,3 +1,7 @@
+;;; package --- swiper-config.el
+;;; Commentary:
+;;; Code:
+
 (require 'swiper)
 (require 'counsel)
 
@@ -7,8 +11,12 @@
       '((t . ivy--regex-plus)))
 
 (setq ivy-initial-inputs-alist nil)
-
 (setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "%d/%d ")
+
+(define-key ivy-minibuffer-map [escape] 'minibuffer-keyboard-quit)
+(define-key swiper-map [escape] 'minibuffer-keyboard-quit)
+
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-c r") 'ivy-resume)
 (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
@@ -27,3 +35,4 @@
 ;;(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
 
 (provide 'swiper-config)
+;;; swiper-config.el ends here

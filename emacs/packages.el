@@ -24,6 +24,7 @@
   (list 'try
         'xcscope
         'async
+        'dired-narrow
         'window-numbering
         'evil
         'evil-visualstar

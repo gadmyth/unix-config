@@ -100,5 +100,39 @@
   (interactive)
   (find-library (word-at-point)))
 
+(defun copy-buffer-string ()
+  "."
+  (interactive)
+  (kill-new (buffer-string)))
+
+(defun trim-line-trailing-whitespace ()
+  "."
+  (interactive)
+  (goto-char (line-beginning-position))
+  (replace-regexp "\s+\n" "\n"))
+
+(defun trim-trailing-whitespace ()
+  "."
+  (interactive)
+  (save-excursion
+    (if (not (region-active-p))
+        (trim-line-trailing-whitespace)
+      (progn
+        (let ((start (region-beginning))
+              (end (region-end)))
+          (deactivate-mark)
+          (message "start: %S, end: %S" start end)
+          (progn
+            (goto-char end)
+            (goto-char (line-end-position))
+            (setq end (point)))
+          (message "start1: %S, end: %S" start end)
+          (progn
+            (goto-char start)
+            (while (< (point) end)
+              (message "start2: %S" (point))
+              (trim-line-trailing-whitespace)
+              (next-line))))))))
+
 (provide 'utility)
 ;;; utility.el ends here

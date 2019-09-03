@@ -53,7 +53,7 @@
 (require 'eyebrowse-config)
 (require 'key-bindings)
 (require 'holiday-config)
-(require 'dired++)
+(require 'dired-config)
 ;(require 'annot)
 (require 'emoji-config)
 (require 'sudo-edit)
