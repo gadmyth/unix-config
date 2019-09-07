@@ -5,6 +5,11 @@
 (require 'dired)
 (setq dired-listing-switches "-lFaGh1v --group-directories-first")
 
+;; fix bug when ls --dired can't use under darwin
+(when (eq system-type 'darwin)
+  (require 'ls-lisp)
+  (setq ls-lisp-use-insert-directory-program nil))
+
 (require 'dired++)
 
 (require 'dired-x)
