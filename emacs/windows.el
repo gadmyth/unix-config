@@ -24,7 +24,18 @@
   (if-let ((help-window (get-buffer-window "*Help*")))
       (quit-window nil help-window)))
 
-(global-set-key (kbd "C-x q") 'quit-help-window)
+(defun quit-help-windows ()
+  "."
+  (interactive)
+  (dolist (window (window-list))
+    (let* ((buffer (window-buffer window))
+           (name (buffer-name buffer)))
+      (if (and (string-prefix-p "*" name)
+               (let ((first-char (substring name 1 2)))
+                 (equal (upcase first-char) first-char)))
+          (quit-window nil window)))))
+
+(global-set-key (kbd "C-x q") 'quit-help-windows)
 
 (provide 'windows)
 ;;; windows.el ends here
