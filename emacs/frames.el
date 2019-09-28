@@ -26,8 +26,6 @@
                *max-frame-height* (frame-height frame))
          (message "max-width: %d, max-height: %d" *max-frame-width* *max-frame-height*))))))
 
-(add-to-list 'after-make-frame-functions 'toggle-frame-maximized)
-
 (defun set-suitable-frame-size-inner (frame)
   "FRAME: ."
   (set-frame-size
