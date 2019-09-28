@@ -30,6 +30,11 @@
          (dolist (p ,packages)
            (require-package p ,@body)))))
 
+(defun require-library (library)
+  "Require the Emacs Lisp source of LIBRARY."
+  (interactive (list (read-library-name)))
+  (require-package (read library)))
+
 (defvar *sync-package* t)
 
 (defun install-package (package &optional min-version no-refresh)

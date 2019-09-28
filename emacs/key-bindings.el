@@ -30,6 +30,7 @@
                                           (find-file (concatenate 'string prename ".m"))))))))
 
 (global-set-key (kbd "<f6>") 'find-library)
+(global-set-key (kbd "<M-f6>") 'require-library)
 
 
 (provide 'key-bindings)
