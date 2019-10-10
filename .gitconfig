@@ -25,3 +25,5 @@
 [core]
 	quotepath = false
 	compression = -1
+[credential]
+	helper = store
