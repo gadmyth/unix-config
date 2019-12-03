@@ -77,5 +77,10 @@ Version 2017-05-24"
     (message base-name)
     base-name))
 
+(defun insert-uuid ()
+  (interactive)
+  (let ((uuid (replace-regexp-in-string "-" "" (org-id-uuid))))
+    (insert uuid)))
+
 (provide 'work)
 ;;; work.el ends here
