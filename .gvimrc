@@ -33,15 +33,15 @@ filetype indent on
 syntax on
 
 " no menu
-set guioptions-=m
+" set guioptions-=m
 " no tool
-set guioptions-=T
+" set guioptions-=T
 " no left roller
-set guioptions-=l
-set guioptions-=L
+" set guioptions-=l
+" set guioptions-=L
 " no right roller
-set guioptions-=r
-set guioptions-=R
+" set guioptions-=r
+" set guioptions-=R
 "-----------------
 " colo evening
 set autoindent "set ai
