@@ -45,6 +45,19 @@
           (message "Open succeed: %s" file-name))
       (message "File doesn't not exists!"))))
 
+(defun show-buffer-in-another-window (buffer)
+  "BUFFER: ."
+  (interactive "bSelect a buffer: ")
+  (let ((origin-buffer (current-buffer)))
+    (switch-to-buffer-other-window buffer)
+    (switch-to-buffer-other-window origin-buffer)))
+
+(defun show-buffer-in-another-frame (buffer)
+  "BUFFER: ."
+  (interactive "bSelect a buffer: ")
+  (let ((origin-buffer (current-buffer)))
+    (switch-to-buffer-other-frame buffer)
+    (switch-to-buffer-other-frame origin-buffer)))
 
 (defun xah-insert-random-string (num)
   "NUM, Insert a random alphanumerics string of length 5.

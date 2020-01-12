@@ -26,8 +26,6 @@
         'async
         'dired-narrow
         'window-numbering
-        'evil
-        'evil-visualstar
         'smex
         'swiper
         'counsel

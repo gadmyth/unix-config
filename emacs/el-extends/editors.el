@@ -47,8 +47,7 @@
   (end-of-line)
   (re-search-backward "^" nil t)
   (re-search-forward " *" nil t 1)
-  (kill-word 1)
-  (evil-insert-state))
+  (kill-word 1))
 
 (defun edit-left-arg ()
   "."
@@ -56,8 +55,7 @@
   (end-of-line)
   (re-search-backward "^" nil t)
   (re-search-forward " " nil t 1)
-  (kill-word 1)
-  (evil-insert-state))
+  (kill-word 1))
 
 (defun edit-left-part ()
   "."
@@ -68,8 +66,7 @@
     (re-search-forward " =" nil t 1)
     (backward-char 2)
     (let ((end (point)))
-      (kill-region begin end)))
-  (evil-insert-state))
+      (kill-region begin end))))
 
 (defun edit-right-part ()
   "."
@@ -79,8 +76,44 @@
   (let ((begin (point)))
     (re-search-forward "$" nil t 1)
     (let ((end (point)))
-      (kill-region begin end)))
-  (evil-insert-state))
+      (kill-region begin end))))
+
+(defun edit-value (regex pattern-group)
+  "REGEX: , PATTERN-GROUP."
+  (re-search-backward "^" nil t)
+  (re-search-forward regex nil t 1)
+  (goto-char (match-beginning pattern-group))
+  (delete-region (match-beginning pattern-group) (match-end pattern-group)))
+
+(defun edit-assign-value ()
+  "."
+  (interactive)
+  (edit-value "^ *?\\([^=]*?\\) = \\(.*\\)$" 2))
+
+(defun edit-line ()
+  "."
+  (interactive)
+  (edit-value "^[ \t]*?\\([^ \t].*\\)$" 1))
+
+(defun edit-css-prop ()
+  "."
+  (interactive)
+  (edit-value "^ *?\\([^:]*?\\) *: *\\(.*?\\)[,;] *?$" 2))
+
+(defun replace-point-word (new-word)
+  "NEW-WORD: ."
+  (interactive (list (read-string "Replace by: " (car kill-ring))))
+  (save-excursion
+    (let ((bounds (bounds-of-thing-at-point 'word)))
+      (replace-regexp ".*" new-word nil (car bounds) (cdr bounds)))))
+
+(defun replace-point-word-current-line (new-word)
+  "NEW-WORD: ."
+  (interactive (list (read-string "Replace by: " (car kill-ring))))
+  (save-excursion
+    (let ((word (word-at-point)))
+      (re-search-backward "^" nil t)
+      (replace-regexp word new-word nil (line-beginning-position) (line-end-position)))))
 
 (provide 'editors)
 ;;; editors.el ends here

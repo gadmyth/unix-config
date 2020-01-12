@@ -2,8 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'evil)
-
 (setq default-abbrev-mode t)
 (setq save-abbrevs t)
 
