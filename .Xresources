@@ -1,6 +1,6 @@
 XTerm*utf8Title:true
 XTerm*cjkWidth:true
-XTerm*faceName:DejaVu Sans Mono:pixelsize=16
-XTerm*faceNameDoublesize:WenQuanYi Micro Hei Mono:pixelsize=16
+xterm*faceName:AR PL Uming CN:pixelsize=12
+xterm*faceSize:12
 XTerm*Background: black
 XTerm*Foreground: white
