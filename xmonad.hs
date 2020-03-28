@@ -10,17 +10,18 @@ main = do
      xmproc <- spawnPipe "xmobar"
      xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
 	  modMask = mod4Mask
-          , borderWidth = 3
+          , borderWidth = 2
           , focusedBorderColor = "#ee4000"
           , normalBorderColor = "#9acd32"
 	  , manageHook = manageDocks <+> manageHook defaultConfig
 	  , layoutHook = avoidStruts $ layoutHook defaultConfig
+          , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
 	  , logHook = loghook xmproc
           , startupHook = startup
 	} `additionalKeys`
-	[ ((mod4Mask .|. shiftMask, xK_g), spawn "chromium")
+	[ ((mod4Mask .|. shiftMask, xK_g), spawn "firefox")
 	, ((mod4Mask .|. shiftMask, xK_v), spawn "gvim")
-	, ((mod4Mask .|. shiftMask, xK_e), spawn "emacsclient -c") ]
+	, ((mod4Mask .|. shiftMask, xK_e), spawn "emacs") ]
 
 loghook h = dynamicLogWithPP $ xmobarPP {
 	ppOutput = hPutStrLn h
