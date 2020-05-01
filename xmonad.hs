@@ -13,7 +13,7 @@ main = do
           , borderWidth = 2
           , focusedBorderColor = "#ee4000"
           , normalBorderColor = "#9acd32"
-          , manageHook = manageDocks <+> manageHook defaultConfig
+          , manageHook = floatManageHook <+> manageDocks <+> manageHook defaultConfig
           , layoutHook = avoidStruts $ layoutHook defaultConfig
           , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
           , startupHook = startup
@@ -22,7 +22,13 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_v), spawn "gvim")
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
         , ((controlMask .|. mod1Mask, xK_Delete), spawn "xscreensaver-command -lock")
+        , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         ]
+
+floatManageHook = composeAll
+  [
+    className =? "Xfce4-appfinder" --> doFloat
+  ]
 
 startup :: X()
 startup = do
