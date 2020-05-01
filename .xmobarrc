@@ -10,6 +10,6 @@ Config { bgColor = "#666666"
 	, sepChar = "%"
 	, alignSep = "}{"
 	, template = "%StdinReader% }{ %cpu% | %memory% | %date%"
-	, font = "xft:WenQuanYi Micro Hei Mono:size=10:bold:antialias=true"
+	, font = "xft:AR PL Uming CN:size=10:bold:antialias=true"
 }
 
