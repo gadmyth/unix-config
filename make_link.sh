@@ -21,3 +21,8 @@ fi
 cd ~/.vim
 ln -sf ~/unix-config/vim/syntax
 
+mkdir -p ~/.xmonad
+cd ~/.xmonad
+ln -sf ~/unix-config/xmonad.hs
+ln -sf ~/unix-config/.Xresources
+

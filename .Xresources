@@ -1,3 +1,4 @@
+Xft.dpi: 130
 XTerm*utf8Title:true
 XTerm*cjkWidth:true
 xterm*faceName:AR PL Uming CN:pixelsize=12

@@ -28,10 +28,12 @@ main = do
 floatManageHook = composeAll
   [
     className =? "Xfce4-appfinder" --> doFloat
+  , className =? "Xfce4-settings-manager" --> doFloat
   ]
 
 startup :: X()
 startup = do
+        spawn "xrdb -merge ~/.xmonad/.Xresources"
         spawn "xrandr --output LVDS1 --auto; xrandr --output VGA1 --auto --right-of LVDS1"
         spawn "xscreensaver -no-splash"
         spawn "xfce4-panel -d"
