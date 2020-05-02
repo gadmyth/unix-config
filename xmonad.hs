@@ -36,6 +36,8 @@ startup = do
         spawn "xrdb -merge ~/.xmonad/.Xresources"
         spawn "xrandr --output LVDS1 --auto; xrandr --output VGA1 --auto --right-of LVDS1"
         spawn "xscreensaver -no-splash"
-        spawn "xfce4-panel -d"
-        spawn "yong -d"
+        spawn "xfce4-panel -q; xfce4-panel -d"
+        spawn "nm-applet"
+        spawn "blueberry-tray"
+        spawn "for p in `ps aux| grep yong | grep -v grep | awk '{print $2}'`; do kill -9 $p; done; yong -d"
 
