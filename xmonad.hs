@@ -5,6 +5,7 @@ import XMonad.Hooks.DynamicLog
 import System.IO
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.SetWMName
 
 main = do
      xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
@@ -33,6 +34,7 @@ floatManageHook = composeAll
 
 startup :: X()
 startup = do
+        setWMName "LG3D"
         spawn "xrdb -merge ~/.xmonad/.Xresources"
         spawn "xrandr --output LVDS1 --auto; xrandr --output VGA1 --auto --right-of LVDS1"
         spawn "xscreensaver -no-splash"
