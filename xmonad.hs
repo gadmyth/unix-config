@@ -1,4 +1,5 @@
 import XMonad
+import XMonad.Config
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Hooks.DynamicLog
