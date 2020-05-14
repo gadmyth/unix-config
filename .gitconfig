@@ -1,6 +1,6 @@
 [user]
-	name = gadmyth
-	email = gadmyth@gmail.com
+    name = gadmyth
+    email = gadmyth@gmail.com
 
 [color]
         diff = auto
@@ -21,9 +21,10 @@
   loge = log --graph --pretty=format:'%C(yellow)%d%Creset %s %C(bold blue)%Creset'
   logo = log --oneline
 [push]
-	default = simple
+    default = simple
 [core]
-	quotepath = false
-	compression = -1
+    quotepath = false
+    compression = -1
+    ignorecase = false
 [credential]
-	helper = store
+    helper = store
