@@ -39,7 +39,7 @@ main = do
 defaultMyLayout = layoutHook defaultConfig
 twoPaneLayout = toggleLayouts Full (TwoPane (3/100) (1/2))
 combineTwoLayout = combineTwo (TwoPane (3/100) (1/2))
-                   (Mirror $ ResizableTall 1 (3/100) (2/3) [])
+                   (Mirror $ ResizableTall 1 (3/100) (1/2) [])
                    (Mirror $ ResizableTall 1 (3/100) (1/2) [])
 
 myLayout = toggleLayouts Full (ThreeColMid 1 (3/100) (2/5))
