@@ -1,15 +1,9 @@
 import XMonad
-import XMonad.Config
 import XMonad.Util.EZConfig(additionalKeys)
-import XMonad.Util.Run(spawnPipe)
-import XMonad.Hooks.DynamicLog
-import System.IO
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.SetWMName
-import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
-import XMonad.Layout.StackTile
 import XMonad.Layout.TwoPane
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.Combo
