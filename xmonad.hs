@@ -7,6 +7,15 @@ import System.IO
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.SetWMName
+import XMonad.Layout.Grid
+import XMonad.Layout.ThreeColumns
+import XMonad.Layout.StackTile
+import XMonad.Layout.TwoPane
+import XMonad.Layout.ToggleLayouts
+import XMonad.Layout.Combo
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.WindowNavigation
+import XMonad.Actions.GridSelect
 
 main = do
      xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
@@ -16,7 +25,7 @@ main = do
           , focusedBorderColor = "#ee4000"
           , normalBorderColor = "#9acd32"
           , manageHook = floatManageHook <+> manageDocks <+> manageHook defaultConfig
-          , layoutHook = avoidStruts $ layoutHook defaultConfig
+          , layoutHook = avoidStruts $ myLayout
           , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
           , startupHook = startup
         } `additionalKeys`
@@ -25,7 +34,25 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
         , ((controlMask .|. mod1Mask, xK_Delete), spawn "xscreensaver-command -lock")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
+        , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
+        , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
+        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
+        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left ), sendMessage $ Move L)
+        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up   ), sendMessage $ Move U)
+        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down ), sendMessage $ Move D)
         ]
+
+defaultMyLayout = layoutHook defaultConfig
+twoPaneLayout = toggleLayouts Full (TwoPane (3/100) (1/2))
+combineTwoLayout = combineTwo (TwoPane (3/100) (1/2))
+                   (Mirror $ ResizableTall 1 (3/100) (2/3) [])
+                   (Mirror $ ResizableTall 1 (3/100) (1/2) [])
+
+myLayout = toggleLayouts Full (ThreeColMid 1 (3/100) (2/5))
+--           ||| twoPaneLayout
+           ||| toggleLayouts Full (windowNavigation combineTwoLayout)
+
+myGridSelectConfig = defaultGSConfig { gs_cellheight = 150, gs_cellwidth = 450 }
 
 floatManageHook = composeAll
   [
