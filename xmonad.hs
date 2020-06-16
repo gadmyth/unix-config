@@ -1,6 +1,8 @@
 import XMonad
 import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.SpawnOnce
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.ThreeColumns
@@ -10,6 +12,7 @@ import XMonad.Layout.Combo
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.WindowNavigation
 import XMonad.Actions.GridSelect
+import System.Exit
 
 main = do
      xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
@@ -26,6 +29,8 @@ main = do
         [ ((mod4Mask .|. shiftMask, xK_f), spawn "firefox")
         , ((mod4Mask .|. shiftMask, xK_v), spawn "gvim")
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
+        , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
+        , ((mod4Mask .|. shiftMask, xK_BackSpace), io exitSuccess)
         , ((controlMask .|. mod1Mask, xK_Delete), spawn "xscreensaver-command -lock")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
@@ -50,18 +55,18 @@ myGridSelectConfig = defaultGSConfig { gs_cellheight = 150, gs_cellwidth = 450 }
 
 floatManageHook = composeAll
   [
-    className =? "Xfce4-appfinder" --> doFloat
+    className =? "Xfce4-appfinder" --> doCenterFloat
   , className =? "Xfce4-settings-manager" --> doFloat
   ]
 
 startup :: X()
 startup = do
         setWMName "LG3D"
-        spawn "xrdb -merge ~/.xmonad/.Xresources"
-        spawn "xrandr --output LVDS1 --auto; xrandr --output VGA1 --auto --right-of LVDS1"
-        spawn "xscreensaver -no-splash"
+        spawnOnce "xrdb -merge ~/.xmonad/.Xresources"
+        spawnOnce "xrandr --output LVDS1 --auto; xrandr --output VGA1 --auto --right-of LVDS1"
+        spawnOnce "xscreensaver -no-splash"
         spawn "xfce4-panel -q; xfce4-panel -d"
-        spawn "nm-applet"
-        spawn "blueberry-tray"
-        spawn "for p in `ps aux| grep yong | grep -v grep | awk '{print $2}'`; do kill -9 $p; done; yong -d"
+        spawnOnce "nm-applet"
+        spawnOnce "blueberry-tray"
+        spawnOnce "yong -d"
 
