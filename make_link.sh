@@ -13,6 +13,8 @@ ln -s .gvimrc .vimrc
 ln -sf unix-config/.vumrc
 ln -sf unix-config/mybash_profile
 ln -sf unix-config/sh-extends
+# xmonad
+ln -sf ~/unix-config/.xmonad
 
 if [ ! -d ~/.vim ]; then
     mkdir ~/.vim
@@ -20,9 +22,4 @@ fi
 
 cd ~/.vim
 ln -sf ~/unix-config/vim/syntax
-
-mkdir -p ~/.xmonad
-cd ~/.xmonad
-ln -sf ~/unix-config/xmonad.hs
-ln -sf ~/unix-config/.Xresources
 

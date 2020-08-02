@@ -30,7 +30,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_v), spawn "gvim")
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
         , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
-        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "/home/gadmyth/.xmonad/script/toggle-xfce4-panel.sh")
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_BackSpace), io exitSuccess)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), spawn "xscreensaver-command -lock")
