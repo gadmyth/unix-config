@@ -9,6 +9,7 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.Combo
+import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.WindowNavigation
 import XMonad.Actions.GridSelect
@@ -44,14 +45,14 @@ main = do
         ]
 
 defaultMyLayout = layoutHook defaultConfig
-twoPaneLayout = toggleLayouts Full (TwoPane (3/100) (1/2))
+twoPaneLayout = toggleLayouts (noBorders Full) (TwoPane (3/100) (1/2))
 combineTwoLayout = combineTwo (TwoPane (3/100) (1/2))
                    (Mirror $ ResizableTall 1 (3/100) (1/2) [])
                    (Mirror $ ResizableTall 1 (3/100) (1/2) [])
 
-myLayout = toggleLayouts Full (ThreeColMid 1 (3/100) (2/5))
+myLayout = toggleLayouts (noBorders Full) (ThreeColMid 1 (3/100) (2/5))
 --           ||| twoPaneLayout
-           ||| toggleLayouts Full (windowNavigation combineTwoLayout)
+           ||| toggleLayouts (noBorders Full) (windowNavigation combineTwoLayout)
 
 myGridSelectConfig = defaultGSConfig { gs_cellheight = 150, gs_cellwidth = 450 }
 
