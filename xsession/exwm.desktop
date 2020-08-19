@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=EmacsWM
+Comment=Emcas X Window Manager
+Exec=xrdb -merge ~/.xmonad/.Xresources; yong -d; emacs
+Type=Application
