@@ -11,4 +11,7 @@ sysmodmap=/etc/X11/Xmodmap
 [ -r "$sysresources" ] && xrdb -nocpp -merge "$sysresources"
 [ -r "$userresources" ] && xrdb -merge "$userresources"
 
+# start the initial applications
+yong -d
+
 emacs
