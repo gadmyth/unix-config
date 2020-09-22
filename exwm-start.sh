@@ -14,4 +14,5 @@ sysmodmap=/etc/X11/Xmodmap
 # start the initial applications
 yong -d
 
+# start exwm
 emacs
