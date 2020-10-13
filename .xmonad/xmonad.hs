@@ -23,7 +23,7 @@ main = do
           , focusedBorderColor = "#ee4000"
           , normalBorderColor = "#9acd32"
           , manageHook = floatManageHook <+> manageDocks <+> manageHook defaultConfig
-          , layoutHook = avoidStruts $ myLayout
+          , layoutHook = avoidStruts $ defaultMyLayout
           , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
           , startupHook = startup
         } `additionalKeys`
@@ -44,7 +44,7 @@ main = do
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down ), sendMessage $ Move D)
         ]
 
-defaultMyLayout = layoutHook defaultConfig
+defaultMyLayout = toggleLayouts (noBorders Full) (layoutHook defaultConfig)
 twoPaneLayout = toggleLayouts (noBorders Full) (TwoPane (3/100) (1/2))
 combineTwoLayout = combineTwo (TwoPane (3/100) (1/2))
                    (Mirror $ ResizableTall 1 (3/100) (1/2) [])
