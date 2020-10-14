@@ -5,6 +5,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.SetWMName
+import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
 import XMonad.Layout.ToggleLayouts
@@ -12,6 +13,7 @@ import XMonad.Layout.Combo
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.WindowNavigation
+import XMonad.Layout.BinarySpacePartition
 import XMonad.Actions.GridSelect
 import System.Exit
 
@@ -38,14 +40,37 @@ main = do
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
+        , ((mod4Mask .|. mod1Mask, xK_r), sendMessage Rotate)
+        , ((mod4Mask .|. mod1Mask, xK_s), sendMessage XMonad.Layout.BinarySpacePartition.Swap)
+        , ((mod4Mask .|. mod1Mask, xK_p), sendMessage FocusParent)
+        , ((mod4Mask .|. mod1Mask, xK_a), sendMessage Balance)
+        , ((mod4Mask .|. shiftMask, xK_a), sendMessage Equalize)
+        , ((mod4Mask .|. mod1Mask, xK_n), sendMessage SelectNode)
+        , ((mod4Mask .|. mod1Mask, xK_m), sendMessage MoveNode)
+        , ((mod4Mask .|. mod1Mask, xK_Left), sendMessage $ MoveSplit L)
+        , ((mod4Mask .|. mod1Mask, xK_Right), sendMessage $ MoveSplit R)
+        , ((mod4Mask .|. mod1Mask, xK_Up), sendMessage $ MoveSplit U)
+        , ((mod4Mask .|. mod1Mask, xK_Down), sendMessage $ MoveSplit D)
+        , ((mod4Mask .|. controlMask, xK_Left), sendMessage $ RotateL)
+        , ((mod4Mask .|. controlMask, xK_Right), sendMessage $ RotateR)
+--        , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ FlipH)
+--        , ((mod4Mask .|. controlMask, xK_Down), sendMessage $ FlipV)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left ), sendMessage $ Move L)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up   ), sendMessage $ Move U)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down ), sendMessage $ Move D)
+        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left), sendMessage $ Move L)
+        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up), sendMessage $ Move U)
+        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down), sendMessage $ Move D)
         ]
 
-defaultMyLayout = toggleLayouts (noBorders Full) (layoutHook defaultConfig)
+defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
+usedLayout = emptyBSP
+  ||| Tall 1 (3/100) (1/2)
+  ||| Grid
+
 twoPaneLayout = toggleLayouts (noBorders Full) (TwoPane (3/100) (1/2))
+
 combineTwoLayout = combineTwo (TwoPane (3/100) (1/2))
                    (Mirror $ ResizableTall 1 (3/100) (1/2) [])
                    (Mirror $ ResizableTall 1 (3/100) (1/2) [])
