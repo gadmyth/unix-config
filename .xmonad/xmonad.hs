@@ -97,6 +97,7 @@ startup = do
         spawnOnce "xscreensaver -no-splash"
         spawn "xfce4-panel -q; xfce4-panel -d"
         spawnOnce "nm-applet"
+        spawnOnce "xfce4-power-manager"
         spawnOnce "blueberry-tray"
         spawnOnce "yong -d"
 
