@@ -1,0 +1,10 @@
+# file path: /usr/share/xsessions/xmonad.desktop
+[Desktop Entry]
+Name=xmonad
+Comment=Tiling window manager
+Exec=xmonad-start
+Terminal=false
+
+[Window Manager]
+SessionManaged=true
+

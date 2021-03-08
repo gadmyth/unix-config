@@ -15,6 +15,8 @@ ln -sf unix-config/mybash_profile
 ln -sf unix-config/sh-extends
 # xmonad
 ln -sf ~/unix-config/.xmonad
+sudo cp ~/unix-config/xmonad-start /usr/bin/xmonad-start
+sudo cp ~/unix-config/xmonad.desktop /usr/share/xsessions/xmonad.desktop
 
 if [ ! -d ~/.vim ]; then
     mkdir ~/.vim
