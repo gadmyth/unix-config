@@ -18,6 +18,9 @@ ln -sf ~/unix-config/.xmonad
 sudo cp ~/unix-config/xmonad-start /usr/bin/xmonad-start
 sudo cp ~/unix-config/xmonad.desktop /usr/share/xsessions/xmonad.desktop
 
+# vbox
+sudo cp -r vbox/module-signing /root
+
 if [ ! -d ~/.vim ]; then
     mkdir ~/.vim
 fi
