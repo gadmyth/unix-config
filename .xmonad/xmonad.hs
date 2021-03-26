@@ -1,4 +1,5 @@
 import XMonad
+import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.SpawnOnce
 import XMonad.Hooks.ManageDocks
@@ -21,6 +22,7 @@ main = do
      xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
           modMask = mod4Mask
           , terminal = "xfce4-terminal"
+          , workspaces = myWorkspaces
           , borderWidth = 2
           , focusedBorderColor = "#ee4000"
           , normalBorderColor = "#9acd32"
@@ -64,6 +66,28 @@ main = do
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left), sendMessage $ Move L)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up), sendMessage $ Move U)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down), sendMessage $ Move D)
+        , ((mod4Mask, xK_0), (windows $ W.greedyView $ myWorkspaces !! 9))
+        , ((mod4Mask, xK_F1), (windows $ W.greedyView $ myWorkspaces !! 10))
+        , ((mod4Mask, xK_F2), (windows $ W.greedyView $ myWorkspaces !! 11))
+        , ((mod4Mask, xK_F3), (windows $ W.greedyView $ myWorkspaces !! 12))
+        , ((mod4Mask, xK_F4), (windows $ W.greedyView $ myWorkspaces !! 13))
+        , ((mod4Mask, xK_F5), (windows $ W.greedyView $ myWorkspaces !! 14))
+        , ((mod4Mask, xK_F6), (windows $ W.greedyView $ myWorkspaces !! 15))
+        , ((mod4Mask, xK_F7), (windows $ W.greedyView $ myWorkspaces !! 16))
+        , ((mod4Mask, xK_F8), (windows $ W.greedyView $ myWorkspaces !! 17))
+        , ((mod4Mask, xK_F9), (windows $ W.greedyView $ myWorkspaces !! 18))
+        , ((mod4Mask, xK_F10), (windows $ W.greedyView $ myWorkspaces !! 19))
+        , ((mod4Mask .|. shiftMask, xK_0), (windows $ W.shift $ myWorkspaces !! 9))
+        , ((mod4Mask .|. shiftMask, xK_F1), (windows $ W.shift $ myWorkspaces !! 10))
+        , ((mod4Mask .|. shiftMask, xK_F2), (windows $ W.shift $ myWorkspaces !! 11))
+        , ((mod4Mask .|. shiftMask, xK_F3), (windows $ W.shift $ myWorkspaces !! 12))
+        , ((mod4Mask .|. shiftMask, xK_F4), (windows $ W.shift $ myWorkspaces !! 13))
+        , ((mod4Mask .|. shiftMask, xK_F5), (windows $ W.shift $ myWorkspaces !! 14))
+        , ((mod4Mask .|. shiftMask, xK_F6), (windows $ W.shift $ myWorkspaces !! 15))
+        , ((mod4Mask .|. shiftMask, xK_F7), (windows $ W.shift $ myWorkspaces !! 16))
+        , ((mod4Mask .|. shiftMask, xK_F8), (windows $ W.shift $ myWorkspaces !! 17))
+        , ((mod4Mask .|. shiftMask, xK_F9), (windows $ W.shift $ myWorkspaces !! 18))
+        , ((mod4Mask .|. shiftMask, xK_F10), (windows $ W.shift $ myWorkspaces !! 19))
         ]
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
@@ -88,6 +112,8 @@ floatManageHook = composeAll
     className =? "Xfce4-appfinder" --> doCenterFloat
   , className =? "Xfce4-settings-manager" --> doFloat
   ]
+
+myWorkspaces = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]
 
 startup :: X()
 startup = do
