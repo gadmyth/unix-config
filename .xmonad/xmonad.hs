@@ -39,10 +39,12 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
         , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
         , ((mod4Mask .|. shiftMask, xK_t), spawn "Thunar")
-        , ((mod4Mask .|. shiftMask, xK_Enter), spawn "Thunar")
+        , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
         , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
         , ((mod3Mask, xK_w), runOrRaiseNext "Electronic Wechat" (className =? "Electron"))
+        , ((mod3Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
+        , ((mod3Mask, xK_BackSpace), nextMatch History (return True))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_BackSpace), io exitSuccess)
@@ -73,7 +75,10 @@ main = do
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left), sendMessage $ Move L)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up), sendMessage $ Move U)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down), sendMessage $ Move D)
-        , ((mod4Mask, xK_BackSpace), nextMatch History (return True))
+        , ((mod4Mask, xK_Right), (sendMessage $ Go R))
+        , ((mod4Mask, xK_Left ), (sendMessage $ Go L))
+        , ((mod4Mask, xK_Up   ), (sendMessage $ Go U))
+        , ((mod4Mask, xK_Down ), (sendMessage $ Go D))
         , ((mod4Mask, xK_0), (windows $ W.greedyView $ myWorkspaces !! 9))
         , ((mod4Mask, xK_F1), (windows $ W.greedyView $ myWorkspaces !! 10))
         , ((mod4Mask, xK_F2), (windows $ W.greedyView $ myWorkspaces !! 11))
@@ -99,9 +104,11 @@ main = do
         ]
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
-usedLayout = emptyBSP
+usedLayout = windowNavigation (
+  emptyBSP
   ||| Tall 1 (3/100) (1/2)
   ||| Grid
+  )
 
 twoPaneLayout = toggleLayouts (noBorders Full) (TwoPane (3/100) (1/2))
 
