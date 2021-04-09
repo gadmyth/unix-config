@@ -1,6 +1,6 @@
 import XMonad
 import qualified XMonad.StackSet as W
-import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.EZConfig
 import XMonad.Util.SpawnOnce
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -15,11 +15,15 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BinarySpacePartition
+import XMonad.Layout.Hidden
+import XMonad.Layout.Minimize
 import XMonad.Actions.GridSelect
 import XMonad.Actions.GroupNavigation
 import XMonad.Actions.WindowGo
 import XMonad.Actions.TagWindows
+import XMonad.Actions.Minimize
 import XMonad.Prompt
+import XMonad.Prompt.Shell
 import System.Exit
 
 main = do
@@ -42,6 +46,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
         , ((mod4Mask .|. shiftMask, xK_t), spawn "Thunar")
         , ((mod4Mask .|. shiftMask, xK_p), spawn "image_file=~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; xfce4-screenshooter --region --mouse --save ${image_file}; [[ -f ${image_file} ]] && Thunar ~/Pictures")
+        , ((mod4Mask, xK_Return), shellPrompt myPromptConfig)
         , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
         , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
@@ -82,6 +87,10 @@ main = do
         , ((mod4Mask, xK_Left ), (sendMessage $ Go L))
         , ((mod4Mask, xK_Up   ), (sendMessage $ Go U))
         , ((mod4Mask, xK_Down ), (sendMessage $ Go D))
+        , ((mod4Mask, xK_h), withFocused hideWindow)
+        , ((mod4Mask .|. shiftMask, xK_h), popNewestHiddenWindow)
+--        , ((mod4Mask, xK_h), withFocused minimizeWindow)
+--        , ((mod4Mask .|. shiftMask, xK_h), withLastMinimized maximizeWindowAndFocus)
 -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Actions-TagWindows.html
         , ((mod3Mask .|. mod1Mask,    xK_a), withFocused (addTag "a"))
         , ((mod3Mask .|. shiftMask,   xK_a), withFocused (delTag "a"))
@@ -186,11 +195,15 @@ main = do
         ]
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
-usedLayout = windowNavigation (
+usedLayout = minimize (
+  hiddenWindows (
+  windowNavigation (
   emptyBSP
   ||| ThreeColMid 1 (3/100) (1/3)
 --  ||| Tall 1 (3/100) (1/2)
 --  ||| Grid
+  )
+  )
   )
 
 twoPaneLayout = toggleLayouts (noBorders Full) (TwoPane (3/100) (1/2))
@@ -211,7 +224,17 @@ floatManageHook = composeAll
   , className =? "Xfce4-settings-manager" --> doFloat
   ]
 
-myWorkspaces = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]
+myWorkspaces = map show [1..20 :: Int]
+
+myPromptConfig = def
+  {
+    promptBorderWidth = 0
+  , position = Bottom
+  , defaultText = ""
+  , alwaysHighlight = True
+  , historySize = 1024
+  , height = 40
+  }
 
 startup :: X()
 startup = do
