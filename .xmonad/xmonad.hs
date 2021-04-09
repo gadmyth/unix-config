@@ -188,8 +188,9 @@ main = do
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
 usedLayout = windowNavigation (
   emptyBSP
-  ||| Tall 1 (3/100) (1/2)
-  ||| Grid
+  ||| ThreeColMid 1 (3/100) (1/3)
+--  ||| Tall 1 (3/100) (1/2)
+--  ||| Grid
   )
 
 twoPaneLayout = toggleLayouts (noBorders Full) (TwoPane (3/100) (1/2))
