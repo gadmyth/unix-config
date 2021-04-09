@@ -41,7 +41,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
         , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
         , ((mod4Mask .|. shiftMask, xK_t), spawn "Thunar")
-        , ((mod4Mask .|. shiftMask, xK_p), spawn "xfce4-screenshooter --region --mouse --save ~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; Thunar ~/Pictures")
+        , ((mod4Mask .|. shiftMask, xK_p), spawn "image_file=~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; xfce4-screenshooter --region --mouse --save ${image_file}; [[ -f ${image_file} ]] && Thunar ~/Pictures")
         , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
         , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
