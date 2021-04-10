@@ -1,0 +1,2 @@
+#!/bin/bash
+function parent-pid() { ps -ef | awk '$2 ~ /'"$1"'/{print $3}'; }
