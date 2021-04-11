@@ -1,7 +1,10 @@
-import XMonad
+import XMonad hiding ( (|||) )
+import XMonad.Core
 import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig
+import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
+import XMonad.Util.Themes
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
@@ -17,6 +20,11 @@ import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.Hidden
 import XMonad.Layout.Minimize
+import XMonad.Layout.LayoutCombinators
+import XMonad.Layout.Renamed
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.Tabbed
+import XMonad.Layout.SimpleDecoration
 import XMonad.Actions.GridSelect
 import XMonad.Actions.GroupNavigation
 import XMonad.Actions.WindowGo
@@ -24,6 +32,8 @@ import XMonad.Actions.TagWindows
 import XMonad.Actions.Minimize
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import System.Posix.Process
+import System.IO
 import System.Exit
 
 main = do
@@ -63,6 +73,9 @@ main = do
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
+        , ((mod4Mask .|. controlMask, xK_d), sendMessage $ JumpToLayout "default")
+        , ((mod4Mask .|. controlMask, xK_f), sendMessage $ JumpToLayout "fullTwoLayout")
+        , ((mod4Mask .|. controlMask, xK_t), sendMessage $ JumpToLayout "combineTwoLayout")
         , ((mod4Mask .|. mod1Mask, xK_r), sendMessage Rotate)
         , ((mod4Mask .|. mod1Mask, xK_s), sendMessage XMonad.Layout.BinarySpacePartition.Swap)
         , ((mod4Mask .|. mod1Mask, xK_p), sendMessage FocusParent)
@@ -91,6 +104,8 @@ main = do
         , ((mod4Mask, xK_Down ), (sendMessage $ Go D))
         , ((mod4Mask, xK_h), withFocused hideWindow)
         , ((mod4Mask .|. shiftMask, xK_h), popNewestHiddenWindow)
+        , ((mod3Mask, xK_Tab), onGroup W.focusDown')
+        , ((mod3Mask .|. shiftMask, xK_Tab), onGroup W.focusUp')
 --        , ((mod4Mask, xK_h), withFocused minimizeWindow)
 --        , ((mod4Mask .|. shiftMask, xK_h), withLastMinimized maximizeWindowAndFocus)
         ]
@@ -106,28 +121,39 @@ main = do
         , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, controlMask)]
         ]
        )
+--       executeFile "source" True ["~/.bashrc"] Nothing
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
 usedLayout = minimize (
   hiddenWindows (
   windowNavigation (
+  defaultLayout
+  ||| combineTwoLayout
+  ||| fullTwoLayout
+  )
+  )
+  )
+
+defaultLayout =
+  renamed [Replace "default"] $
   emptyBSP
-  ||| ThreeColMid 1 (3/100) (1/3)
---  ||| Tall 1 (3/100) (1/2)
---  ||| Grid
-  )
-  )
-  )
 
 twoPaneLayout = toggleLayouts (noBorders Full) (TwoPane (3/100) (1/2))
 
-combineTwoLayout = combineTwo (TwoPane (3/100) (1/2))
-                   (Mirror $ ResizableTall 1 (3/100) (1/2) [])
-                   (Mirror $ ResizableTall 1 (3/100) (1/2) [])
+fullTwoLayout =
+  renamed [Replace "fullTwoLayout"] $
+  combineTwo (TwoPane (3/100) (3/5))
+  (tabbedBottom shrinkText tabTheme)
+--  (subTabbed (Tall 1 (3/100) (1/2)))
+  Full
 
-myLayout = toggleLayouts (noBorders Full) (ThreeColMid 1 (3/100) (2/5))
---           ||| twoPaneLayout
-           ||| toggleLayouts (noBorders Full) (windowNavigation combineTwoLayout)
+combineTwoLayout =
+  renamed [Replace "combineTwoLayout"] $
+  combineTwo (TwoPane (3/100) (3/5))
+  (subLayout [0,1] emptyBSP Full)
+  Full
+  --(Mirror $ ResizableTall 1 (3/100) (1/2) [])
+  --(Mirror $ ResizableTall 1 (3/100) (1/2) [])
 
 myGridSelectConfig = defaultGSConfig { gs_cellheight = 150, gs_cellwidth = 450 }
 
@@ -149,6 +175,14 @@ myPromptConfig = def
   , historySize = 1024
   , height = 40
   }
+
+tabTheme = def
+  {
+-- sudo dnf install wqy-microhei-fonts; fc-list | grep wqy
+    fontName = "xft:WenQuanYi Micro Hei Mono:size=10:bold:antialias=true"
+  , decoHeight = 40
+  }
+
 
 startup :: X()
 startup = do
