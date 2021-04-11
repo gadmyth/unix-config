@@ -121,7 +121,6 @@ main = do
         , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, controlMask)]
         ]
        )
---       executeFile "source" True ["~/.bashrc"] Nothing
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
 usedLayout = minimize (
@@ -178,11 +177,13 @@ myPromptConfig = def
 
 tabTheme = def
   {
--- sudo dnf install wqy-microhei-fonts; fc-list | grep wqy
+    -- sudo dnf install wqy-microhei-fonts; fc-list | grep wqy
     fontName = "xft:WenQuanYi Micro Hei Mono:size=10:bold:antialias=true"
+  , activeTextColor = "black"
+  , activeColor = "#f6f5f4"
+  , inactiveTextColor = "white"
   , decoHeight = 40
   }
-
 
 startup :: X()
 startup = do
