@@ -57,7 +57,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
         , ((mod4Mask .|. shiftMask, xK_t), spawn "Thunar")
         , ((mod4Mask .|. shiftMask, xK_p), spawn "image_file=~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; xfce4-screenshooter --region --mouse --save ${image_file}; [[ -f ${image_file} ]] && Thunar ~/Pictures")
-        , ((mod4Mask .|. controlMask, xK_Return), shellPrompt myPromptConfig)
+        , ((mod4Mask, xK_r), shellPrompt myPromptConfig)
         , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
         , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
@@ -167,7 +167,8 @@ myWorkspaces = map show [1..20 :: Int]
 
 myPromptConfig = def
   {
-    promptBorderWidth = 0
+    font = "xft:WenQuanYi Micro Hei Mono:size=10:bold:antialias=true"
+  , promptBorderWidth = 0
   , position = Bottom
   , defaultText = ""
   , alwaysHighlight = True
