@@ -9,6 +9,17 @@ function default-interface() {
     esac
 }
 
+function current-ip() {
+    ifconfig $(default-interface | head -n 1) | grep "inet " | grep -v 127.0.0.1 | awk '{print $2}'
+}
+
+function current-git-branch() {
+    local branch=$(test -x "`command -v git`" && git -C . rev-parse 2>/dev/null && br=`git branch | grep "\*"` && echo ${br/* /})
+    test ! -z $branch && test ! -z "$(git status --untracked-files=no --porcelain)" && branch="${branch}*"
+    test ! -z $branch && branch="[$branch]"
+    echo -n $branch
+}
+
 function prompt {
 	case $TERM in xterm*|rxvt*)
 		TITLEBAR='';;
@@ -18,8 +29,7 @@ function prompt {
 
     if [ "$SHELL" = "/bin/bash" ]; then
         # change the PS1
-        local ip=$(ifconfig $(default-interface) | grep "inet " | grep -v 127.0.0.1 | awk '{print $2}')
-        PS1="\e[0;31m\e[47m[\!|\u@$ip][\$(date +%k:%M:%S)][\w]\e[m\n"
+        PS1="\e[0;31m\e[47m[\!|\u@\$(current-ip)][\$(date +%k:%M:%S)][\w]\$(current-git-branch)\e[m\n"
         # change the PS2
         PS2="continue-->"
         # change PS4
