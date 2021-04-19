@@ -146,7 +146,7 @@ fullTwoLayout =
   combineTwo (TwoPane (3/100) (3/5))
   (tabbedBottom shrinkText tabTheme)
 --  (subTabbed (Tall 1 (3/100) (1/2)))
-  Full
+  (tabbedBottom shrinkText tabTheme)
 
 combineTwoLayout =
   renamed [Replace "combineTwoLayout"] $
