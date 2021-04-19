@@ -1,8 +1,10 @@
 [Desktop Entry]
+Encoding=UTF-8
 Name=xmonad
 Comment=Tiling window manager
 Exec=xmonad-start
 Terminal=false
+Type=XSession
 
 [Window Manager]
 SessionManaged=true

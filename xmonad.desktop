@@ -1,8 +1,10 @@
 # file path: /usr/share/xsessions/xmonad.desktop
 [Desktop Entry]
+Encoding=UTF-8
 Name=xmonad
 Comment=Tiling window manager
 Exec=xmonad-start
+Type=XSession
 Terminal=false
 
 [Window Manager]
