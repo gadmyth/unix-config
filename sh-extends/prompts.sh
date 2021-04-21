@@ -17,7 +17,7 @@ function current-git-branch() {
     local branch=$(test -x "`command -v git`" && git -C . rev-parse 2>/dev/null && br=`git branch | grep "\*"` && echo ${br/* /})
     test ! -z $branch && test ! -z "$(git status --untracked-files=no --porcelain)" && branch="${branch}*"
     test ! -z $branch && branch="[$branch]"
-    echo -n $branch
+    echo -n "$branch"
 }
 
 function prompt {
