@@ -62,7 +62,7 @@ main = do
         , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
         , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
-        , ((mod3Mask, xK_w), runOrRaiseNext "wechat" (stringProperty "WM_NAME" =? "Electronic WeChat"))
+        , ((mod3Mask, xK_w), runOrRaiseNext "wechat" (className =? "Electron"))
         , ((mod3Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
         , ((mod3Mask, xK_BackSpace), nextMatch History (return True))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
@@ -131,6 +131,7 @@ usedLayout = minimize (
   defaultLayout
   ||| combineTwoLayout
   ||| fullTwoLayout
+  ||| ThreeColMid 1 (3/100) (1/3)
   )
   )
   )
