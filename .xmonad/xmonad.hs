@@ -25,6 +25,7 @@ import XMonad.Layout.Renamed
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.SimpleDecoration
+import XMonad.Layout.Simplest
 import XMonad.Actions.GridSelect
 import XMonad.Actions.GroupNavigation
 import XMonad.Actions.WindowGo
@@ -77,7 +78,15 @@ main = do
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
         , ((mod4Mask .|. controlMask, xK_d), sendMessage $ JumpToLayout "default")
         , ((mod4Mask .|. controlMask, xK_f), sendMessage $ JumpToLayout "fullTwoLayout")
-        , ((mod4Mask .|. controlMask, xK_t), sendMessage $ JumpToLayout "combineTwoLayout")
+        , ((mod4Mask .|. controlMask, xK_t), sendMessage $ JumpToLayout "three")
+        , ((mod4Mask .|. controlMask, xK_Left), sendMessage $ pullGroup L)
+        , ((mod4Mask .|. controlMask, xK_Right), sendMessage $ pullGroup R)
+        , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ pullGroup U)
+        , ((mod4Mask .|. controlMask, xK_Down), sendMessage $ pullGroup D)
+        -- Tab all windows in the current workspace with current window as the focus
+        , ((mod4Mask .|. controlMask, xK_m), withFocused (sendMessage . MergeAll))
+        -- Group the current tabbed windows
+        , ((mod4Mask .|. controlMask, xK_u), withFocused (sendMessage . UnMerge))
         , ((mod4Mask .|. mod1Mask, xK_r), sendMessage Rotate)
         , ((mod4Mask .|. mod1Mask, xK_s), sendMessage XMonad.Layout.BinarySpacePartition.Swap)
         , ((mod4Mask .|. mod1Mask, xK_p), sendMessage FocusParent)
@@ -89,8 +98,8 @@ main = do
         , ((mod4Mask .|. mod1Mask, xK_Right), sendMessage $ MoveSplit R)
         , ((mod4Mask .|. mod1Mask, xK_Up), sendMessage $ MoveSplit U)
         , ((mod4Mask .|. mod1Mask, xK_Down), sendMessage $ MoveSplit D)
-        , ((mod4Mask .|. controlMask, xK_Left), sendMessage $ RotateL)
-        , ((mod4Mask .|. controlMask, xK_Right), sendMessage $ RotateR)
+        , ((mod4Mask .|. mod3Mask, xK_Left), sendMessage $ RotateL)
+        , ((mod4Mask .|. mod3Mask, xK_Right), sendMessage $ RotateR)
 --        , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ FlipH)
 --        , ((mod4Mask .|. controlMask, xK_Down), sendMessage $ FlipV)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
@@ -129,34 +138,28 @@ usedLayout = minimize (
   hiddenWindows (
   windowNavigation (
   defaultLayout
-  ||| combineTwoLayout
   ||| fullTwoLayout
-  ||| ThreeColMid 1 (3/100) (1/3)
+  ||| threeColumnLayout
   )
   )
   )
 
 defaultLayout =
   renamed [Replace "default"] $
+  addTabsBottom shrinkText tabTheme $ subLayout [] Simplest $
   emptyBSP
-
-twoPaneLayout = toggleLayouts (noBorders Full) (TwoPane (3/100) (1/2))
 
 fullTwoLayout =
   renamed [Replace "fullTwoLayout"] $
-  combineTwo (TwoPane (3/100) (3/5))
+  combineTwo (TwoPane (3/100) (1/2))
   (tabbedBottom shrinkText tabTheme)
---  (subTabbed (Tall 1 (3/100) (1/2)))
   (tabbedBottom shrinkText tabTheme)
 
-combineTwoLayout =
-  renamed [Replace "combineTwoLayout"] $
-  combineTwo (TwoPane (3/100) (3/5))
-  (subLayout [0,1] emptyBSP Full)
-  Full
-  --(Mirror $ ResizableTall 1 (3/100) (1/2) [])
-  --(Mirror $ ResizableTall 1 (3/100) (1/2) [])
-
+threeColumnLayout =
+  renamed [Replace "three"] $
+  addTabsBottom shrinkText tabTheme $ subLayout [] Simplest $
+  ThreeColMid 1 (3/100) (3/7)
+  
 myGridSelectConfig = defaultGSConfig { gs_cellheight = 150, gs_cellwidth = 450 }
 
 floatManageHook = composeAll
