@@ -26,6 +26,7 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.Simplest
+import XMonad.Actions.CopyWindow
 import XMonad.Actions.GridSelect
 import XMonad.Actions.GroupNavigation
 import XMonad.Actions.WindowGo
@@ -70,6 +71,7 @@ main = do
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_BackSpace), io exitSuccess)
         , ((mod3Mask .|. shiftMask, xK_c), kill)
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), kill1)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), spawn "xscreensaver-command -lock")
         , ((mod4Mask .|. shiftMask, xK_z), spawn "setxkbmap dvorak; xmodmap ~/.Xmodmap")
         , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
@@ -87,6 +89,8 @@ main = do
         , ((mod4Mask .|. controlMask, xK_m), withFocused (sendMessage . MergeAll))
         -- Group the current tabbed windows
         , ((mod4Mask .|. controlMask, xK_u), withFocused (sendMessage . UnMerge))
+        , ((mod4Mask, xK_period), onGroup W.focusUp')
+        , ((mod4Mask, xK_comma), onGroup W.focusDown')
         , ((mod4Mask .|. mod1Mask, xK_r), sendMessage Rotate)
         , ((mod4Mask .|. mod1Mask, xK_s), sendMessage XMonad.Layout.BinarySpacePartition.Swap)
         , ((mod4Mask .|. mod1Mask, xK_p), sendMessage FocusParent)
@@ -123,7 +127,7 @@ main = do
         ++
         [((mod4Mask .|. m, k), windows $ f i)
         | (i, k) <- zip myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F10])
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, mod3Mask)]
         ]
         ++
         -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Actions-TagWindows.html
