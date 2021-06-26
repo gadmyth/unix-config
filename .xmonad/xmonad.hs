@@ -85,6 +85,10 @@ main = do
         , ((mod4Mask .|. controlMask, xK_Right), sendMessage $ pullGroup R)
         , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ pullGroup U)
         , ((mod4Mask .|. controlMask, xK_Down), sendMessage $ pullGroup D)
+        , ((mod4Mask .|. shiftMask, xK_Left), sendMessage $ pushWindow L)
+        , ((mod4Mask .|. shiftMask, xK_Right), sendMessage $ pushWindow R)
+        , ((mod4Mask .|. shiftMask, xK_Up), sendMessage $ pushWindow U)
+        , ((mod4Mask .|. shiftMask, xK_Down), sendMessage $ pushWindow D)
         -- Tab all windows in the current workspace with current window as the focus
         , ((mod4Mask .|. controlMask, xK_m), withFocused (sendMessage . MergeAll))
         -- Group the current tabbed windows
