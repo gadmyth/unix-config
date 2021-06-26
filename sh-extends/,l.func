@@ -1,2 +1,2 @@
 #!/bin/bash
-function ,l() {  i=0; for a in `ls`; do echo "$i $a"; ((i = $i + 1)); done; }
+function ,l() {  i=0; for a in `ls $1`; do echo "$i $a"; ((i = $i + 1)); done; }

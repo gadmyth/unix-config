@@ -1,2 +1,2 @@
 #!/bin/bash
-function ,v() {  a=(`ls`); vim ${a[$1]}; }
+function ,v() {  a=(`ls $1`); vim ${a[$1]}; }

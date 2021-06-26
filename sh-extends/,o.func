@@ -1,2 +1,2 @@
 #!/bin/bash
-function ,o() {  a=(`ls`); open ${a[$1]}; }
+function ,o() {  a=(`ls $1`); open ${a[$1]}; }
