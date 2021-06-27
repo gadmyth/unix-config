@@ -34,6 +34,7 @@ import XMonad.Actions.TagWindows
 import XMonad.Actions.Minimize
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Prompt.ConfirmPrompt
 import System.Posix.Process
 import System.IO
 import System.Exit
@@ -70,11 +71,11 @@ main = do
         -- system tools
         , ((mod3Mask, xK_BackSpace), nextMatch History (return True))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
-        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), spawn "systemctl suspend")
-        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_BackSpace), io exitSuccess)
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_BackSpace), confirmPrompt myPromptConfig "Exit Xmonad?" $ io (exitWith ExitSuccess))
         , ((mod3Mask .|. shiftMask, xK_c), kill)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), kill1)
-        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), spawn "xscreensaver-command -lock")
         , ((mod4Mask .|. shiftMask, xK_z), spawn "setxkbmap dvorak; xmodmap ~/.Xmodmap")
         , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
