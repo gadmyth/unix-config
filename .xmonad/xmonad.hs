@@ -53,6 +53,7 @@ main = do
           , startupHook = startup
         } `additionalKeys`
        (
+        -- applications
         [ ((mod4Mask .|. shiftMask, xK_f), spawn "firefox")
         , ((mod4Mask .|. shiftMask, xK_v), spawn "gvim")
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
@@ -66,6 +67,7 @@ main = do
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
         , ((mod3Mask, xK_w), runOrRaiseNext "wechat" (className =? "Electron"))
         , ((mod3Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
+        -- system tools
         , ((mod3Mask, xK_BackSpace), nextMatch History (return True))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), spawn "systemctl suspend")
@@ -77,10 +79,12 @@ main = do
         , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
+        -- layouts
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
         , ((mod4Mask .|. controlMask, xK_d), sendMessage $ JumpToLayout "default")
         , ((mod4Mask .|. controlMask, xK_f), sendMessage $ JumpToLayout "fullTwoLayout")
         , ((mod4Mask .|. controlMask, xK_t), sendMessage $ JumpToLayout "three")
+        -- subgroups
         , ((mod4Mask .|. controlMask, xK_Left), sendMessage $ pullGroup L)
         , ((mod4Mask .|. controlMask, xK_Right), sendMessage $ pullGroup R)
         , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ pullGroup U)
@@ -110,6 +114,7 @@ main = do
         , ((mod4Mask .|. mod3Mask, xK_Right), sendMessage $ RotateR)
 --        , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ FlipH)
 --        , ((mod4Mask .|. controlMask, xK_Down), sendMessage $ FlipV)
+        -- between combined layouts
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left ), sendMessage $ Move L)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up   ), sendMessage $ Move U)
@@ -118,6 +123,7 @@ main = do
         , ((mod4Mask, xK_Left ), (sendMessage $ Go L))
         , ((mod4Mask, xK_Up   ), (sendMessage $ Go U))
         , ((mod4Mask, xK_Down ), (sendMessage $ Go D))
+        -- hidden windows
         , ((mod4Mask .|. shiftMask, xK_h), withFocused hideWindow)
         , ((mod4Mask .|. mod1Mask, xK_h), popNewestHiddenWindow)
         , ((mod3Mask, xK_Tab), onGroup W.focusDown')
