@@ -85,6 +85,8 @@ main = do
         , ((mod4Mask .|. controlMask, xK_f), sendMessage $ JumpToLayout "fullTwoLayout")
         , ((mod4Mask .|. controlMask, xK_t), sendMessage $ JumpToLayout "three")
         -- subgroups
+        , ((mod3Mask, xK_Tab), onGroup W.focusDown')
+        , ((mod3Mask .|. shiftMask, xK_Tab), onGroup W.focusUp')
         , ((mod4Mask .|. controlMask, xK_Left), sendMessage $ pullGroup L)
         , ((mod4Mask .|. controlMask, xK_Right), sendMessage $ pullGroup R)
         , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ pullGroup U)
@@ -97,8 +99,7 @@ main = do
         , ((mod4Mask .|. controlMask, xK_m), withFocused (sendMessage . MergeAll))
         -- Group the current tabbed windows
         , ((mod4Mask .|. controlMask, xK_u), withFocused (sendMessage . UnMerge))
-        , ((mod4Mask, xK_period), onGroup W.focusUp')
-        , ((mod4Mask, xK_comma), onGroup W.focusDown')
+        -- BSP's key bindings
         , ((mod4Mask .|. mod1Mask, xK_r), sendMessage Rotate)
         , ((mod4Mask .|. mod1Mask, xK_s), sendMessage XMonad.Layout.BinarySpacePartition.Swap)
         , ((mod4Mask .|. mod1Mask, xK_p), sendMessage FocusParent)
@@ -126,8 +127,6 @@ main = do
         -- hidden windows
         , ((mod4Mask .|. shiftMask, xK_h), withFocused hideWindow)
         , ((mod4Mask .|. mod1Mask, xK_h), popNewestHiddenWindow)
-        , ((mod3Mask, xK_Tab), onGroup W.focusDown')
-        , ((mod3Mask .|. shiftMask, xK_Tab), onGroup W.focusUp')
 --        , ((mod4Mask, xK_h), withFocused minimizeWindow)
 --        , ((mod4Mask .|. shiftMask, xK_h), withLastMinimized maximizeWindowAndFocus)
         ]
