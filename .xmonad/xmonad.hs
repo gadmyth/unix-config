@@ -63,6 +63,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_t), spawn "Thunar")
         , ((mod4Mask .|. shiftMask, xK_p), spawn "image_file=~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; xfce4-screenshooter --region --mouse --save ${image_file}; [[ -f ${image_file} ]] && Thunar ~/Pictures")
         , ((mod4Mask, xK_r), shellPrompt myPromptConfig)
+        , ((mod4Mask .|. shiftMask, xK_r), prompt ("xfce4-terminal" ++ " -H -x") myPromptConfig)
         , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
         , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
