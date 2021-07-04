@@ -69,6 +69,7 @@ main = do
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
         , ((mod3Mask, xK_w), runOrRaiseNext "wechat" (className =? "Electron"))
         , ((mod3Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
+        , ((mod3Mask, xK_t), runOrRaiseNext "xclock" (className =? "XClock"))
         -- system tools
         , ((mod3Mask, xK_BackSpace), nextMatch History (return True))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
@@ -179,6 +180,7 @@ floatManageHook = composeAll
     className =? "Xfce4-appfinder" --> doCenterFloat
   , className =? "Xfce4-settings-manager" --> doFloat
   , appName =? "emacs" --> doCenterFloat
+  , appName =? "xclock" --> doCenterFloat
   ]
 
 myWorkspaces = map show [1..20 :: Int]
