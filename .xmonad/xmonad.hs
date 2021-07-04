@@ -35,6 +35,7 @@ import XMonad.Actions.Minimize
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.ConfirmPrompt
+import Graphics.X11.ExtraTypes.XF86
 import System.Posix.Process
 import System.IO
 import System.Exit
@@ -82,6 +83,10 @@ main = do
         , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
+        -- audio
+        , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume 0 +5%")
+        , ((0 , xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume 0 -5%")
+        , ((0 , xF86XK_AudioMute), spawn "pactl set-sink-mute 0 toggle")
         -- layouts
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
         , ((mod4Mask .|. controlMask, xK_d), sendMessage $ JumpToLayout "default")
