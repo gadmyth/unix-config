@@ -78,10 +78,8 @@ main = do
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
-        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_BackSpace), confirmPrompt myPromptConfig "Exit Xmonad?" $ io (exitWith ExitSuccess))
         , ((mod3Mask .|. shiftMask, xK_c), kill)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), kill1)
-        , ((mod4Mask .|. shiftMask, xK_z), spawn "setxkbmap dvorak; xmodmap ~/.Xmodmap")
         , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
@@ -137,8 +135,8 @@ main = do
         -- hidden windows
         , ((mod4Mask .|. shiftMask, xK_h), withFocused hideWindow)
         , ((mod4Mask .|. mod1Mask, xK_h), popNewestHiddenWindow)
---        , ((mod4Mask, xK_h), withFocused minimizeWindow)
---        , ((mod4Mask .|. shiftMask, xK_h), withLastMinimized maximizeWindowAndFocus)
+--        , ((mod4Mask .|. shiftMask, xK_h), withFocused minimizeWindow)
+--        , ((mod4Mask .|. mod1Mask, xK_h), withLastMinimized maximizeWindowAndFocus)
         ]
         ++
         [((mod4Mask .|. m, k), windows $ f i)
@@ -154,8 +152,10 @@ main = do
        )
 
 myXmonadCmds =
-  [ ("copyToAll"              , windows copyToAll                             )
-  , ("KeepTheCurrent"         , killAllOtherCopies                            )
+  [ ("copyToAll"        , windows copyToAll)
+  , ("keepTheCurrent"   , killAllOtherCopies)
+  , ("exit", confirmPrompt myPromptConfig "Exit Xmonad?" $ io (exitWith ExitSuccess))
+  , ("dvorak", spawn "setxkbmap dvorak; xmodmap ~/.Xmodmap")
   ]
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
