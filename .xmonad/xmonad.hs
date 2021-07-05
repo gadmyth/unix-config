@@ -35,6 +35,7 @@ import XMonad.Actions.Minimize
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.ConfirmPrompt
+import XMonad.Prompt.XMonad
 import Graphics.X11.ExtraTypes.XF86
 import System.Posix.Process
 import System.IO
@@ -64,6 +65,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_t), spawn "Thunar")
         , ((mod4Mask .|. shiftMask, xK_p), spawn "image_file=~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; xfce4-screenshooter --region --mouse --save ${image_file}; [[ -f ${image_file} ]] && Thunar ~/Pictures")
         , ((mod4Mask, xK_r), shellPrompt myPromptConfig)
+        , ((mod4Mask, xK_x), xmonadPromptC myXmonadCmds myPromptConfig)
         , ((mod4Mask .|. shiftMask, xK_r), prompt ("xfce4-terminal" ++ " -H -x") myPromptConfig)
         , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
         , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
@@ -150,6 +152,11 @@ main = do
         , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, controlMask)]
         ]
        )
+
+myXmonadCmds =
+  [ ("copyToAll"              , windows copyToAll                             )
+  , ("KeepTheCurrent"         , killAllOtherCopies                            )
+  ]
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
 usedLayout = minimize (
