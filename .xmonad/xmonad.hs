@@ -1,3 +1,4 @@
+import Data.Monoid (appEndo)
 import XMonad hiding ( (|||) )
 import XMonad.Core
 import qualified XMonad.StackSet as W
@@ -62,7 +63,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
         , ((mod4Mask .|. shiftMask, xK_s), spawn "emacsclient -c")
         , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
-        , ((mod4Mask .|. shiftMask, xK_t), spawn "Thunar")
+        , ((mod4Mask .|. shiftMask, xK_d), spawn "Thunar")
         , ((mod4Mask .|. shiftMask, xK_p), spawn "image_file=~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; xfce4-screenshooter --region --mouse --save ${image_file}; [[ -f ${image_file} ]] && Thunar ~/Pictures")
         , ((mod4Mask, xK_r), shellPrompt myPromptConfig)
         , ((mod4Mask, xK_x), xmonadPromptC myXmonadCmds myPromptConfig)
@@ -137,6 +138,7 @@ main = do
         , ((mod4Mask .|. mod1Mask, xK_h), popNewestHiddenWindow)
 --        , ((mod4Mask .|. shiftMask, xK_h), withFocused minimizeWindow)
 --        , ((mod4Mask .|. mod1Mask, xK_h), withLastMinimized maximizeWindowAndFocus)
+        , ((mod4Mask .|. shiftMask, xK_t), centerFloat)
         ]
         ++
         [((mod4Mask .|. m, k), windows $ f i)
@@ -149,14 +151,20 @@ main = do
         | (k, tag) <- zip [xK_a .. xK_z] (map (:[]) ['a' .. 'z'])
         , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, controlMask)]
         ]
-       )
+      )
+
+centerFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doCenterFloat f
+fullFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doFullFloat f
 
 myXmonadCmds =
   [ ("copyToAll"        , windows copyToAll)
   , ("keepTheCurrent"   , killAllOtherCopies)
   , ("exit", confirmPrompt myPromptConfig "Exit Xmonad?" $ io (exitWith ExitSuccess))
   , ("dvorak", spawn "setxkbmap dvorak; xmodmap ~/.Xmodmap")
+  , ("centerFloat", centerFloat)
+  , ("fullFloat", fullFloat)
   ]
+
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
 usedLayout = minimize (
