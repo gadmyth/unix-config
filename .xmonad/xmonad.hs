@@ -59,6 +59,7 @@ main = do
        (
         -- applications
         [ ((mod4Mask .|. shiftMask, xK_f), spawn "firefox")
+        , ((mod4Mask .|. shiftMask, xK_g), spawn "chromium-browser")
         , ((mod4Mask .|. shiftMask, xK_v), spawn "gvim")
         , ((mod4Mask .|. shiftMask, xK_e), spawn "emacs")
         , ((mod4Mask .|. shiftMask, xK_s), spawn "emacsclient -c")
@@ -70,6 +71,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_r), prompt ("xfce4-terminal" ++ " -H -x") myPromptConfig)
         , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
         , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
+        , ((mod3Mask, xK_g), runOrRaiseNext "chromium-browser" (className =? "Chromium-browser"))
         , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
         , ((mod3Mask, xK_w), runOrRaiseNext "wechat" (className =? "Electron"))
         , ((mod3Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
