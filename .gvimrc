@@ -43,7 +43,7 @@ syntax on
 " set guioptions-=r
 " set guioptions-=R
 "-----------------
-" colo evening
+colo evening
 set autoindent "set ai
 set number "set nu
 set nowrap
