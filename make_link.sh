@@ -7,6 +7,7 @@ ln -sf unix-config/.gitconfig
 ln -sf unix-config/.gvimrc
 ln -sf unix-config/.profile
 ln -sf unix-config/.Xmodmap
+ln -sf unix-config/.Xresources
 ln -sf unix-config/.tmux.conf
 rm -f .vimrc
 ln -s .gvimrc .vimrc
@@ -17,6 +18,8 @@ ln -sf unix-config/sh-extends
 ln -sf ~/unix-config/.xmonad
 sudo cp ~/unix-config/xmonad-start /usr/bin/xmonad-start
 sudo cp ~/unix-config/xmonad.desktop /usr/share/xsessions/xmonad.desktop
+
+sudo cp ~/unix-config/clfswm-start.sh /usr/bin/clfswm-start.sh
 
 # vbox
 sudo cp -r ~/unix-config/vbox/module-signing /root
