@@ -15,4 +15,5 @@ sysmodmap=/etc/X11/Xmodmap
 yong -d
 
 # start clfswm
-clfswm
+_JAVA_AWT_WM_NONREPARENTING=1 clfswm
+
