@@ -1,0 +1,4 @@
+/bin/bash
+
+modprobe vboxdrv vboxnetadp vboxnetflt vboxpci
+
