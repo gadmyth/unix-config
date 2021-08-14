@@ -1,0 +1,2 @@
+#!/bin/bash
+function show-ip() {  ifconfig $1 | grep "inet " | awk '{print $2}'; }

@@ -1,0 +1,2 @@
+#!/bin/bash
+function show-public-ip() { curl -s cip.cc | grep IP |  cut -f2 -d ":" | trim; }
