@@ -81,6 +81,7 @@ main = do
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_l), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "pyxtrlock")
         , ((mod3Mask .|. shiftMask, xK_c), kill)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), kill1)
         , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
