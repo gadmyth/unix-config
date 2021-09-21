@@ -8,7 +8,7 @@ $host = "0.0.0.0";
 $port = 3000;
 #$post_api = 'http://xxxx';
 
-my $client = Mojo::Weixin->new(log_level=>"info",http_debug=>0);
+my $client = Mojo::Weixin->new(log_encoding=>"utf8",elog_level=>"info",http_debug=>0);
 $client->load("ShowMsg");
 $client->load("IRCShell", data=>{load_friend=>0});
 $client->load("ShowQRCodeInTerm");
