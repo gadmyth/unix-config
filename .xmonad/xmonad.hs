@@ -69,20 +69,20 @@ main = do
         , ((mod4Mask, xK_r), shellPrompt myPromptConfig)
         , ((mod4Mask, xK_x), xmonadPromptC myXmonadCmds myPromptConfig)
         , ((mod4Mask .|. shiftMask, xK_r), prompt ("xfce4-terminal" ++ " -H -x") myPromptConfig)
-        , ((mod3Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
-        , ((mod3Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
-        , ((mod3Mask, xK_g), runOrRaiseNext "google-chrome" (className =? "Google-chrome"))
-        , ((mod3Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
-        , ((mod3Mask, xK_w), runOrRaiseNext "wechat" (className =? "Electron"))
-        , ((mod3Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
-        , ((mod3Mask, xK_t), runOrRaiseNext "xclock" (className =? "XClock"))
+        , ((mod5Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
+        , ((mod5Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
+        , ((mod5Mask, xK_g), runOrRaiseNext "google-chrome" (className =? "Google-chrome"))
+        , ((mod5Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
+        , ((mod5Mask, xK_w), runOrRaiseNext "wechat" (className =? "Electron"))
+        , ((mod5Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
+        , ((mod5Mask, xK_t), runOrRaiseNext "xclock" (className =? "XClock"))
         -- system tools
-        , ((mod3Mask, xK_BackSpace), nextMatch History (return True))
+        , ((mod5Mask, xK_BackSpace), nextMatch History (return True))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_l), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "pyxtrlock")
-        , ((mod3Mask .|. shiftMask, xK_c), kill)
+        , ((mod5Mask .|. shiftMask, xK_c), kill)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), kill1)
         , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
@@ -97,8 +97,8 @@ main = do
         , ((mod4Mask .|. controlMask, xK_f), sendMessage $ JumpToLayout "fullTwoLayout")
         , ((mod4Mask .|. controlMask, xK_t), sendMessage $ JumpToLayout "three")
         -- subgroups
-        , ((mod3Mask, xK_Tab), onGroup W.focusDown')
-        , ((mod3Mask .|. shiftMask, xK_Tab), onGroup W.focusUp')
+        , ((mod5Mask, xK_Tab), onGroup W.focusDown')
+        , ((mod5Mask .|. shiftMask, xK_Tab), onGroup W.focusUp')
         , ((mod4Mask .|. controlMask, xK_Left), sendMessage $ pullGroup L)
         , ((mod4Mask .|. controlMask, xK_Right), sendMessage $ pullGroup R)
         , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ pullGroup U)
@@ -123,8 +123,8 @@ main = do
         , ((mod4Mask .|. mod1Mask, xK_Right), sendMessage $ MoveSplit R)
         , ((mod4Mask .|. mod1Mask, xK_Up), sendMessage $ MoveSplit U)
         , ((mod4Mask .|. mod1Mask, xK_Down), sendMessage $ MoveSplit D)
-        , ((mod4Mask .|. mod3Mask, xK_Left), sendMessage $ RotateL)
-        , ((mod4Mask .|. mod3Mask, xK_Right), sendMessage $ RotateR)
+        , ((mod4Mask .|. mod5Mask, xK_Left), sendMessage $ RotateL)
+        , ((mod4Mask .|. mod5Mask, xK_Right), sendMessage $ RotateR)
 --        , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ FlipH)
 --        , ((mod4Mask .|. controlMask, xK_Down), sendMessage $ FlipV)
         -- between combined layouts
@@ -146,11 +146,11 @@ main = do
         ++
         [((mod4Mask .|. m, k), windows $ f i)
         | (i, k) <- zip myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F10])
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, mod3Mask)]
+        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, mod5Mask)]
         ]
         ++
         -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Actions-TagWindows.html
-        [((mod3Mask .|. m, k), f tag)
+        [((mod5Mask .|. m, k), f tag)
         | (k, tag) <- zip [xK_a .. xK_z] (map (:[]) ['a' .. 'z'])
         , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, controlMask)]
         ]
