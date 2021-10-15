@@ -22,7 +22,7 @@ function nb-check() {
 
 function nb-slow-check() {
     while true; do
-        date "+%Y-%m-%d %H:%M:%S"
+        cecho green `date "+%Y-%m-%d %H:%M:%S"`
         ping -c 1 172.16.16.1 | egrep "PING|from"
         echo ""
         sleep 5
