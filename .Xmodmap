@@ -23,9 +23,9 @@ clear Mod5
 ! mapping keycode to modifiers
 add Shift = Shift_L Shift_R
 add Lock = Caps_Lock
-add Control = Control_L Control_R
+add Control = Control_L
 add Mod1 = Alt_L
-add Mod2 = Num_Lock
+add Mod2 = Control_R
 add Mod3 = Hyper_L
 add Mod4 = Super_L Super_R
 add Mod5 = Mode_switch ISO_Level3_Shift ISO_Level3_Shift ISO_Level3_Shift Alt_R

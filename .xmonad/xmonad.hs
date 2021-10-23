@@ -147,13 +147,13 @@ main = do
         ++
         [((mod4Mask .|. m, k), windows $ f i)
         | (i, k) <- zip myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F10])
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, mod5Mask)]
+        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, mod3Mask)]
         ]
         ++
         -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Actions-TagWindows.html
-        [((mod5Mask .|. m, k), f tag)
+        [((mod2Mask .|. m, k), f tag)
         | (k, tag) <- zip [xK_a .. xK_z] (map (:[]) ['a' .. 'z'])
-        , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, controlMask)]
+        , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, 0)]
         ]
       )
 
