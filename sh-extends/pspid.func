@@ -1,0 +1,2 @@
+#!/bin/bash
+function pspid() { psgrep $1 | awk '{print $2}'; }
