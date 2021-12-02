@@ -27,6 +27,7 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.Simplest
+import XMonad.Actions.CycleWS
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.GridSelect
 import XMonad.Actions.GroupNavigation
@@ -78,7 +79,9 @@ main = do
         , ((mod5Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
         , ((mod5Mask, xK_t), runOrRaiseNext "xclock" (className =? "XClock"))
         -- system tools
-        , ((mod5Mask, xK_BackSpace), nextMatch History (return True))
+        , ((mod4Mask, xK_BackSpace), nextMatch History (return True))
+        -- toggle workspace, xK_grave is "`", defined in /usr/include/X11/keysymdef.h, detected by `xev` Linux command
+        , ((mod4Mask, xK_grave), toggleWS)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
