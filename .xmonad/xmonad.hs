@@ -81,7 +81,8 @@ main = do
         -- system tools
         , ((mod4Mask, xK_BackSpace), nextMatch History (return True))
         -- toggle workspace, xK_grave is "`", defined in /usr/include/X11/keysymdef.h, detected by `xev` Linux command
-        , ((mod4Mask, xK_grave), toggleWS)
+        , ((mod4Mask, xK_grave), toggleWSWithHint)
+        , ((mod4Mask, xK_i), notifyCurrentWSHint)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
@@ -150,7 +151,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_t), centerFloat)
         ]
         ++
-        [((mod4Mask .|. m, k), windows $ f i)
+        [((mod4Mask .|. m, k), workspaceHint f i)
         | (i, k) <- zip myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F10])
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, mod3Mask)]
         ]
@@ -161,6 +162,23 @@ main = do
         , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, 0)]
         ]
       )
+
+notifyWSHint :: String -> X()
+notifyWSHint index = spawn $ "notify-send -t 500 \"workspace: " ++ index ++ "\""
+
+notifyCurrentWSHint :: X()
+notifyCurrentWSHint = do
+  cur <- gets (W.currentTag . windowset)
+  notifyWSHint cur
+
+workspaceHint f i = do
+  windows $ f i
+  notifyWSHint i
+
+toggleWSWithHint :: X()
+toggleWSWithHint = do
+  toggleWS
+  notifyCurrentWSHint
 
 centerFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doCenterFloat f
 fullFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doFullFloat f
