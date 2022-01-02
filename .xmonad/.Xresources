@@ -5,3 +5,6 @@ xterm*faceName:AR PL Uming CN:pixelsize=12
 xterm*faceSize:12
 XTerm*Background: black
 XTerm*Foreground: white
+XClock*Foreground: white
+XClock*Background: black
+XClock*geometry: 80x80+20-20
