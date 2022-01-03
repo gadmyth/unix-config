@@ -227,8 +227,8 @@ floatManageHook = composeAll
   [
     className =? "Xfce4-appfinder" --> doCenterFloat
   , className =? "Xfce4-settings-manager" --> doFloat
-  , appName =? "emacs" --> doCenterFloat
-  , appName =? "xclock" --> doCenterFloat
+  , appName =? "emacs" --> doFloat
+  , appName =? "xclock" --> doFloat
   ]
 
 myWorkspaces = map show [1..20 :: Int]
