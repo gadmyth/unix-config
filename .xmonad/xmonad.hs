@@ -94,11 +94,11 @@ main = do
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
         -- audio
-        , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume $(pactl list short sinks | grep RUNNING | awk '{print $1}' | head -n 1) +5%")
-        , ((shiftMask, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume $(pactl list short sinks | grep RUNNING | awk '{print $1}' | head -n 1) +20%")
-        , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume $(pactl list short sinks | grep RUNNING | awk '{print $1}' | head -n 1) -5%")
-        , ((shiftMask , xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume $(pactl list short sinks | grep RUNNING | awk '{print $1}' | head -n 1) -20%")
-        , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute $(pactl list short sinks | grep RUNNING | awk '{print $1}' | head -n 1) toggle")
+        , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) +5%")
+        , ((shiftMask, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) +20%")
+        , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) -5%")
+        , ((shiftMask , xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) -20%")
+        , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute $(pactl get-default-sink) toggle")
         -- layouts
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
         , ((mod4Mask .|. controlMask, xK_d), sendMessage $ JumpToLayout "default")
