@@ -11,6 +11,8 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.Grid
+import XMonad.Layout.MultiToggle
+import XMonad.Layout.Reflect
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
 import XMonad.Layout.ToggleLayouts
@@ -85,13 +87,12 @@ main = do
         -- toggle workspace, xK_grave is "`", defined in /usr/include/X11/keysymdef.h, detected by `xev` Linux command
         , ((mod4Mask, xK_grave), toggleWSWithHint)
         , ((mod4Mask, xK_i), notifyCurrentWSHint)
-        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_h), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
+--        , ((mod4Mask .|. shiftMask, xK_c), confirmPrompt myPromptConfig "kill window?" $ kill)
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_b), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
         -- git clone https://github.com/jarun/xtrlock /opt/xtrlock; cd /opt/xtrlock; sudo make; sudo make install
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_l), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xtrlock")
-        , ((mod5Mask .|. shiftMask, xK_c), kill)
-        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), kill1)
         , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
@@ -125,29 +126,32 @@ main = do
         , ((mod4Mask .|. mod1Mask, xK_r), sendMessage Rotate)
         , ((mod4Mask .|. mod1Mask, xK_s), sendMessage XMonad.Layout.BinarySpacePartition.Swap)
         , ((mod4Mask .|. mod1Mask, xK_p), sendMessage FocusParent)
-        , ((mod4Mask .|. mod1Mask, xK_a), sendMessage Balance)
-        , ((mod4Mask .|. shiftMask, xK_a), sendMessage Equalize)
+        -- should focus the parent first, it balance the children of the tree,
+        -- rebuild the BSP making the depth of the tree minimized (called balanced
+        , ((mod4Mask .|. mod1Mask, xK_b), sendMessage Balance)
+        -- should focus the parent first, it equalize the children of the tree,
+        -- keep the BSP's structure, make each window gets the same amount of space
+        , ((mod4Mask .|. mod1Mask, xK_e), sendMessage Equalize)
         , ((mod4Mask .|. mod1Mask, xK_n), sendMessage SelectNode)
         , ((mod4Mask .|. mod1Mask, xK_m), sendMessage MoveNode)
         , ((mod4Mask .|. mod1Mask, xK_Left), sendMessage $ MoveSplit L)
         , ((mod4Mask .|. mod1Mask, xK_Right), sendMessage $ MoveSplit R)
         , ((mod4Mask .|. mod1Mask, xK_Up), sendMessage $ MoveSplit U)
         , ((mod4Mask .|. mod1Mask, xK_Down), sendMessage $ MoveSplit D)
-        , ((mod4Mask .|. mod5Mask, xK_Left), sendMessage $ RotateL)
-        , ((mod4Mask .|. mod5Mask, xK_Right), sendMessage $ RotateR)
---        , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ FlipH)
---        , ((mod4Mask .|. controlMask, xK_Down), sendMessage $ FlipV)
+        , ((mod5Mask, xK_Left), sendMessage $ RotateL)
+        , ((mod5Mask, xK_Right), sendMessage $ RotateR)
+        , ((mod4Mask .|. controlMask, xK_s), sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTX)
+        , ((mod4Mask .|. controlMask .|. shiftMask, xK_s), sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTY)
         -- float windows
         -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/XMonad-Actions-FloatKeys.html
-        , ((mod4Mask, xK_h), withFocused (keysMoveWindow (-50, 0)))
-        , ((mod4Mask, xK_l), withFocused (keysMoveWindow (50, 0)))
-        , ((mod4Mask, xK_j), withFocused (keysMoveWindow (0, 50)))
-        , ((mod4Mask, xK_k), withFocused (keysMoveWindow (0, -50)))
-        , ((mod4Mask .|. controlMask, xK_h), withFocused (keysResizeWindow (-50, 0) (0, 0)))
-        , ((mod4Mask .|. controlMask, xK_l), withFocused (keysResizeWindow (50, 0) (0, 0)))
-        , ((mod4Mask .|. controlMask, xK_j), withFocused (keysResizeWindow (0, 50) (0, 0)))
-        , ((mod4Mask .|. controlMask, xK_k), withFocused (keysResizeWindow (0, -50) (0, 0)))
-        , ((mod4Mask .|. controlMask, xK_k), withFocused (keysResizeWindow (0, -50) (0, 0)))
+        , ((mod4Mask, xK_h), withFocused (keysMoveWindow (-100, 0)))
+        , ((mod4Mask, xK_l), withFocused (keysMoveWindow (100, 0)))
+        , ((mod4Mask, xK_j), withFocused (keysMoveWindow (0, 100)))
+        , ((mod4Mask, xK_k), withFocused (keysMoveWindow (0, -100)))
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_h), withFocused (keysResizeWindow (-100, 0) (0, 0)))
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_l), withFocused (keysResizeWindow (100, 0) (0, 0)))
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_j), withFocused (keysResizeWindow (0, 100) (0, 0)))
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_k), withFocused (keysResizeWindow (0, -100) (0, 0)))
         -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/XMonad-Hooks-Place.html
         , ((mod4Mask .|. mod1Mask, xK_h), withFocused $ borderMove LEFT)
         , ((mod4Mask .|. mod1Mask, xK_l), withFocused $ borderMove RIGHT)
@@ -165,11 +169,11 @@ main = do
         , ((mod4Mask, xK_Up   ), (sendMessage $ Go U))
         , ((mod4Mask, xK_Down ), (sendMessage $ Go D))
         -- hidden windows
-        , ((mod4Mask .|. shiftMask, xK_h), withFocused hideWindow)
-        , ((mod4Mask .|. mod1Mask, xK_h), popNewestHiddenWindow)
+        , ((mod4Mask .|. mod1Mask, xK_c), withFocused hideWindow)
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), popNewestHiddenWindow)
 --        , ((mod4Mask .|. shiftMask, xK_h), withFocused minimizeWindow)
 --        , ((mod4Mask .|. mod1Mask, xK_h), withLastMinimized maximizeWindowAndFocus)
-        , ((mod4Mask .|. shiftMask, xK_t), centerFloat)
+        , ((mod4Mask .|. mod1Mask, xK_t), centerFloat)
         ]
         ++
         [((mod4Mask .|. m, k), workspaceHint f i)
@@ -215,15 +219,15 @@ myXmonadCmds =
 
 
 defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
-usedLayout = minimize (
-  hiddenWindows (
-  windowNavigation (
+usedLayout =
+  mkToggle (single REFLECTX) $
+  mkToggle (single REFLECTY) $
+  minimize $
+  hiddenWindows $
+  windowNavigation $
   defaultLayout
   ||| fullTwoLayout
   ||| threeColumnLayout
-  )
-  )
-  )
 
 defaultLayout =
   renamed [Replace "default"] $
