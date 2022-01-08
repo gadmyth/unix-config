@@ -29,6 +29,7 @@ import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.Simplest
 import XMonad.Actions.CycleWS
 import XMonad.Actions.CopyWindow
+import XMonad.Actions.FloatKeys
 import XMonad.Actions.GridSelect
 import XMonad.Actions.GroupNavigation
 import XMonad.Actions.WindowGo
@@ -39,6 +40,7 @@ import XMonad.Prompt.Shell
 import XMonad.Prompt.ConfirmPrompt
 import XMonad.Prompt.XMonad
 import Graphics.X11.ExtraTypes.XF86
+import Graphics.X11.Xinerama
 import System.Posix.Process
 import System.IO
 import System.Exit
@@ -135,6 +137,24 @@ main = do
         , ((mod4Mask .|. mod5Mask, xK_Right), sendMessage $ RotateR)
 --        , ((mod4Mask .|. controlMask, xK_Up), sendMessage $ FlipH)
 --        , ((mod4Mask .|. controlMask, xK_Down), sendMessage $ FlipV)
+        -- float windows
+        -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/XMonad-Actions-FloatKeys.html
+        , ((mod4Mask, xK_h), withFocused (keysMoveWindow (-50, 0)))
+        , ((mod4Mask, xK_l), withFocused (keysMoveWindow (50, 0)))
+        , ((mod4Mask, xK_j), withFocused (keysMoveWindow (0, 50)))
+        , ((mod4Mask, xK_k), withFocused (keysMoveWindow (0, -50)))
+        , ((mod4Mask .|. controlMask, xK_h), withFocused (keysResizeWindow (-50, 0) (0, 0)))
+        , ((mod4Mask .|. controlMask, xK_l), withFocused (keysResizeWindow (50, 0) (0, 0)))
+        , ((mod4Mask .|. controlMask, xK_j), withFocused (keysResizeWindow (0, 50) (0, 0)))
+        , ((mod4Mask .|. controlMask, xK_k), withFocused (keysResizeWindow (0, -50) (0, 0)))
+        , ((mod4Mask .|. controlMask, xK_k), withFocused (keysResizeWindow (0, -50) (0, 0)))
+        -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/XMonad-Hooks-Place.html
+        , ((mod4Mask .|. mod1Mask, xK_h), withFocused $ borderMove LEFT)
+        , ((mod4Mask .|. mod1Mask, xK_l), withFocused $ borderMove RIGHT)
+        , ((mod4Mask .|. mod1Mask, xK_j), withFocused $ borderMove BOTTOM)
+        , ((mod4Mask .|. mod1Mask, xK_k), withFocused $ borderMove TOP)
+        , ((mod4Mask .|. mod1Mask, xK_t), withFocused $ borderMove HORI_CENTER)
+        , ((mod4Mask .|. mod1Mask, xK_v), withFocused $ borderMove VERT_CENTER)
         -- between combined layouts
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left ), sendMessage $ Move L)
@@ -253,6 +273,42 @@ tabTheme = def
   , inactiveTextColor = "white"
   , decoHeight = 40
   }
+
+-- copied and modified from
+-- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/src/XMonad.Actions.FloatSnap.html
+data Place2D = TOP
+             | BOTTOM
+             | HORI_CENTER
+             | RIGHT
+             | LEFT
+             | VERT_CENTER
+             deriving (Eq,Read,Show,Ord,Enum,Bounded)
+
+borderMove :: Place2D -> Window -> X ()
+borderMove LEFT        = doBorderMove True 0.0
+borderMove HORI_CENTER = doBorderMove True 0.5
+borderMove RIGHT       = doBorderMove True 1.0
+borderMove TOP         = doBorderMove False 0.0
+borderMove VERT_CENTER = doBorderMove False 0.5
+borderMove BOTTOM      = doBorderMove False 1.0
+
+doBorderMove :: Bool -> Rational -> Window -> X ()
+doBorderMove horiz ratio w = whenX (isClient w) $ withDisplay $ \d -> do
+  wa <- io $ getWindowAttributes d w
+  sa <- io $ getScreenInfo d
+  let (ww, wh) = (toRational $ wa_width wa, toRational $ wa_height wa)
+      (sw, sh) = (toRational $ rect_width $ sa !! 0, toRational $ rect_height $ sa !! 0)
+      (dw, dh) = (sw - ww, sh - wh)
+      (x_pos, y_pos) = (dw * ratio, dh * ratio)
+      newpos = if horiz
+        then x_pos
+        else y_pos
+
+  if horiz
+    then io $ moveWindow d w (fromIntegral (floor newpos)) (fromIntegral $ wa_y wa)
+    else io $ moveWindow d w (fromIntegral $ wa_x wa) (fromIntegral (floor newpos))
+    
+  float w
 
 startup :: X()
 startup = do
