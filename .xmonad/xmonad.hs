@@ -56,7 +56,7 @@ main = do
           , focusedBorderColor = "#ee4000"
           , normalBorderColor = "#9acd32"
           , manageHook = floatManageHook <+> manageDocks <+> manageHook def
-          , layoutHook = avoidStruts $ defaultMyLayout
+          , layoutHook = avoidStruts $ defaultLayout
           , handleEventHook = handleEventHook def <+> docksEventHook
           , logHook = historyHook
           , startupHook = startup
@@ -104,7 +104,7 @@ main = do
         , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute $(pactl get-default-sink) toggle")
         -- layouts
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
-        , ((mod4Mask .|. controlMask, xK_d), sendMessage $ JumpToLayout "default")
+        , ((mod4Mask .|. controlMask, xK_m), sendMessage $ JumpToLayout "main")
         , ((mod4Mask .|. controlMask, xK_f), sendMessage $ JumpToLayout "fullTwoLayout")
         , ((mod4Mask .|. controlMask, xK_t), sendMessage $ JumpToLayout "three")
         -- subgroups
@@ -218,19 +218,19 @@ myXmonadCmds =
   ]
 
 
-defaultMyLayout = toggleLayouts (noBorders Full) usedLayout
-usedLayout =
+defaultLayout =
+  toggleLayouts (noBorders Full) $
   mkToggle (single REFLECTX) $
   mkToggle (single REFLECTY) $
   minimize $
   hiddenWindows $
   windowNavigation $
-  defaultLayout
+  mainLayout
   ||| fullTwoLayout
   ||| threeColumnLayout
 
-defaultLayout =
-  renamed [Replace "default"] $
+mainLayout =
+  renamed [Replace "main"] $
   addTabsBottom shrinkText tabTheme $ subLayout [] Simplest $
   emptyBSP
 
