@@ -247,6 +247,8 @@ floatManageHook = composeAll
   [
     className =? "Xfce4-appfinder" --> doCenterFloat
   , className =? "Xfce4-settings-manager" --> doFloat
+  , className =? "Thunar" --> doCenterFloat
+  , title =? "Electronic WeChat" --> doFloat
   , appName =? "emacs" --> doFloat
   , appName =? "xclock" --> doFloat
   ]
