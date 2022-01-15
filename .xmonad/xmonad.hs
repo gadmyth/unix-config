@@ -252,8 +252,11 @@ floatManageHook = composeAll
     className =? "Xfce4-appfinder" --> doCenterFloat
   , className =? "Xfce4-settings-manager" --> doFloat
   , className =? "Thunar" --> doCenterFloat
+
   , className =? "Ristretto" --> doCenterFloat
   , className =? "Gimagereader-gtk" --> doCenterFloat
+  , className =? "Pavucontrol" --> doCenterFloat
+  , className =? "Blueberry.py" --> doCenterFloat
   , title =? "Electronic WeChat" --> doFloat
   , appName =? "emacs" --> doFloat
   , appName =? "xclock" --> doFloat
@@ -328,6 +331,7 @@ startup = do
         spawn "xfce4-panel -q; xfce4-panel -d"
         spawnOnce "nm-applet"
         spawnOnce "xfce4-power-manager"
+        -- sudo dnf install blueberry
         spawnOnce "blueberry-tray"
         spawnOnce "yong -d"
 
