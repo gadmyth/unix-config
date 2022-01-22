@@ -1,0 +1,2 @@
+#!/bin/bash
+function gcim2() { gci -m "$(date-normal-string)"; }
