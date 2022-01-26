@@ -1,11 +1,13 @@
 import Data.Monoid (appEndo)
 import XMonad hiding ( (|||) )
 import XMonad.Core
+import XMonad.Config.Desktop (desktopConfig, desktopLayoutModifiers)
 import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Themes
+import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
@@ -48,16 +50,16 @@ import System.IO
 import System.Exit
 
 main = do
-     xmonad $ withUrgencyHook NoUrgencyHook $ def {
+     xmonad $ withUrgencyHook NoUrgencyHook $ ewmh desktopConfig {
           modMask = mod4Mask
           , terminal = "xfce4-terminal"
           , workspaces = myWorkspaces
           , borderWidth = 2
           , focusedBorderColor = "#ee4000"
           , normalBorderColor = "#9acd32"
-          , manageHook = floatManageHook <+> manageDocks <+> manageHook def
-          , layoutHook = avoidStruts $ defaultLayout
-          , handleEventHook = handleEventHook def <+> docksEventHook
+          , manageHook = floatManageHook <+> manageDocks <+> manageHook desktopConfig
+          , layoutHook = avoidStruts $ desktopLayoutModifiers $ defaultLayout
+          , handleEventHook = handleEventHook desktopConfig <+> docksEventHook <+> fullscreenEventHook
           , logHook = historyHook
           , startupHook = startup
         } `additionalKeys`
