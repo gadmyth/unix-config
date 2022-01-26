@@ -262,6 +262,7 @@ floatManageHook = composeAll
   , className =? "Blueberry.py" --> doCenterFloat
   , title =? "Electronic WeChat" --> doFloat
   , appName =? "emacs" --> doFloat
+  , appName =? "gvim" --> doCenterFloat
   , appName =? "xclock" --> doFloat
   ]
 
