@@ -13,6 +13,7 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.Grid
+import XMonad.Layout.Maximize
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.Reflect
 import XMonad.Layout.ThreeColumns
@@ -31,6 +32,7 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.Simplest
+import XMonad.Layout.SimplestFloat
 import XMonad.Actions.CycleWS
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.FloatKeys
@@ -175,6 +177,7 @@ main = do
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), popNewestHiddenWindow)
 --        , ((mod4Mask .|. shiftMask, xK_h), withFocused minimizeWindow)
 --        , ((mod4Mask .|. mod1Mask, xK_h), withLastMinimized maximizeWindowAndFocus)
+        , ((mod4Mask, xK_backslash), withFocused (sendMessage . maximizeRestore))
         , ((mod4Mask .|. mod1Mask, xK_t), centerFloat)
         ]
         ++
@@ -191,7 +194,9 @@ main = do
       )
 
 notifyWSHint :: String -> X()
-notifyWSHint index = spawn $ "notify-send -t 500 \"workspace: " ++ index ++ "\""
+notifyWSHint index = do
+  layout <- layoutHint
+  spawn $ "notify-send -t 500 \"workspace: " ++ index ++ ", layout: " ++ layout ++ "\""
 
 notifyCurrentWSHint :: X()
 notifyCurrentWSHint = do
@@ -201,6 +206,13 @@ notifyCurrentWSHint = do
 workspaceHint f i = do
   windows $ f i
   notifyWSHint i
+
+layoutHint :: X String
+layoutHint = do
+  workspaces <- gets windowset
+  let desc = description . W.layout . W.workspace . W.current $ workspaces
+      hint = last $ split ' ' desc
+  return hint
 
 toggleWSWithHint :: X()
 toggleWSWithHint = do
@@ -224,10 +236,12 @@ defaultLayout =
   toggleLayouts (noBorders Full) $
   mkToggle (single REFLECTX) $
   mkToggle (single REFLECTY) $
+  maximize $
   minimize $
   hiddenWindows $
   windowNavigation $
   mainLayout
+  ||| simplestFloat
   ||| fullTwoLayout
   ||| threeColumnLayout
 
