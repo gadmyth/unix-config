@@ -1,2 +1,3 @@
 #!/bin/bash
-function gam() { git add $(git status --short | egrep "^ M" | sed -e 's/^ M //'); }
+function gam() { git add $(git status --short | egrep "^( |M)M" | sed -e 's/^\( \|M\)M //'); }
+
