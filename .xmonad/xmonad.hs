@@ -108,9 +108,10 @@ main = do
         , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute $(pactl get-default-sink) toggle")
         -- layouts
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
-        , ((mod4Mask .|. controlMask, xK_m), sendMessage $ JumpToLayout "main")
-        , ((mod4Mask .|. controlMask, xK_f), sendMessage $ JumpToLayout "fullTwoLayout")
-        , ((mod4Mask .|. controlMask, xK_t), sendMessage $ JumpToLayout "three")
+        , ((mod4Mask .|. controlMask, xK_1), sendMessage $ JumpToLayout "main")
+        , ((mod4Mask .|. controlMask, xK_2), sendMessage $ JumpToLayout "fullTwoLayout")
+        , ((mod4Mask .|. controlMask, xK_3), sendMessage $ JumpToLayout "three")
+        , ((mod4Mask .|. controlMask, xK_4), sendMessage $ JumpToLayout "SimplestFloat")
         -- subgroups
         , ((mod5Mask, xK_Tab), onGroup W.focusDown')
         , ((mod5Mask .|. shiftMask, xK_Tab), onGroup W.focusUp')
