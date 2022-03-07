@@ -107,6 +107,7 @@ main = do
         , ((shiftMask , xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) -20%")
         , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute $(pactl get-default-sink) toggle")
         -- layouts
+        , ((mod4Mask, xK_space), myNextLayout)
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
         , ((mod4Mask .|. controlMask, xK_1), myJumpToLayout "main")
         , ((mod4Mask .|. controlMask, xK_2), myJumpToLayout "fullTwoLayout")
@@ -223,6 +224,11 @@ toggleWSWithHint = do
 myJumpToLayout :: String -> X()
 myJumpToLayout name = do
   sendMessage $ JumpToLayout name
+  notifyCurrentWSHint
+
+myNextLayout :: X()
+myNextLayout = do
+  sendMessage NextLayout
   notifyCurrentWSHint
 
 centerFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doCenterFloat f
