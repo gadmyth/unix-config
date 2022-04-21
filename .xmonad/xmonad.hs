@@ -1,4 +1,6 @@
 import Data.Monoid (appEndo)
+import Data.Time.Clock (getCurrentTime)
+import Data.Time.LocalTime (getCurrentTimeZone, utcToLocalTime)
 import XMonad hiding ( (|||) )
 import XMonad.Core
 import XMonad.Config.Desktop (desktopConfig, desktopLayoutModifiers)
@@ -198,7 +200,12 @@ main = do
 notifyWSHint :: String -> X()
 notifyWSHint index = do
   layout <- layoutHint
-  spawn $ "notify-send -t 500 \"workspace: " ++ index ++ ", layout: " ++ layout ++ "\""
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  let zoneNow = utcToLocalTime timezone now
+      time = take 19 $ show zoneNow
+      notification = "workspace: " ++ index ++  ", layout: " ++ layout ++ ", time: " ++ time
+  spawn $ "notify-send -t 1000 \"" ++ notification ++ "\""
 
 notifyCurrentWSHint :: X()
 notifyCurrentWSHint = do
