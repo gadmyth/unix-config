@@ -92,7 +92,7 @@ main = do
         , ((mod4Mask, xK_BackSpace), nextMatch History (return True))
         -- toggle workspace, xK_grave is "`", defined in /usr/include/X11/keysymdef.h, detected by `xev` Linux command
         , ((mod4Mask, xK_grave), toggleWSWithHint)
-        , ((mod4Mask, xK_i), notifyCurrentWSHint)
+        , ((mod4Mask, xK_i), notifyCurrentWSHintWithTime)
 --        , ((mod4Mask .|. shiftMask, xK_c), confirmPrompt myPromptConfig "kill window?" $ kill)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_b), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
@@ -197,28 +197,38 @@ main = do
         ]
       )
 
-notifyWSHint :: String -> Integer -> Bool -> X()
-notifyWSHint index interval showTime = do
-  now <- liftIO getCurrentTime
-  timezone <- liftIO getCurrentTimeZone
+wsHintAtIndex :: String -> X(String)
+wsHintAtIndex index = do
   layout <- layoutHint
   let hint = "workspace: " ++ index ++  ", layout: " ++ layout
-      notification = if showTime  
-        then hint ++ ", time: " ++ (take 19 $ show $ utcToLocalTime timezone now)
-        else hint
+  return hint
+
+notifyWSHint :: String -> Integer -> X()
+notifyWSHint index interval = do
+  hint <- wsHintAtIndex index
+  spawn $ "notify-send -t " ++ (show interval) ++ " " ++ "\"" ++ hint ++ "\""
+  
+notifyWSHintWithTime :: String -> Integer -> X()
+notifyWSHintWithTime index interval = do
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  hint <- wsHintAtIndex index
+  let formatTimeHint = (take 19 $ show $ utcToLocalTime timezone now)
+      notification =  hint ++ ", time: " ++ formatTimeHint
   spawn $ "notify-send -t " ++ (show interval) ++ " " ++ "\"" ++ notification ++ "\""
 
-notifyCurrentWSHint' :: Integer -> Bool -> X()
-notifyCurrentWSHint' interval showTime = do
+notifyCurrentWSHint interval = do
   cur <- gets (W.currentTag . windowset)
-  notifyWSHint cur interval showTime
+  notifyWSHint cur interval
 
-notifyCurrentWSHint :: X()
-notifyCurrentWSHint = notifyCurrentWSHint' 1500 True
+notifyCurrentWSHintWithTime :: X()
+notifyCurrentWSHintWithTime = do
+  cur <- gets (W.currentTag . windowset)
+  notifyWSHintWithTime cur 1500
 
 workspaceHint f i = do
   windows $ f i
-  notifyWSHint i 500 False
+  notifyWSHint i 500
 
 layoutHint :: X String
 layoutHint = do
@@ -230,17 +240,17 @@ layoutHint = do
 toggleWSWithHint :: X()
 toggleWSWithHint = do
   toggleWS
-  notifyCurrentWSHint' 500 False
+  notifyCurrentWSHint 500
 
 myJumpToLayout :: String -> X()
 myJumpToLayout name = do
   sendMessage $ JumpToLayout name
-  notifyCurrentWSHint' 500 False
+  notifyCurrentWSHint 500
 
 myNextLayout :: X()
 myNextLayout = do
   sendMessage NextLayout
-  notifyCurrentWSHint' 500 False
+  notifyCurrentWSHint 500
 
 centerFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doCenterFloat f
 fullFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doFullFloat f
