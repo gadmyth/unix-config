@@ -197,24 +197,28 @@ main = do
         ]
       )
 
-notifyWSHint :: String -> X()
-notifyWSHint index = do
-  layout <- layoutHint
+notifyWSHint :: String -> Integer -> Bool -> X()
+notifyWSHint index interval showTime = do
   now <- liftIO getCurrentTime
   timezone <- liftIO getCurrentTimeZone
-  let zoneNow = utcToLocalTime timezone now
-      time = take 19 $ show zoneNow
-      notification = "workspace: " ++ index ++  ", layout: " ++ layout ++ ", time: " ++ time
-  spawn $ "notify-send -t 1000 \"" ++ notification ++ "\""
+  layout <- layoutHint
+  let hint = "workspace: " ++ index ++  ", layout: " ++ layout
+      notification = if showTime  
+        then hint ++ ", time: " ++ (take 19 $ show $ utcToLocalTime timezone now)
+        else hint
+  spawn $ "notify-send -t " ++ (show interval) ++ " " ++ "\"" ++ notification ++ "\""
+
+notifyCurrentWSHint' :: Integer -> Bool -> X()
+notifyCurrentWSHint' interval showTime = do
+  cur <- gets (W.currentTag . windowset)
+  notifyWSHint cur interval showTime
 
 notifyCurrentWSHint :: X()
-notifyCurrentWSHint = do
-  cur <- gets (W.currentTag . windowset)
-  notifyWSHint cur
+notifyCurrentWSHint = notifyCurrentWSHint' 1500 True
 
 workspaceHint f i = do
   windows $ f i
-  notifyWSHint i
+  notifyWSHint i 500 False
 
 layoutHint :: X String
 layoutHint = do
@@ -226,17 +230,17 @@ layoutHint = do
 toggleWSWithHint :: X()
 toggleWSWithHint = do
   toggleWS
-  notifyCurrentWSHint
+  notifyCurrentWSHint' 500 False
 
 myJumpToLayout :: String -> X()
 myJumpToLayout name = do
   sendMessage $ JumpToLayout name
-  notifyCurrentWSHint
+  notifyCurrentWSHint' 500 False
 
 myNextLayout :: X()
 myNextLayout = do
   sendMessage NextLayout
-  notifyCurrentWSHint
+  notifyCurrentWSHint' 500 False
 
 centerFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doCenterFloat f
 fullFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doFullFloat f
