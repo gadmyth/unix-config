@@ -178,7 +178,7 @@ main = do
         , ((mod4Mask, xK_Down ), (sendMessage $ Go D))
         -- hidden windows
         , ((mod4Mask .|. mod1Mask, xK_c), withFocused hideWindow)
-        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_c), popNewestHiddenWindow)
+        , ((mod4Mask .|. mod1Mask, xK_u), popNewestHiddenWindow)
 --        , ((mod4Mask .|. shiftMask, xK_h), withFocused minimizeWindow)
 --        , ((mod4Mask .|. mod1Mask, xK_h), withLastMinimized maximizeWindowAndFocus)
         , ((mod4Mask, xK_backslash), withFocused (sendMessage . maximizeRestore))
