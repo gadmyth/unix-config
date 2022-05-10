@@ -301,6 +301,7 @@ floatManageHook = composeAll
     className =? "Xfce4-appfinder" --> doCenterFloat
   , className =? "Xfce4-settings-manager" --> doFloat
   , className =? "Thunar" --> doCenterFloat
+  , className =? "Xfce4-terminal" --> doCenterFloat
 
   , className =? "Google-chrome" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
   , className =? "Firefox" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
