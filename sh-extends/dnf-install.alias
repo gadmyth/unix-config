@@ -1,0 +1,2 @@
+#!/bin/bash
+alias dnf-install='sudo dnf install'
