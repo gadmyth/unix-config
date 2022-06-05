@@ -1,0 +1,4 @@
+#!/bin/bash
+function gad() { git add $(git status --short | egrep "^ D " | sed -e 's/^ D //' ); }
+
+
