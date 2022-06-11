@@ -11,6 +11,6 @@ $port = 3000;
 my $client = Mojo::Weixin->new(log_encoding=>"utf8",log_level=>"info",http_debug=>0);
 $client->load("ShowMsg");
 $client->load("IRCShell", data=>{load_friend=>0});
-$client->load("ShowQRCodeInTerm");
+#$client->load("ShowQRCodeInTerm");
 $client->load("Openwx",data=>{listen=>[{host=>$host,port=>$port}], post_api=>$post_api});
 $client->run();
