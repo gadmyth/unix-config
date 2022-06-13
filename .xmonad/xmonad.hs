@@ -310,6 +310,7 @@ floatManageHook = composeAll
   , className =? "Firefox" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
 
   , className =? "Ristretto" --> doCenterFloat
+  , className =? "Viewnior" --> doCenterFloat
   , className =? "Gimagereader-gtk" --> doCenterFloat
   , className =? "Pavucontrol" --> doCenterFloat
   , className =? "Blueberry.py" --> doCenterFloat
