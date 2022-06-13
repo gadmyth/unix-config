@@ -226,7 +226,7 @@ notifyCurrentWSHint interval = do
 notifyCurrentWSHintWithTime :: X()
 notifyCurrentWSHintWithTime = do
   cur <- gets (W.currentTag . windowset)
-  notifyWSHintWithTime cur 1500
+  notifyWSHintWithTime cur 3000
 
 workspaceHint f i = do
   windows $ f i
