@@ -76,8 +76,10 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_s), spawn "emacsclient -c")
         , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
         , ((mod4Mask .|. shiftMask, xK_d), spawn "Thunar")
-        , ((mod4Mask .|. shiftMask, xK_p), spawn "image_file=~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; xfce4-screenshooter --region --mouse --save ${image_file}; [[ -f ${image_file} ]] && echo -n ${image_file} | xclip -selection c")
-        , ((mod4Mask .|. shiftMask .|. controlMask, xK_p), spawn "image_file=~/Pictures/$(date '+%Y-%m-%d_%H-%M-%S').png; xfce4-screenshooter --region --mouse --save ${image_file}; [[ -f ${image_file} ]] && Thunar ~/Pictures")
+        -- select to screenshot, save file to ~/Pictures directory, copy file name to clipboard
+        , ((mod4Mask .|. shiftMask, xK_p), spawn "~/.xmonad/script/screenshot-get-filename.sh")
+        -- select to screenshot, save file to ~/Pictures directory, open ~/Pictures directory
+        , ((mod4Mask .|. shiftMask .|. controlMask, xK_p), spawn "~/.xmonad/script/screenshot-open-directory.sh")
         , ((mod4Mask, xK_r), shellPrompt myPromptConfig)
         , ((mod4Mask, xK_x), xmonadPromptC myXmonadCmds myPromptConfig)
         , ((mod4Mask .|. shiftMask, xK_r), prompt ("xfce4-terminal" ++ " -H -x") myPromptConfig)
@@ -262,6 +264,7 @@ myXmonadCmds =
   , ("dvorak", spawn "setxkbmap dvorak; xmodmap ~/.Xmodmap")
   , ("centerFloat", centerFloat)
   , ("fullFloat", fullFloat)
+  , ("screenshot and OCR", spawn "~/.xmonad/script/screenshot-and-OCR.sh")
   ]
 
 
