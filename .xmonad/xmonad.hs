@@ -265,6 +265,7 @@ myXmonadCmds =
   , ("centerFloat", centerFloat)
   , ("fullFloat", fullFloat)
   , ("screenshot and OCR", spawn "~/.xmonad/script/screenshot-and-OCR.sh")
+  , ("start emacs-28", spawn "/opt/emacs-28/usr/bin/emacs")
   ]
 
 
@@ -317,6 +318,7 @@ floatManageHook = composeAll
   , title =? "Electronic WeChat" --> doFloat
   , appName =? "emacs" --> doFloat
   , appName =? "gvim" --> doCenterFloat
+  , appName =? "NotepadNext" --> doCenterFloat
   , appName =? "xclock" --> doFloat
   ]
 
