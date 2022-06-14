@@ -1,2 +1,7 @@
 #!/bin/bash
-function show-public-ip() { curl -s cip.cc | grep IP |  cut -f2 -d ":" | trim; }
+function show-public-ip() {
+    cip_cc_ip=$(curl -s cip.cc | grep IP |  cut -f2 -d ":" | trim)
+    ifconfig_cc_ip=$(curl -s ifconfig.cc)
+    echo "cip: $cip_cc_ip"
+    echo "ifconfig: $ifconfig_cc_ip"
+}
