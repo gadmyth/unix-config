@@ -265,7 +265,7 @@ myXmonadCmds =
   , ("centerFloat", centerFloat)
   , ("fullFloat", fullFloat)
   , ("screenshot and OCR", spawn "~/.xmonad/script/screenshot-and-OCR.sh")
-  , ("start emacs-28", spawn "/opt/emacs-28/usr/bin/emacs")
+  , ("start emacs-28", spawn "SNAP=1 SNAP_NAME=1 SNAP_REVISION=1 /opt/emacs-28/usr/bin/emacs")
   ]
 
 
