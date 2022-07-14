@@ -1,0 +1,2 @@
+#!/bin/bash
+alias list-package-dependencies-2='dnf deplist'
