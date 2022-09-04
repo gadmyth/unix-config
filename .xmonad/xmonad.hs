@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-deprecations #-}
+
 import Data.Monoid (appEndo)
 import Data.Time.Clock (getCurrentTime)
 import Data.Time.LocalTime (getCurrentTimeZone, utcToLocalTime)
@@ -105,11 +107,11 @@ main = do
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
         -- audio
-        , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) +5%")
-        , ((shiftMask, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) +20%")
-        , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) -5%")
-        , ((shiftMask , xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume $(pactl get-default-sink) -20%")
-        , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute $(pactl get-default-sink) toggle")
+        , ((0, xF86XK_AudioRaiseVolume), spawn "~/.xmonad/script/adjust-volume.sh '+5%' true")
+        , ((shiftMask, xF86XK_AudioRaiseVolume), spawn "~/.xmonad/script/adjust-volume.sh '+20%' true")
+        , ((0, xF86XK_AudioLowerVolume), spawn "~/.xmonad/script/adjust-volume.sh '-5%' true")
+        , ((shiftMask , xF86XK_AudioLowerVolume), spawn "~/.xmonad/script/adjust-volume.sh '-20%' true")
+        , ((0, xF86XK_AudioMute), spawn "~/.xmonad/script/toggle-volume.sh true")
         -- layouts
         , ((mod4Mask, xK_space), myNextLayout)
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
@@ -208,7 +210,7 @@ wsHintAtIndex index = do
 notifyWSHint :: String -> Integer -> X()
 notifyWSHint index interval = do
   hint <- wsHintAtIndex index
-  spawn $ "notify-send -t " ++ (show interval) ++ " " ++ "\"" ++ hint ++ "\""
+  spawn $ "~/.xmonad/script/show-workspace.sh " ++ (show interval) ++ " " ++ "\"" ++ hint ++ "\""
   
 notifyWSHintWithTime :: String -> Integer -> X()
 notifyWSHintWithTime index interval = do
@@ -217,7 +219,7 @@ notifyWSHintWithTime index interval = do
   hint <- wsHintAtIndex index
   let formatTimeHint = (take 19 $ show $ utcToLocalTime timezone now)
       notification =  hint ++ ", time: " ++ formatTimeHint
-  spawn $ "notify-send -t " ++ (show interval) ++ " " ++ "\"" ++ notification ++ "\""
+  spawn $ "~/.xmonad/script/show-workspace.sh " ++ (show interval) ++ " " ++ "\"" ++ notification ++ "\""
 
 notifyCurrentWSHint interval = do
   cur <- gets (W.currentTag . windowset)
@@ -298,7 +300,7 @@ threeColumnLayout =
   addTabsBottom shrinkText tabTheme $ subLayout [] Simplest $
   ThreeColMid 1 (3/100) (3/7)
   
-myGridSelectConfig = defaultGSConfig { gs_cellheight = 150, gs_cellwidth = 450 }
+myGridSelectConfig = def { gs_cellheight = 150, gs_cellwidth = 450 }
 
 floatManageHook = composeAll
   [
