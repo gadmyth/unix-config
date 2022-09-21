@@ -387,7 +387,7 @@ startup :: X()
 startup = do
         setWMName "LG3D"
         spawnOnce "xrdb -merge ~/.xmonad/.Xresources"
-        spawnOnce "xrandr --output LVDS1 --auto; xrandr --output VGA1 --auto --right-of LVDS1"
+        spawnOnce "~/.xmonad/script/monitor-config.sh"
         spawnOnce "xscreensaver -no-splash"
         spawn "arr=($(psgrep xfce4-notifyd | awk '{print $2}')); [[ ${#arr[@]} == 0 ]] && /usr/lib64/xfce4/notifyd/xfce4-notifyd"
         spawn "xfce4-panel -q; xfce4-panel -d"
