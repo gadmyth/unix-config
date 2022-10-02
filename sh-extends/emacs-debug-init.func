@@ -1,0 +1,10 @@
+#!/bin/bash
+function emacs-debug-init() {
+    if [ "$(uname)" == "Darwin" ]; then
+        /Applications/Emacs.app/Contents/MacOS/Emacs --debug-init >& /dev/null &
+    elif [ "$(uname)" == "Linux" ]; then
+        emacs --debug-init >& /dev/null &
+    else
+        echo "Don't support your OS."
+    fi
+}
