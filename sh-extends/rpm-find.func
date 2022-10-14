@@ -1,0 +1,4 @@
+#!/bin/bash
+function rpm-find-file-in-which-package() { rpm -qf $1; }
+
+function rpm-find-command-in-which-package() { rpm -qf $(which $1); }

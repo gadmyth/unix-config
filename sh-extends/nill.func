@@ -1,2 +1,2 @@
 #!/bin/bash
-function nill() {  $@ &> $nil; }
+function nill() {  $@ > $nil 2>&1; }

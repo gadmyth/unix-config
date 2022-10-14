@@ -1,2 +1,0 @@
-#!/bin/bash
-function find-command-package() { rpm -qf $(which $1); }

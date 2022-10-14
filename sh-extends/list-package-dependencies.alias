@@ -1,2 +1,0 @@
-#!/bin/bash
-alias list-package-dependencies='rpm -qR'
