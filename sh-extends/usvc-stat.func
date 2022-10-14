@@ -1,0 +1,2 @@
+#!/bin/bash
+function usvc-stat() { systemctl --user status $1; }

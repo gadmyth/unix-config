@@ -1,0 +1,2 @@
+#!/bin/bash
+function usvc-restart() { systemctl --user restart $1; }

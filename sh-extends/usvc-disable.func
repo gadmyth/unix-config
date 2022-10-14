@@ -1,0 +1,2 @@
+#!/bin/bash
+function usvc-disable() { systemctl --user disable $1; }

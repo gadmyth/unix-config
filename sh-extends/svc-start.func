@@ -1,0 +1,2 @@
+#!/bin/bash
+function svc-start() { sudo systemctl start $1; }

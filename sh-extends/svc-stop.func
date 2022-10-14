@@ -1,0 +1,2 @@
+#!/bin/bash
+function svc-stop() { sudo systemctl stop $1; }

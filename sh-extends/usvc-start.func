@@ -1,0 +1,2 @@
+#!/bin/bash
+function usvc-start() { systemctl --user start $1; }

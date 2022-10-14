@@ -1,0 +1,2 @@
+#!/bin/bash
+function svc-disable() { sudo systemctl disable $1; }

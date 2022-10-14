@@ -1,0 +1,2 @@
+#!/bin/bash
+function svc-restart() { sudo systemctl restart $1; }

@@ -1,0 +1,2 @@
+#!/bin/bash
+function usvc-stop() { systemctl --user stop $1; }

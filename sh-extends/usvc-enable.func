@@ -1,0 +1,2 @@
+#!/bin/bash
+function usvc-enable() { systemctl --user enable $1; }
