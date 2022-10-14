@@ -5,7 +5,7 @@
 export PATH=$PATH:/opt/nebula/bin 
 
 function nb-start() {
-    sudo PATH=$PATH:/opt/nebula/bin nohup nebula -config /opt/nebula/config/config.yml > /opt/nebula/nebula.log &
+    sudo PATH=$PATH:/opt/nebula/bin nohup nebula -config /opt/nebula/config/config.yml > /var/log/nebula.log &
 }
 
 function nb-stop() {
@@ -30,6 +30,6 @@ function nb-slow-check() {
 }
 
 function nb-log() {
-    tail -fn 500 /opt/nebula/nebula.log
+    tail -fn 500 /var/log/nebula.log
 }
 
