@@ -1,0 +1,6 @@
+#!/bin/bash
+function nc-receive-file() {
+    local port=$1
+    local file=$2
+    nc -v -l $port $file
+}

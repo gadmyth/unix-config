@@ -1,0 +1,5 @@
+#!/bin/bash
+function nc-receive-files() {
+    local port=$1
+    nc -v -l $port | tar -xzv
+}
