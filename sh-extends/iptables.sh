@@ -13,7 +13,7 @@ function ipt-delete() {
 }
 
 function ipt-list-all() {
-    sudo iptables -nL
+    sudo iptables -nvL
 }
 
 function ipt-list() {
