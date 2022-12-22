@@ -4,9 +4,13 @@ function update-google-translate-host() {
     local num=$REPLY
     local ip=$(curl -sSL https://raw.githubusercontent.com/hcfyapp/google-translate-cn-ip/main/ips.txt | head -n $num | tail -n 1)
     echo "fetched ip is $ip"
-    sudo sed -i "s/.* \(translate.googleapis.com\)/$ip \1/g" /etc/hosts
-    sudo sed -i "s/.* \(translate.google.com\)/$ip \1/g" /etc/hosts
-    echo "----------------"
-    echo "updated host is:"
-    sed -n -e '/translate.google/p' /etc/hosts
+    if [[ -n $ip ]]; then
+        sudo sed -i "s/.* \(translate.googleapis.com\)/$ip \1/g" /etc/hosts
+        sudo sed -i "s/.* \(translate.google.com\)/$ip \1/g" /etc/hosts
+        echo "----------------"
+        echo "updated host is:"
+        sed -n -e '/translate.google/p' /etc/hosts
+    else
+        echo "fetched ip is empty, check your network"
+    fi
 }
