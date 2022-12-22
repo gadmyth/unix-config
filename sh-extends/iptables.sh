@@ -27,3 +27,7 @@ function ipt-save() {
 function ipt-restore() {
     sudo iptables-restore /etc/sysconfig/iptables.save
 }
+
+function ipt-restore-default() {
+    sudo iptables-restore /etc/sysconfig/iptables
+}
