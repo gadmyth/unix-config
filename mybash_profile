@@ -1,10 +1,20 @@
 #!/bin/bash
 
+BASH_LOG_LEVEL=info
+
+function log_debug() {
+    if [ "$BASH_LOG_LEVEL" == "debug" ]; then
+        echo "$*"
+    fi
+}
+
 function load_scripts_in_directory() {
-    dir=$1
+    local dir="${1/#\~/$HOME}"
     if [ -d $dir ]; then
+        log_debug "load scripts in $dir..."
         for file in `ls $dir`; do
             if [ -f $dir/$file ]; then
+                log_debug "    load scripts: $file"
                 source $dir/$file
             fi
         done
@@ -19,3 +29,9 @@ load_scripts_in_directory ~/alias/bashes
 
 #for temp source file
 load_scripts_in_directory ~/Library/bashes
+
+if [ -r ~/.bash_script_dir ]; then
+    for dir in `cat ~/.bash_script_dir`; do
+        load_scripts_in_directory $dir
+    done
+fi
