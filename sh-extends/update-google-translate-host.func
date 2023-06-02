@@ -1,9 +1,12 @@
 #!/bin/bash
 function update-google-translate-host() {
-    read -p "Which number of host list you like to choose? "
-    local num=$REPLY
-    local ip=$(curl -sSL https://raw.githubusercontent.com/hcfyapp/google-translate-cn-ip/main/ips.txt | head -n $num | tail -n 1)
-    echo "fetched ip is $ip"
+    local ip=$1
+    if [[ -z $ip ]]; then
+        read -p "Which number of host list you like to choose? "
+        local num=$REPLY
+        local ip=$(curl -sSL https://raw.githubusercontent.com/hcfyapp/google-translate-cn-ip/main/ips.txt | head -n $num | tail -n 1)
+        echo "fetched ip is $ip"
+    fi
     if [[ -n $ip ]]; then
         sudo sed -i "s/.* \(translate.googleapis.com\)/$ip \1/g" /etc/hosts
         sudo sed -i "s/.* \(translate.google.com\)/$ip \1/g" /etc/hosts
