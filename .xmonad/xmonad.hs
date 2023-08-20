@@ -79,7 +79,7 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_q), spawn "xfce4-appfinder -c")
         , ((mod4Mask .|. shiftMask, xK_d), spawn "Thunar")
         -- select to screenshot, save file to ~/Pictures directory, copy file name to clipboard
-        , ((mod4Mask .|. shiftMask, xK_p), spawn "~/.xmonad/script/screenshot-get-filename.sh")
+        , ((mod4Mask .|. shiftMask, xK_p), spawn "~/.xmonad/script/screenshot-and-copy-image.sh")
         -- select to screenshot, save file to ~/Pictures directory, open ~/Pictures directory
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_p), spawn "~/.xmonad/script/screenshot-open-directory.sh")
         , ((mod4Mask, xK_r), shellPrompt myPromptConfig)
@@ -390,11 +390,12 @@ startup = do
         spawnOnce "~/.xmonad/script/monitor-config.sh"
         spawnOnce "~/.xmonad/script/wallpaper-config.sh"
         spawnOnce "xscreensaver -no-splash"
-        spawn "arr=($(psgrep xfce4-notifyd | awk '{print $2}')); [[ ${#arr[@]} == 0 ]] && /usr/lib64/xfce4/notifyd/xfce4-notifyd"
-        spawn "xfce4-panel -q; xfce4-panel -d"
+        spawn "~/.xmonad/script/start-xfce4-notifyd.sh"
+        spawn "~/.xmonad/script/start-xfce4-panel.sh"
+        spawn "~/.xmonad/script/start-xfce4-clipman.sh"
         spawnOnce "nm-applet"
         spawnOnce "xfce4-power-manager"
         -- sudo dnf install blueberry
         spawnOnce "blueberry-tray"
         spawnOnce "yong -d"
-
+        spawn "notify-send -t 1500 \"Restart Xmonad Success!\""
