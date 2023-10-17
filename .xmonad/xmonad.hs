@@ -82,6 +82,8 @@ main = do
         , ((mod4Mask .|. shiftMask, xK_p), spawn "~/.xmonad/script/screenshot-and-copy-image.sh")
         -- select to screenshot, save file to ~/Pictures directory, open ~/Pictures directory
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_p), spawn "~/.xmonad/script/screenshot-open-directory.sh")
+        -- select to screenshot, save file to ~/Pictures directory, copy file name to clipboard
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_p), spawn "~/.xmonad/script/screenshot-and-OCR-collect.sh")
         , ((mod4Mask, xK_r), shellPrompt myPromptConfig)
         , ((mod4Mask, xK_x), xmonadPromptC myXmonadCmds myPromptConfig)
         , ((mod4Mask .|. shiftMask, xK_r), prompt ("xfce4-terminal" ++ " -H -x") myPromptConfig)
