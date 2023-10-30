@@ -1,2 +1,2 @@
 #!/bin/bash
-alias glf="git ls-files | egrep"
+alias glf="git ls-files | grep -E"

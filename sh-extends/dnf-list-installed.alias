@@ -1,2 +1,2 @@
 #!/bin/bash
-alias dnf-list-installed='sudo dnf list --installed | egrep -i'
+alias dnf-list-installed='sudo dnf list --installed | grep -E -i'

@@ -1,2 +1,2 @@
 #!/bin/bash
-function gsm() { git status --short | egrep "^ M"; }
+function gsm() { git status --short | grep -E "^ M"; }

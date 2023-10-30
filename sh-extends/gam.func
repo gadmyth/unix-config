@@ -1,4 +1,4 @@
 #!/bin/bash
-function gam() { git add $(git status --short | egrep "^(A| |M|R)M" | sed -e 's/^MM //' | sed -e 's/^ M //' | sed -e 's/^AM //' | sed -e 's/^RM .*-> //' ); }
+function gam() { git add $(git status --short | grep -E "^(A| |M|R)M" | sed -e 's/^MM //' | sed -e 's/^ M //' | sed -e 's/^AM //' | sed -e 's/^RM .*-> //' ); }
 
 
