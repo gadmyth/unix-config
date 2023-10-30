@@ -29,7 +29,7 @@ function prompt {
 
     if [ "$SHELL" = "/bin/bash" ]; then
         # change the PS1
-        PS1="\e[0;31m\e[47m[\!|\u@\$(current-ip)][\$(date +%k:%M:%S)][\w]\$(current-git-branch)\e[m\n"
+        PS1="\e[0;31m\e[47m[\!|\u@\$(current-ip)][\$(date +%k:%M:%S)]\e[m\e[47m[\${EDITOR}|\${http_proxy}]\e[m\e[0;31m\e[47m[\w]\$(current-git-branch)\e[m\n"
         # change the PS2
         PS2="continue-->"
         # change PS4
