@@ -192,7 +192,7 @@ main = do
         ]
         ++
         [((mod4Mask .|. m, k), workspaceHint f i)
-        | (i, k) <- zip myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F10])
+        | (i, k) <- zip myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F12])
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, mod3Mask)]
         ]
         ++
@@ -326,7 +326,7 @@ floatManageHook = composeAll
   , appName =? "xclock" --> doFloat
   ]
 
-myWorkspaces = map show [1..20 :: Int]
+myWorkspaces = map show [1..22 :: Int]
 
 myPromptConfig = def
   {
