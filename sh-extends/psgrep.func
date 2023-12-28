@@ -1,2 +1,2 @@
 #!/bin/bash
-function psgrep() {  ps aux | grep -i $1 | grep -v grep; }
+function psgrep() {  ps -eo "%u %g %p %t %a" | grep -i $1 | grep -v grep; }
