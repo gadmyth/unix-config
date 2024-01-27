@@ -51,10 +51,14 @@ function nb-version() {
     /opt/nebula/bin/nebula -version
 }
 
-function nb-bin() {
+function nb2bin() {
     cd /opt/nebula/bin
 }
 
-function nb-config() {
+function nb2config() {
     cd /opt/nebula/config
+}
+
+function nb2cert() {
+    cd /opt/nebula/cert
 }
