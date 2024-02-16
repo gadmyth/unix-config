@@ -1,2 +1,10 @@
 #!/bin/bash
-function psgrep() {  ps -eo "%u %g %p %t %a" | grep -i $1 | grep -v grep; }
+function psgrep() {
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        ps -eo "%u %g %p %t %a" | grep -i $1 | grep -v grep
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        ps -eo user,group,pid,tty,command | grep -i $1 | grep -v grep
+    else
+        echo "Unrecognized OS"
+    fi
+}
