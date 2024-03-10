@@ -1,23 +1,23 @@
 #!/bin/bash
 
-function ipt-allow() {
+function ipt-allow-input() {
     sudo iptables -I INPUT -p "$1" --dport "$2" -s "$3" -j ACCEPT
 }
 
-function ipt-allow-all() {
+function ipt-allow-input-all() {
     sudo iptables -I INPUT -p "$1" --dport "$2" -j ACCEPT
 }
 
-function ipt-delete() {
+function ipt-delete-input() {
     sudo iptables -D INPUT $1
 }
 
 function ipt-list-all() {
-    sudo iptables -nvL
+    sudo iptables -nvL --line-numbers
 }
 
-function ipt-list() {
-    ipt-list-all | grep $1
+function ipt-list-input() {
+    ipt-list-input-all | grep $1
 }
 
 function ipt-save() {
