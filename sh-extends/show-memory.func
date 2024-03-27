@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function show-memory() {
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        free -hm
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        top -l 1 | grep -E "^Phys"
+    else
+        echo "Unrecognized OS"
+    fi
+}

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+function show-memory-top-list() {
+    ps -eo pid,rss,vsz,comm | sort -rn -k 2 | head -n 15 | awk '{
+        a=$2; ua="KB"; if (a >= 1024) {a /= 1024; ua="MB"} if (a >= 1024) {a /= 1024; ua="GB"}
+        b=$3; ub="KB"; if (b >= 1024) {b /= 1024; ub="MB"} if (b >= 1024) {b /= 1024; ub="GB"}
+        printf "%s\t%.0f%s\t%.0f%s\t%s\n", $1, a, ua, b, ub, $4
+    }'
+}
