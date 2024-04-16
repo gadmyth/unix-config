@@ -1,11 +1,11 @@
 function turn-on-proxy-privoxy() {
-    export https_proxy=http://127.0.0.1:8118
-    export http_proxy=http://127.0.0.1:8118
+    export https_proxy=http://localhost:8118
+    export http_proxy=http://localhost:8118
 }
 
 function turn-on-proxy-socks5() {
-    export https_proxy=socks5://127.0.0.1:1080
-    export http_proxy=socks5://127.0.0.1:1080
+    export https_proxy=socks5://localhost:1080
+    export http_proxy=socks5://localhost:1080
 }
 
 function turn-off-proxy() {
