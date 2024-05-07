@@ -12,7 +12,7 @@ function ipt-delete-input() {
     sudo iptables -D INPUT $1
 }
 
-function ipt-list-all() {
+function ipt-list-input-all() {
     sudo iptables -nvL --line-numbers
 }
 
