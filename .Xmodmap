@@ -10,6 +10,9 @@ keycode 64 = Control_L
 ! origin Control_L
 keycode 37 = Hyper_L
 
+! origin Shift_R
+keycode 62 = Menu
+
 ! clear modifiers
 clear Shift
 clear Lock
@@ -21,7 +24,7 @@ clear Mod4
 clear Mod5
 
 ! mapping keycode to modifiers
-add Shift = Shift_L Shift_R
+add Shift = Shift_L
 add Lock = Caps_Lock
 add Control = Control_L
 add Mod1 = Alt_L
