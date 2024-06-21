@@ -1,5 +1,22 @@
 #!/bin/bash
 function nc-receive-files() {
-    local port=$1
-    nc -v -l $port | tar -xzv
+    OPTIND=1
+    local port=
+    while getopts "p:" opt; do
+        case $opt in
+            p)
+                port=$OPTARG
+                echo "port: $port"
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG"
+                ;;
+        esac
+    done
+
+    if [ -z "$port" ]; then
+        echo "Port is empty!"
+    else
+        nc -v -l $port | tar -xzv
+    fi
 }

@@ -1,8 +1,55 @@
 #!/bin/bash
 function nc-send-files() {
-    local server=$1
-    local port=$2
-    shift 2
-    local files=$*
-    tar -zcv $files | nc -v $server $port
+    OPTIND=1
+    local server=
+    local port=
+    local files=
+    while getopts "s:p:f:" opt; do
+        case $opt in
+            s)
+                server=$OPTARG
+                echo "server: $server"
+                ;;
+            p)
+                port=$OPTARG
+                echo "port: $port"
+                ;;
+            f)
+                if [[ -z "$files" ]]; then
+                    files="$OPTARG"
+                else
+                    files+=" $OPTARG"
+                fi
+                echo "file: $OPTARG"
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG"
+                ;;
+        esac
+    done
+
+    echo "files: $files"
+    if [ -z "$server" ]; then
+        echo "Server is empty!"
+    elif [ -z "$port" ]; then
+        echo "Port is empty!"
+    elif [ -z "$files" ]; then
+        echo "Files $files is empty!"
+    else
+        local valid=true
+        for f in $files; do
+            if [ ! -e $f ]; then
+                echo "File $f doesn't exist"
+                valid=false
+                break
+            elif [ ! -f $f ]; then
+                echo "File $f is not a file"
+                valid=false
+                break
+            fi
+        done
+        if $valid; then
+            tar -zcv --transform 's,^.*/,,' $files | nc -v $server $port
+        fi
+    fi
 }

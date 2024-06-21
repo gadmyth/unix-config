@@ -1,7 +1,36 @@
 #!/bin/bash
 function nc-send-file() {
-    local server=$1
-    local port=$2
-    local file=$3
-    nc -v $server $port $file
+    local server=
+    local port=
+    local file=
+    OPTIND=1
+    while getopts "s:p:f:" opt; do
+        case $opt in
+            s)
+                server=$OPTARG
+                echo "server: $server"
+                ;;
+            p)
+                port=$OPTARG
+                echo "port: $port"
+                ;;
+            f)
+                file=$OPTARG 
+                echo "file: $file"
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG"
+                ;;
+        esac
+    done
+
+    if [ -z "$server" ]; then
+        echo "Server is empty!"
+    elif [ -z "$port" ]; then
+        echo "Port is empty!"
+    elif [ ! -e "$file" ]; then
+        echo "File $file doesn't exist!"
+    else
+        nc -v $server $port < $file
+    fi
 }

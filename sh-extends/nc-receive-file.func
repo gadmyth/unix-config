@@ -1,6 +1,32 @@
 #!/bin/bash
 function nc-receive-file() {
-    local port=$1
-    local file=$2
-    nc -v -l $port $file
+    OPTIND=1
+    local port=
+    local file=
+    while getopts "p:f:" opt; do
+        case $opt in
+            p)
+                port=$OPTARG
+                echo "port: $port"
+                ;;
+            f)
+                file=$OPTARG 
+                echo "file: $file"
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG"
+                ;;
+        esac
+    done
+
+    echo "File $file"
+    if [ -z "$port" ]; then
+        echo "Port is empty!"
+    elif [ -z "$file" ]; then
+        echo "File is empty!"
+    elif [ -e "$file" ]; then
+        echo "File $file already exists"
+    else
+        nc -v -l $port > $file
+    fi
 }
