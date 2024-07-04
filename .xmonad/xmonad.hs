@@ -265,7 +265,7 @@ myXmonadCmds =
   [ ("copyToAll"        , windows copyToAll)
   , ("keepTheCurrent"   , killAllOtherCopies)
   , ("exit", confirmPrompt myPromptConfig "Exit Xmonad?" $ io (exitWith ExitSuccess))
-  , ("dvorak", spawn "setxkbmap dvorak; xmodmap ~/.Xmodmap")
+  , ("dvorak", spawn "xmodmap ~/.Xmodmap")
   , ("centerFloat", centerFloat)
   , ("fullFloat", fullFloat)
   , ("screenshot and OCR", spawn "~/.xmonad/script/screenshot-and-OCR.sh")

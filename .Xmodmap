@@ -1,3 +1,39 @@
+keycode 24 = apostrophe quotedbl
+keycode 25 = comma less
+keycode 26 = period greater
+keycode 27 = p
+keycode 28 = y
+keycode 29 = f
+keycode 30 = g
+keycode 31 = c
+keycode 32 = r
+keycode 33 = l
+keycode 34 = slash question
+keycode 35 = equal plus
+keycode 51 = backslash bar
+
+keycode 38 = a
+keycode 39 = o
+keycode 40 = e
+keycode 41 = u
+keycode 42 = i
+keycode 43 = d
+keycode 44 = h
+keycode 45 = t
+keycode 46 = n
+keycode 47 = s
+keycode 48 = minus underscore
+
+keycode 53 = q
+keycode 54 = j
+keycode 55 = k
+keycode 56 = x
+keycode 57 = b
+keycode 58 = m
+keycode 59 = w
+keycode 60 = v
+keycode 61 = z
+
 ! origin Break (keycode = 127)
 keycode 127 = Caps_Lock
 
