@@ -1,0 +1,34 @@
+! origin Break (keycode = 127)
+keycode 127 = Caps_Lock
+
+! origin Caps_Lock
+keycode 66 = Alt_L
+
+! origin Alt_L
+keycode 64 = Control_L
+
+! origin Control_L
+keycode 37 = Hyper_L
+
+! origin Shift_R
+keycode 62 = Menu
+
+! clear modifiers
+clear Shift
+clear Lock
+clear Control
+clear Mod1
+clear Mod2
+clear Mod3
+clear Mod4
+clear Mod5
+
+! mapping keycode to modifiers
+add Shift = Shift_L
+add Lock = Caps_Lock
+add Control = Control_L
+add Mod1 = Alt_L
+add Mod2 = Control_R
+add Mod3 = Hyper_L
+add Mod4 = Super_L Super_R
+add Mod5 = Mode_switch ISO_Level3_Shift ISO_Level3_Shift ISO_Level3_Shift Alt_R
