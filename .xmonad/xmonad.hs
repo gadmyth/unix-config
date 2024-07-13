@@ -19,6 +19,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Layout.Grid
 import XMonad.Layout.Maximize
 import XMonad.Layout.MultiToggle
+import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Reflect
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
@@ -117,6 +118,7 @@ main = do
         -- layouts
         , ((mod4Mask, xK_space), myNextLayout)
         , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
+        -- , ((mod4Mask .|. shiftMask, xK_space), sendMessage $ XMonad.Layout.MultiToggle.Toggle NBFULL)
         , ((mod4Mask .|. controlMask, xK_1), myJumpToLayout "main")
         , ((mod4Mask .|. controlMask, xK_2), myJumpToLayout "fullTwoLayout")
         , ((mod4Mask .|. controlMask, xK_3), myJumpToLayout "three")
@@ -278,6 +280,7 @@ defaultLayout =
   toggleLayouts (noBorders Full) $
   mkToggle (single REFLECTX) $
   mkToggle (single REFLECTY) $
+  mkToggle (NBFULL ?? NOBORDERS ?? EOT) $
   maximize $
   minimize $
   hiddenWindows $
