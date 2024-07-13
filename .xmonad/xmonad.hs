@@ -141,7 +141,7 @@ main = do
         , ((mod4Mask .|. mod1Mask, xK_s), sendMessage XMonad.Layout.BinarySpacePartition.Swap)
         , ((mod4Mask .|. mod1Mask, xK_p), sendMessage FocusParent)
         -- should focus the parent first, it balance the children of the tree,
-        -- rebuild the BSP making the depth of the tree minimized (called balanced
+        -- rebuild the BSP making the depth of the tree minimized (called balanced)
         , ((mod4Mask .|. mod1Mask, xK_b), sendMessage Balance)
         -- should focus the parent first, it equalize the children of the tree,
         -- keep the BSP's structure, make each window gets the same amount of space
@@ -274,6 +274,7 @@ myXmonadCmds =
 
 
 defaultLayout =
+  smartBorders $
   toggleLayouts (noBorders Full) $
   mkToggle (single REFLECTX) $
   mkToggle (single REFLECTY) $
