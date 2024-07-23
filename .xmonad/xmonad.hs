@@ -399,6 +399,7 @@ startup = do
         spawn "~/.xmonad/script/start-xfce4-notifyd.sh"
         spawn "~/.xmonad/script/start-xfce4-panel.sh"
         spawn "~/.xmonad/script/start-xfce4-clipman.sh"
+        spawn "~/dvorak.sh"
         spawnOnce "nm-applet"
         spawnOnce "xfce4-power-manager"
         -- sudo dnf install blueberry
