@@ -193,15 +193,21 @@ main = do
         , ((mod4Mask .|. mod1Mask, xK_t), centerFloat)
         ]
         ++
-        [((mod4Mask .|. m, k), workspaceHint f i)
-        | (i, k) <- zip myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F12])
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, mod3Mask)]
+        [ ((mod4Mask .|. mod, key), workspaceHint func index)
+        | (index, key) <- zip
+          myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F12])
+        , (mod, func) <- [(0, W.greedyView), (shiftMask, W.shift), (mod3Mask, copy)]
         ]
         ++
         -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Actions-TagWindows.html
-        [((mod2Mask .|. m, k), f tag)
-        | (k, tag) <- zip ([xK_0 .. xK_9] ++ [xK_a .. xK_z] ++ [xK_F1 .. xK_F12]) ((map (:[]) (['0' .. '9'] ++ ['a' .. 'z'])) ++ (map (("F"++) . (:[])) ['1' .. '9']) ++ ["F10", "F11", "F12"])
-        , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, 0)]
+        [ ((mod2Mask .|. mod, key), func tag)
+        | (key, tag) <- zip
+          ([xK_0 .. xK_9] ++ [xK_a .. xK_z] ++ [xK_F1 .. xK_F12])
+          ((map (:[]) (['0' .. '9'] ++ ['a' .. 'z'])) ++ (map (("F"++) . (:[])) ['1' .. '9']) ++ ["F10", "F11", "F12"])
+        , (mod, func) <- [(0, focusUpTaggedGlobal), (mod1Mask, withFocused . addTag), (shiftMask, withFocused . delTag)]
+        ]
+        ++
+        [ ((mod4Mask .|. mod2Mask, xK_l ), tagPrompt def (\s -> focusUpTaggedGlobal s))
         ]
       )
 
