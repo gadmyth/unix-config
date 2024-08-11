@@ -100,7 +100,7 @@ main = do
         -- toggle workspace, xK_grave is "`", defined in /usr/include/X11/keysymdef.h, detected by `xev` Linux command
         , ((mod4Mask, xK_grave), toggleWSWithHint)
         , ((mod4Mask, xK_i), notifyCurrentWSHintWithTime)
---        , ((mod4Mask .|. shiftMask, xK_c), confirmPrompt myPromptConfig "kill window?" $ kill)
+        , ((mod4Mask .|. shiftMask, xK_c), withFocused (killOrPrompt myPromptConfig))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_b), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
@@ -204,6 +204,12 @@ main = do
         , (f, m) <- [(withFocused . addTag, mod1Mask), (withFocused . delTag, shiftMask), (focusUpTaggedGlobal, 0)]
         ]
       )
+
+killOrPrompt conf w = do
+  copies <- wsContainingCopies
+  if (length copies) == 0
+    then confirmPrompt conf "Kill the only window?" $ kill1
+    else kill1
 
 wsHintAtIndex :: String -> X(String)
 wsHintAtIndex index = do
