@@ -26,9 +26,11 @@ xmodmap -e 'keycode 38 = a' \
         -e 'keycode 47 = s' \
         -e 'keycode 48 = minus underscore'
 
-xmodmap -e 'keycode 53 = q' \
-        -e 'keycode 54 = j' \
-        -e 'keycode 55 = k' \
+xmodmap -e 'keycode 50 = semicolon colon' \
+        -e 'keycode 52 = q' \
+        -e 'keycode 53 = j' \
+        -e 'keycode 54 = k' \
+        -e 'keycode 55 = x' \
         -e 'keycode 56 = x' \
         -e 'keycode 57 = b' \
         -e 'keycode 58 = m' \
@@ -128,3 +130,7 @@ else
     xmodmap -e "add Mod5 = Alt_R"
 fi
 
+if [[ $(xmodmap -pm | grep shift | grep Shift_L | wc -l) > 0 ]]; then
+    echo "Removing Shift_L from shift..."
+    xmodmap -e "remove shift = Shift_L"
+fi
