@@ -24,15 +24,18 @@ keycode 46 = n
 keycode 47 = s
 keycode 48 = minus underscore
 
-keycode 53 = q
-keycode 54 = j
-keycode 55 = k
+keycode 50 = Shift_L NoSymbol Shift_L NoSymbol
+keycode 52 = q
+keycode 53 = j
+keycode 54 = k
+keycode 55 = x
 keycode 56 = x
 keycode 57 = b
 keycode 58 = m
 keycode 59 = w
 keycode 60 = v
 keycode 61 = z
+keycode 62 = Shift_R NoSymbol Shift_R NoSymbol
 
 ! origin Break (keycode = 127)
 keycode 127 = Caps_Lock
@@ -52,12 +55,14 @@ keycode 37 = Hyper_L
 ! origin Menu
 keycode 135 = space
 
-!orgin Shift_L
-keycode 50 = semicolon colon
 keycode 52 = q Q
 keycode 53 = j J
 keycode 54 = k K
 keycode 55 = x X
+
+! origin empty keycode, mapping to semicolon and colon for xcape from Shift_L and Shift_R
+keycode 183 = semicolon
+keycode 184 = colon
 
 ! clear modifiers
 clear Shift
@@ -70,7 +75,7 @@ clear Mod4
 clear Mod5
 
 ! mapping keycode to modifiers
-add Shift = Shift_R
+add Shift = Shift_L Shift_R
 add Lock = Caps_Lock
 add Control = Control_L
 add Mod1 = Alt_L

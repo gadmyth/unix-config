@@ -26,7 +26,7 @@ xmodmap -e 'keycode 38 = a' \
         -e 'keycode 47 = s' \
         -e 'keycode 48 = minus underscore'
 
-xmodmap -e 'keycode 50 = semicolon colon' \
+xmodmap -e 'keycode 50 = Shift_L NoSymbol Shift_L NoSymbol' \
         -e 'keycode 52 = q' \
         -e 'keycode 53 = j' \
         -e 'keycode 54 = k' \
@@ -36,7 +36,22 @@ xmodmap -e 'keycode 50 = semicolon colon' \
         -e 'keycode 58 = m' \
         -e 'keycode 59 = w' \
         -e 'keycode 60 = v' \
-        -e 'keycode 61 = z'
+        -e 'keycode 61 = z' \
+        -e 'keycode 62 = Shift_R NoSymbol Shift_R NoSymbol'
+
+# https://github.com/alols/xcape
+xmodmap -e 'keycode 183 = semicolon' \
+        -e 'keycode 184 = colon'
+
+if [[ $(pgrep xcape -a | grep 'Shift_L semicolon' | wc -l) = 0 ]]; then
+    echo "xcape Shift_L to semicolon..."
+    xcape -t 300 -e 'Shift_L=semicolon'
+fi
+
+if [[ $(pgrep xcape -a | grep 'Shift_R colon' | wc -l) = 0 ]]; then
+    echo "xcape Shift_R to colon..."
+    xcape -t 300 -e 'Shift_R=colon'
+fi
 
 if [[ $(xmodmap -pke | grep -E "keycode 127 = " | grep Caps_Lock | wc -l) > 0 ]]; then
     echo "Caps_Lock is mapping to keycode 127 (original Break)"
@@ -100,6 +115,12 @@ else
     xmodmap -e "add Mod2 = Control_R"
 fi
 
+old_mod=$(xmodmap -pm | grep Num_Lock | cut -d ' ' -f 1)
+if [[ ! -z ${old_mod} ]]; then
+    xmodmap -e "remove ${old_mod} = Num_Lock"
+fi
+xmodmap -e "add Mod3 = Hyper_L"
+
 if [[ $(xmodmap -pm | grep mod3 | grep Hyper_L | wc -l) > 0 ]]; then
     echo "Hyper_L is mapping to Mod3"
 else
@@ -128,9 +149,4 @@ else
     fi
     echo "Adding Alt_R to Mod5..."
     xmodmap -e "add Mod5 = Alt_R"
-fi
-
-if [[ $(xmodmap -pm | grep shift | grep Shift_L | wc -l) > 0 ]]; then
-    echo "Removing Shift_L from shift..."
-    xmodmap -e "remove shift = Shift_L"
 fi
