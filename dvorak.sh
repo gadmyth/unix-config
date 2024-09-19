@@ -43,15 +43,11 @@ xmodmap -e 'keycode 50 = Shift_L NoSymbol Shift_L NoSymbol' \
 xmodmap -e 'keycode 183 = semicolon' \
         -e 'keycode 184 = colon'
 
-if [[ $(pgrep xcape -a | grep 'Shift_L semicolon' | wc -l) = 0 ]]; then
-    echo "xcape Shift_L to semicolon..."
-    xcape -t 300 -e 'Shift_L=semicolon'
-fi
-
-if [[ $(pgrep xcape -a | grep 'Shift_R colon' | wc -l) = 0 ]]; then
-    echo "xcape Shift_R to colon..."
-    xcape -t 300 -e 'Shift_R=colon'
-fi
+pkill xcape
+echo "xcape Shift_L to semicolon..."
+xcape -t 300 -e 'Shift_L=semicolon'
+echo "xcape Shift_R to colon..."
+xcape -t 300 -e 'Shift_R=colon'
 
 if [[ $(xmodmap -pke | grep -E "keycode 127 = " | grep Caps_Lock | wc -l) > 0 ]]; then
     echo "Caps_Lock is mapping to keycode 127 (original Break)"
