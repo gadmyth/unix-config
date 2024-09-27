@@ -106,7 +106,7 @@ main = do
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
         -- git clone https://github.com/jarun/xtrlock /opt/xtrlock; cd /opt/xtrlock; sudo make; sudo make install
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Escape), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xtrlock")
-        , ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
+        --, ((mod4Mask, xK_v), spawn "sleep 0.1; xdotool type --delay 0 \"$(xsel)\"")
         , ((mod4Mask, xK_p), spawn "xfce4-appfinder")
         , ((mod4Mask, xK_g), goToSelected myGridSelectConfig)
         -- audio
