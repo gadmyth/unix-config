@@ -1,0 +1,2 @@
+#!/bin/bash
+function start-privoxy() { sudo privoxy --pidfile /run/privoxy.pid /etc/privoxy/config; }
