@@ -346,6 +346,7 @@ floatManageHook = composeAll
   , className =? "Gimagereader-gtk" --> doCenterFloat
   , className =? "Pavucontrol" --> doCenterFloat
   , className =? "Blueberry.py" --> doCenterFloat
+  , appName =? "blueman-manager" --> doCenterFloat
   , title =? "Electronic WeChat" --> doFloat
   , appName `hasPrefixIgnoreCaseQ` "emacs" --> doFloat
   , appName =? "gvim" --> doCenterFloat
@@ -426,6 +427,7 @@ startup = do
         spawnOnce "nm-applet"
         spawnOnce "xfce4-power-manager"
         -- sudo dnf install blueberry
-        spawnOnce "blueberry-tray"
+        -- spawnOnce "blueberry-tray"
+        spawnOnce "blueman-applet"
         spawnOnce "yong -d"
         spawn "notify-send -t 1500 \"Restart Xmonad Success!\""
