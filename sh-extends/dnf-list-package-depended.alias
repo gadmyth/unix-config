@@ -1,0 +1,2 @@
+#!/bin/bash
+alias dnf-list-package-depended='dnf repoquery --whatrequires'
