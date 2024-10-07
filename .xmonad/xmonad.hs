@@ -1,5 +1,7 @@
 {-# OPTIONS_GHC -Wno-deprecations #-}
 
+import Data.Char (toLower)
+import Data.List (isPrefixOf)
 import Data.Monoid (appEndo)
 import Data.Time.Clock (getCurrentTime)
 import Data.Time.LocalTime (getCurrentTimeZone, utcToLocalTime)
@@ -320,6 +322,15 @@ threeColumnLayout =
   
 myGridSelectConfig = def { gs_cellheight = 150, gs_cellwidth = 450 }
 
+hasPrefixIgnoreCase :: String -> String -> Bool
+hasPrefixIgnoreCase pattern str = map toLower pattern `isPrefixOf` map toLower str
+
+hasPrefixIgnoreCaseQ :: Query String -> String -> Query Bool
+hasPrefixIgnoreCaseQ queryStr pattern = do
+    str <- queryStr
+    return (hasPrefixIgnoreCase pattern str)
+
+-- use linux command xprop to get window's class name
 floatManageHook = composeAll
   [
     className =? "Xfce4-appfinder" --> doCenterFloat
@@ -336,7 +347,7 @@ floatManageHook = composeAll
   , className =? "Pavucontrol" --> doCenterFloat
   , className =? "Blueberry.py" --> doCenterFloat
   , title =? "Electronic WeChat" --> doFloat
-  , appName =? "emacs" --> doFloat
+  , appName `hasPrefixIgnoreCaseQ` "emacs" --> doFloat
   , appName =? "gvim" --> doCenterFloat
   , appName =? "NotepadNext" --> doCenterFloat
   , appName =? "xclock" --> doFloat
