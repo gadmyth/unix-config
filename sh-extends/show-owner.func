@@ -1,0 +1,2 @@
+#!/bin/bash
+function show-owner() { getfacl "$1" | grep -E "# owner|# group" | cut -d: -f 2 | trim | paste -s -d/; }

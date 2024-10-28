@@ -1,0 +1,2 @@
+#!/bin/bash
+function show-permission() { stat -c "%a" $*; }
