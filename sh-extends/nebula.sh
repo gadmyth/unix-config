@@ -27,6 +27,11 @@ function nb-slow-check() {
     done
 }
 
+# low memory version
+function nb-slow-check-lm() {
+    watch -n 3 "echo `date \"+%Y-%m-%d %H:%M:%S\"`; ping -c 1 172.16.16.1 | grep -E \"PING|from\""
+}
+
 function nb-log() {
     tail -fn 500 /var/log/nebula.log
 }
