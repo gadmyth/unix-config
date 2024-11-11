@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wno-deprecations #-}
 
 import Data.Char (toLower)
-import Data.List (isPrefixOf)
+import Data.List (isPrefixOf, find)
 import Data.Monoid (appEndo)
 import Data.Time.Clock (getCurrentTime)
 import Data.Time.LocalTime (getCurrentTimeZone, utcToLocalTime)
@@ -49,6 +49,7 @@ import XMonad.Actions.WindowGo
 import XMonad.Actions.TagWindows
 import XMonad.Actions.Minimize
 import XMonad.Actions.EasyMotion (EasyMotionConfig, selectWindow, cancelKey)
+import XMonad.Actions.FocusNth (swapNth)
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.ConfirmPrompt
@@ -195,6 +196,7 @@ main = do
         , ((mod4Mask, xK_backslash), withFocused (sendMessage . maximizeRestore))
         , ((mod4Mask .|. mod1Mask, xK_t), centerFloat)
         , ((mod4Mask, xK_f), selectWindow easyMotionConf >>= (`whenJust` windows . W.focusWindow))
+        , ((mod4Mask, xK_s), easySwap)
         ]
         ++
         [ ((mod4Mask .|. mod, key), workspaceHint func index)
@@ -218,6 +220,13 @@ main = do
 -- https://xmonad.github.io/xmonad-docs/xmonad-contrib/XMonad-Actions-EasyMotion.html
 easyMotionConf::EasyMotionConfig
 easyMotionConf = def { cancelKey = xK_Escape }
+
+easySwap :: X ()
+easySwap = do
+  win      <- selectWindow easyMotionConf
+  stack    <- gets $ W.index . windowset
+  let match = find ((win ==) . Just . fst) $ zip stack [0 ..]
+  whenJust match $ swapNth . snd
 
 killOrPrompt conf w = do
   copies <- wsContainingCopies
