@@ -48,6 +48,7 @@ import XMonad.Actions.GroupNavigation
 import XMonad.Actions.WindowGo
 import XMonad.Actions.TagWindows
 import XMonad.Actions.Minimize
+import XMonad.Actions.EasyMotion (EasyMotionConfig, selectWindow, cancelKey)
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.ConfirmPrompt
@@ -193,6 +194,7 @@ main = do
 --        , ((mod4Mask .|. mod1Mask, xK_h), withLastMinimized maximizeWindowAndFocus)
         , ((mod4Mask, xK_backslash), withFocused (sendMessage . maximizeRestore))
         , ((mod4Mask .|. mod1Mask, xK_t), centerFloat)
+        , ((mod4Mask, xK_f), selectWindow easyMotionConf >>= (`whenJust` windows . W.focusWindow))
         ]
         ++
         [ ((mod4Mask .|. mod, key), workspaceHint func index)
@@ -212,6 +214,10 @@ main = do
         [ ((mod4Mask .|. mod2Mask, xK_l ), tagPrompt def (\s -> focusUpTaggedGlobal s))
         ]
       )
+
+-- https://xmonad.github.io/xmonad-docs/xmonad-contrib/XMonad-Actions-EasyMotion.html
+easyMotionConf::EasyMotionConfig
+easyMotionConf = def { cancelKey = xK_Escape }
 
 killOrPrompt conf w = do
   copies <- wsContainingCopies
