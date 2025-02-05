@@ -1,2 +1,11 @@
 #!/bin/bash
-function usvc-stat() { systemctl --user status $1; }
+
+function usvc-stat() {
+        if [[ "$(uname)" == "Linux" ]]; then
+        systemctl --user status $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        launchctl list | grep $1
+    else
+        echo "unknown system"
+        fi
+}

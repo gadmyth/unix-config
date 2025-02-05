@@ -1,2 +1,11 @@
 #!/bin/bash
-function svc-enable() { sudo systemctl enable $1; }
+
+function svc-enable() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        sudo systemctl enable $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        sudo launchctl enable $1
+    else
+        echo "unknown system"
+    fi
+}

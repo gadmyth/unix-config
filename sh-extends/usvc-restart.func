@@ -1,2 +1,16 @@
 #!/bin/bash
-function usvc-restart() { systemctl --user restart $1; }
+
+function usvc-restart() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        systemctl --user restart $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        echo "stoping $1..." \
+            && launchctl stop $1 \
+            && echo "stoped" \
+            && echo "starting $1..." \
+            && launchctl start $1 \
+            && echo "started"
+    else
+        echo "unknown system"
+    fi
+}

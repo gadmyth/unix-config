@@ -1,2 +1,11 @@
 #!/bin/bash
-function svc-stop() { sudo systemctl stop $1; }
+
+function svc-stop() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        sudo systemctl stop $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        sudo launchctl stop $1
+    else
+        echo "unknown system"
+    fi
+}

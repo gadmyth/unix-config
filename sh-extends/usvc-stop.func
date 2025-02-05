@@ -1,2 +1,11 @@
 #!/bin/bash
-function usvc-stop() { systemctl --user stop $1; }
+
+function usvc-stop() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        systemctl --user stop $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        launchctl stop $1
+    else
+        echo "unknown system"
+    fi
+}

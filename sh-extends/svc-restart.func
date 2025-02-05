@@ -1,2 +1,15 @@
 #!/bin/bash
-function svc-restart() { sudo systemctl restart $1; }
+function svc-restart() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        sudo systemctl restart $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        echo "stoping $1..." \
+            && sudo launchctl stop $1 \
+            && echo "stoped" \
+            && echo "starting $1..." \
+            && sudo launchctl start $1 \
+            && echo "started"
+    else
+        echo "unknown system"
+    fi
+}

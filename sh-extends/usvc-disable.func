@@ -1,2 +1,11 @@
 #!/bin/bash
-function usvc-disable() { systemctl --user disable $1; }
+
+function usvc-disable() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        systemctl --user disable $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        launchctl disable $1
+    else
+        echo "unknown system"
+    fi
+}

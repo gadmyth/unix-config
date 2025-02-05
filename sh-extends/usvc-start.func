@@ -1,2 +1,11 @@
 #!/bin/bash
-function usvc-start() { systemctl --user start $1; }
+
+function usvc-start() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        systemctl --user start $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        launchctl start $1
+    else
+        echo "unknown system"
+    fi
+}

@@ -1,2 +1,11 @@
 #!/bin/bash
-function usvc-enable() { systemctl --user enable $1; }
+
+function usvc-enable() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        systemctl --user enable $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        launchctl enable $1
+    else
+        echo "unknown system"
+    fi
+}

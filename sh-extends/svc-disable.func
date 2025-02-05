@@ -1,2 +1,11 @@
 #!/bin/bash
-function svc-disable() { sudo systemctl disable $1; }
+
+function svc-disable() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        sudo systemctl disable $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        sudo launchctl disable $1
+    else
+        echo "unknown system"
+    fi
+}

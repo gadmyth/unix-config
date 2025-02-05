@@ -1,2 +1,11 @@
 #!/bin/bash
-function svc-stat() { sudo systemctl status $1; }
+
+function svc-stat() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        sudo systemctl status $1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        sudo launchctl list | grep $1
+    else
+        echo "unknown system"
+    fi
+}
