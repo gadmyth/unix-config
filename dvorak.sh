@@ -129,10 +129,13 @@ function reset-current-keysym-modifier-mappings() {
             local modifier=${current_keysym_modifier_mappings[$keysym]}
             log_info "$keysym is already mapping to $modifier"
             echo -e "\t${target_keycode} --> ${keysym} --> ${modifier}"
-        else
+        elif [[ -n "$keysym" ]]; then
             log_attension "$target_keycode is mapping to the wrong $keysym"
             xmodmap -e "remove $modifier = $keysym"
             remove-modifier-mapping $keysym
+        else
+            log_attension "$target_keycode is not mapping to any keysym"
+            check-and-remap-keysym $target_keysym $modifier
         fi
     done
 }
