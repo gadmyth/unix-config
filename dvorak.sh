@@ -80,13 +80,21 @@ function log_attension() {
     echo '!!!!' $*
 }
 
+function explain-to-hex() {
+    printf "%d(0x%x)" $1 $1
+}
+
+function explain-to-dec() {
+    printf "0x%x(%d)" $1 $1
+}
+
 function remap-current-keycode-mappings() {
     current_keycode_mappings=$(xmodmap -pke)
     for keycode in "${!keycode_mappings[@]}"; do
         if echo "$current_keycode_mappings" | grep -Eq "keycode *$keycode = ${keycode_mappings[$keycode]}"; then
-            log_info "keycode $keycode is already mapped to ${keycode_mappings[$keycode]}, skipping."
+            log_info "keycode $(explain-to-hex $keycode) is already mapped to ${keycode_mappings[$keycode]}, skipping."
         else
-            log_attension "Mapping keycode $keycode to ${keycode_mappings[$keycode]}."
+            log_attension "Mapping keycode $(explain-to-hex $keycode) to ${keycode_mappings[$keycode]}."
             xmodmap -e "keycode $keycode = ${keycode_mappings[$keycode]}"
         fi
     done
@@ -131,7 +139,7 @@ function reset-current-keysym-modifier-mappings() {
         elif [[ "$keysym" == "$target_keysym" ]]; then
             local modifier=${current_keysym_modifier_mappings[$keysym]}
             log_info "$keysym is already mapping to $modifier"
-            echo -e "\t${target_keycode} --> ${keysym} --> ${modifier}"
+            echo -e "\t$(explain-to-hex ${target_keycode}) --> ${keysym} --> ${modifier}"
         else
             log_attension "$target_keycode is mapping to the wrong $keysym"
             xmodmap -e "remove $modifier = $keysym"
@@ -163,7 +171,7 @@ function show-current-keycode-keysym-mappings() {
     for keycode in "${!current_keycode_keysym_mappings[@]}"; do
         local keysym=${current_keycode_keysym_mappings[$keycode]}
         local modifier=${current_keysym_modifier_mappings[$keysym]}
-        echo "$keycode --> $keysym --> $modifier"
+        echo "$(explain-to-hex $keycode) --> $keysym --> $modifier"
     done
 }
 
