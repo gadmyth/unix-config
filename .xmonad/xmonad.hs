@@ -200,17 +200,17 @@ main = do
         ]
         ++
         [ ((mod4Mask .|. mod, key), workspaceHint func index)
-        | (index, key) <- zip
-          myWorkspaces ([xK_1 .. xK_9] ++ [xK_0] ++ [xK_F1 .. xK_F12])
+        | (index, key) <- zip myWorkspaces myWorkspaceKeys
         , (mod, func) <- [(0, W.greedyView), (shiftMask, W.shift), (mod3Mask, copy)]
         ]
         ++
         -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Actions-TagWindows.html
         [ ((mod2Mask .|. mod, key), func tag)
-        | (key, tag) <- zip
-          ([xK_0 .. xK_9] ++ [xK_a .. xK_z] ++ [xK_F1 .. xK_F12])
-          ((map (:[]) (['0' .. '9'] ++ ['a' .. 'z'])) ++ (map (("F"++) . (:[])) ['1' .. '9']) ++ ["F10", "F11", "F12"])
-        , (mod, func) <- [(0, focusUpTaggedGlobal), (mod1Mask, withFocused . addTag), (shiftMask, withFocused . delTag)]
+        | (key, tag) <- zip myWindowTagKeys myWindowTags
+        , (mod, func) <- [ (0, focusUpTaggedGlobal)
+                         , (mod1Mask, withFocused . addTag)
+                         , (shiftMask, withFocused . delTag)
+                         ]
         ]
         ++
         [ ((mod4Mask .|. mod2Mask, xK_l ), tagPrompt def (\s -> focusUpTaggedGlobal s))
@@ -376,7 +376,11 @@ floatManageHook = composeAll
   , appName =? "xfce4-notifyd" --> doIgnore
   ]
 
+myWorkspaceKeys = [xK_1..xK_9] ++ [xK_0] ++ [xK_F1..xK_F12]
 myWorkspaces = map show ([1..9] ++ [0]) ++ (map ("F"++) $ map show [1..12])
+
+myWindowTagKeys = myWorkspaceKeys ++ [xK_a..xK_z]
+myWindowTags = myWorkspaces ++ (map (:[]) ['a'..'z'])
 
 myPromptConfig = def
   {
