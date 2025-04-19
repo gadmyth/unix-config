@@ -121,7 +121,7 @@ main = do
         , ((0, xF86XK_AudioMute), spawn "~/.xmonad/script/toggle-volume.sh true")
         -- layouts
         , ((mod4Mask, xK_space), myNextLayout)
-        , ((mod4Mask .|. controlMask, xK_space), sendMessage ToggleLayout)
+        , ((mod4Mask .|. controlMask, xK_space), myToggleLayout)
         -- , ((mod4Mask .|. shiftMask, xK_space), sendMessage $ XMonad.Layout.MultiToggle.Toggle NBFULL)
         , ((mod4Mask .|. controlMask, xK_1), myJumpToLayout "main")
         , ((mod4Mask .|. controlMask, xK_2), myJumpToLayout "fullTwoLayout")
@@ -287,6 +287,11 @@ myJumpToLayout name = do
 myNextLayout :: X()
 myNextLayout = do
   sendMessage NextLayout
+  notifyCurrentWSHint 500
+
+myToggleLayout :: X()
+myToggleLayout = do
+  sendMessage ToggleLayout
   notifyCurrentWSHint 500
 
 centerFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doCenterFloat f
