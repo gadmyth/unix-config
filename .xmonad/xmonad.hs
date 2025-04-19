@@ -237,7 +237,7 @@ killOrPrompt conf w = do
 wsHintAtIndex :: String -> X(String)
 wsHintAtIndex index = do
   layout <- layoutHint
-  let hint = "workspace: " ++ index ++  ", layout: " ++ layout
+  let hint = "WS: " ++ index ++  "\nLT: " ++ layout
   return hint
 
 notifyWSHint :: String -> Integer -> X()
@@ -250,8 +250,8 @@ notifyWSHintWithTime index interval = do
   now <- liftIO getCurrentTime
   timezone <- liftIO getCurrentTimeZone
   hint <- wsHintAtIndex index
-  let formatTimeHint = (take 19 $ show $ utcToLocalTime timezone now)
-      notification =  hint ++ ", time: " ++ formatTimeHint
+  let formatTimeHint = drop 11 $ take 19 $ show $ utcToLocalTime timezone now
+      notification = formatTimeHint ++ "\n" ++ hint
   spawn $ "~/.xmonad/script/show-workspace.sh " ++ (show interval) ++ " " ++ "\"" ++ notification ++ "\""
 
 notifyCurrentWSHint interval = do
@@ -371,7 +371,7 @@ floatManageHook = composeAll
   , appName =? "xfce4-notifyd" --> doIgnore
   ]
 
-myWorkspaces = map show [1..22 :: Int]
+myWorkspaces = map show ([1..9] ++ [0]) ++ (map ("F"++) $ map show [1..12])
 
 myPromptConfig = def
   {
