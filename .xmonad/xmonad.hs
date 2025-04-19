@@ -367,6 +367,8 @@ floatManageHook = composeAll
   , appName =? "gvim" --> doCenterFloat
   , appName =? "NotepadNext" --> doCenterFloat
   , appName =? "xclock" --> doFloat
+
+  , appName =? "xfce4-notifyd" --> doIgnore
   ]
 
 myWorkspaces = map show [1..22 :: Int]
