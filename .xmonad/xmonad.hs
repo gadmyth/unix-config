@@ -201,7 +201,10 @@ main = do
         ++
         [ ((mod4Mask .|. mod, key), workspaceHint func index)
         | (index, key) <- zip myWorkspaces myWorkspaceKeys
-        , (mod, func) <- [(0, W.greedyView), (shiftMask, W.shift), (mod3Mask, copy)]
+        , (mod, func) <- [ (0, W.greedyView)
+                         , (shiftMask, W.shift)
+                         , (shiftMask .|. mod3Mask, shiftAndGreedyView)
+                         , (mod3Mask, copy)]
         ]
         ++
         -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Actions-TagWindows.html
@@ -233,6 +236,10 @@ killOrPrompt conf w = do
   if (length copies) == 0
     then confirmPrompt conf "Kill the only window?" $ kill1
     else kill1
+
+-- copy and modify from source code: https://hackage.haskell.org/package/xmonad-0.18.0/docs/src/XMonad.StackSet.html
+shiftAndGreedyView :: (Ord a, Eq s, Eq i) => i -> W.StackSet i l a s sd -> W.StackSet i l a s sd
+shiftAndGreedyView i s = W.greedyView i (W.shift i s)
 
 wsHintAtIndex :: String -> X(String)
 wsHintAtIndex index = do
