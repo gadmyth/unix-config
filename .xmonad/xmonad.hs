@@ -2,6 +2,7 @@
 
 import Data.Char (toLower)
 import Data.List (isPrefixOf, find)
+import qualified Data.Map as M
 import Data.Monoid (appEndo)
 import Data.Time.Clock (getCurrentTime)
 import Data.Time.LocalTime (getCurrentTimeZone, utcToLocalTime)
@@ -154,48 +155,38 @@ main = do
         , ((mod4Mask .|. mod1Mask, xK_e), sendMessage Equalize)
         , ((mod4Mask .|. mod1Mask, xK_n), sendMessage SelectNode)
         , ((mod4Mask .|. mod1Mask, xK_m), sendMessage MoveNode)
-        , ((mod4Mask .|. mod1Mask, xK_Left), sendMessage $ MoveSplit L)
-        , ((mod4Mask .|. mod1Mask, xK_Right), sendMessage $ MoveSplit R)
-        , ((mod4Mask .|. mod1Mask, xK_Up), sendMessage $ MoveSplit U)
-        , ((mod4Mask .|. mod1Mask, xK_Down), sendMessage $ MoveSplit D)
         , ((mod5Mask, xK_Left), sendMessage $ RotateL)
         , ((mod5Mask, xK_Right), sendMessage $ RotateR)
         , ((mod4Mask .|. controlMask, xK_s), sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTX)
         , ((mod4Mask .|. controlMask .|. shiftMask, xK_s), sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTY)
         -- float windows
         -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/XMonad-Actions-FloatKeys.html
-        , ((mod4Mask, xK_h), withFocused (keysMoveWindow (-100, 0)))
-        , ((mod4Mask, xK_l), withFocused (keysMoveWindow (100, 0)))
-        , ((mod4Mask, xK_j), withFocused (keysMoveWindow (0, 100)))
-        , ((mod4Mask, xK_k), withFocused (keysMoveWindow (0, -100)))
-        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_h), withFocused (keysResizeWindow (-100, 0) (0, 0)))
-        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_l), withFocused (keysResizeWindow (100, 0) (0, 0)))
-        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_j), withFocused (keysResizeWindow (0, 100) (0, 0)))
-        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_k), withFocused (keysResizeWindow (0, -100) (0, 0)))
+        -- , ((mod4Mask, xK_h), withFocused (keysMoveWindow (-100, 0)))
+        , ((mod4Mask, xK_Left), moveWindow' (-100, 0) L)
+        , ((mod4Mask, xK_Right), moveWindow' (100, 0) R)
+        , ((mod4Mask, xK_Down), moveWindow' (0, 100) D)
+        , ((mod4Mask, xK_Up), moveWindow' (0, -100) U)
+        , ((mod4Mask .|. mod1Mask, xK_Left), resizeWindow' (-100, 0) (0, 0) L)
+        , ((mod4Mask .|. mod1Mask, xK_Right), resizeWindow' (100, 0) (0, 0) R)
+        , ((mod4Mask .|. mod1Mask, xK_Down), resizeWindow' (0, 100) (0, 0) D)
+        , ((mod4Mask .|. mod1Mask, xK_Up), resizeWindow' (0, -100) (0, 0) U)
         -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/XMonad-Hooks-Place.html
-        , ((mod4Mask .|. mod1Mask, xK_h), withFocused $ borderMove LEFT)
-        , ((mod4Mask .|. mod1Mask, xK_l), withFocused $ borderMove RIGHT)
-        , ((mod4Mask .|. mod1Mask, xK_j), withFocused $ borderMove BOTTOM)
-        , ((mod4Mask .|. mod1Mask, xK_k), withFocused $ borderMove TOP)
-        , ((mod4Mask .|. mod1Mask, xK_t), withFocused $ borderMove HORI_CENTER)
-        , ((mod4Mask .|. mod1Mask, xK_v), withFocused $ borderMove VERT_CENTER)
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_h), quickMoveWindow HORI_CENTER Nothing)
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_v), quickMoveWindow VERT_CENTER Nothing)
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_t), quickMoveWindow CENTER Nothing)
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_f), centerFloat)
         -- between combined layouts
-        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
-        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left ), sendMessage $ Move L)
-        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up   ), sendMessage $ Move U)
-        , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down ), sendMessage $ Move D)
-        , ((mod4Mask, xK_Right), (sendMessage $ Go R))
-        , ((mod4Mask, xK_Left ), (sendMessage $ Go L))
-        , ((mod4Mask, xK_Up   ), (sendMessage $ Go U))
-        , ((mod4Mask, xK_Down ), (sendMessage $ Go D))
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_Left ), quickMoveWindow LEFT (Just L))
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_Right), quickMoveWindow RIGHT (Just R))
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_Down ), quickMoveWindow BOTTOM (Just D))
+        , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_Up   ), quickMoveWindow TOP (Just U))
         -- hidden windows
         , ((mod4Mask .|. mod1Mask, xK_c), withFocused hideWindow)
         , ((mod4Mask .|. mod1Mask, xK_u), popNewestHiddenWindow)
 --        , ((mod4Mask .|. shiftMask, xK_h), withFocused minimizeWindow)
 --        , ((mod4Mask .|. mod1Mask, xK_h), withLastMinimized maximizeWindowAndFocus)
         , ((mod4Mask, xK_backslash), withFocused (sendMessage . maximizeRestore))
-        , ((mod4Mask .|. mod1Mask, xK_t), centerFloat)
-        , ((mod4Mask, xK_f), selectWindow easyMotionConf >>= (`whenJust` windows . W.focusWindow))
+        , ((mod4Mask, xK_f), easyFocus)
         , ((mod4Mask, xK_s), easySwap)
         ]
         ++
@@ -216,7 +207,8 @@ main = do
                          ]
         ]
         ++
-        [ ((mod4Mask .|. mod2Mask, xK_l ), tagPrompt def (\s -> focusUpTaggedGlobal s))
+        -- list tag
+        [ ((mod4Mask .|. mod2Mask, xK_l), tagPrompt def focusUpTaggedGlobal)
         ]
       )
 
@@ -224,11 +216,16 @@ main = do
 easyMotionConf::EasyMotionConfig
 easyMotionConf = def { cancelKey = xK_Escape }
 
+easyFocus :: X()
+easyFocus = do
+  window <- selectWindow easyMotionConf
+  whenJust window $ windows . W.focusWindow
+  
 easySwap :: X ()
 easySwap = do
-  win      <- selectWindow easyMotionConf
-  stack    <- gets $ W.index . windowset
-  let match = find ((win ==) . Just . fst) $ zip stack [0 ..]
+  window <- selectWindow easyMotionConf
+  stack  <- gets $ W.index . windowset
+  let match = find ((window ==) . Just . fst) $ zip stack [0 ..]
   whenJust match $ swapNth . snd
 
 killOrPrompt conf w = do
@@ -240,6 +237,38 @@ killOrPrompt conf w = do
 -- copy and modify from source code: https://hackage.haskell.org/package/xmonad-0.18.0/docs/src/XMonad.StackSet.html
 shiftAndGreedyView :: (Ord a, Eq s, Eq i) => i -> W.StackSet i l a s sd -> W.StackSet i l a s sd
 shiftAndGreedyView i s = W.greedyView i (W.shift i s)
+
+moveWindow' :: (Int, Int) -> Direction2D -> X ()
+moveWindow' (dx, dy) direction = do
+    ws <- gets windowset
+    case W.peek ws of
+      Just w -> 
+        if w `M.member` W.floating ws
+          then keysMoveWindow (dx, dy) w
+          else sendMessage $ Go direction
+      Nothing -> return ()
+
+resizeWindow' :: (Int, Int) -> (Rational, Rational) -> Direction2D -> X ()
+resizeWindow' (dx, dy) (minX, minY) direction = do
+    ws <- gets windowset
+    case W.peek ws of
+      Just w -> 
+        if w `M.member` W.floating ws
+          then keysResizeWindow (dx, dy) (minX, minY) w
+          else sendMessage $ MoveSplit direction
+      Nothing -> return ()
+
+quickMoveWindow :: Place2D -> (Maybe Direction2D) -> X ()
+quickMoveWindow border direction = do
+    ws <- gets windowset
+    case W.peek ws of
+      Just w -> 
+        if w `M.member` W.floating ws
+          then borderMove border w
+          else case direction of
+                 Just d -> sendMessage $ Move d
+                 Nothing -> return ()
+      Nothing -> return ()
 
 wsHintAtIndex :: String -> X(String)
 wsHintAtIndex index = do
@@ -308,7 +337,7 @@ myXmonadCmds =
   [ ("copyToAll"        , windows copyToAll)
   , ("keepTheCurrent"   , killAllOtherCopies)
   , ("exit", confirmPrompt myPromptConfig "Exit Xmonad?" $ io (exitWith ExitSuccess))
-  , ("dvorak", spawn "~/dvorak.sh")
+  , ("dvorak", spawn "source ~/dvorak.sh")
   , ("centerFloat", centerFloat)
   , ("fullFloat", fullFloat)
   , ("screenshot and OCR", spawn "~/.xmonad/script/screenshot-and-OCR.sh")
@@ -333,18 +362,18 @@ defaultLayout =
 
 mainLayout =
   renamed [Replace "main"] $
-  addTabsBottom shrinkText tabTheme $ subLayout [] Simplest $
+  addTabs shrinkText tabTheme $ subLayout [] Simplest $
   emptyBSP
 
 fullTwoLayout =
   renamed [Replace "fullTwoLayout"] $
   combineTwo (TwoPane (3/100) (1/2))
-  (tabbedBottom shrinkText tabTheme)
-  (tabbedBottom shrinkText tabTheme)
+  (tabbed shrinkText tabTheme)
+  (tabbed shrinkText tabTheme)
 
 threeColumnLayout =
   renamed [Replace "three"] $
-  addTabsBottom shrinkText tabTheme $ subLayout [] Simplest $
+  addTabs shrinkText tabTheme $ subLayout [] Simplest $
   ThreeColMid 1 (3/100) (3/7)
   
 myGridSelectConfig = def { gs_cellheight = 150, gs_cellwidth = 450 }
@@ -418,15 +447,17 @@ data Place2D = TOP
              | RIGHT
              | LEFT
              | VERT_CENTER
+             | CENTER
              deriving (Eq,Read,Show,Ord,Enum,Bounded)
 
 borderMove :: Place2D -> Window -> X ()
-borderMove LEFT        = doBorderMove True 0.0
-borderMove HORI_CENTER = doBorderMove True 0.5
-borderMove RIGHT       = doBorderMove True 1.0
-borderMove TOP         = doBorderMove False 0.0
-borderMove VERT_CENTER = doBorderMove False 0.5
-borderMove BOTTOM      = doBorderMove False 1.0
+borderMove LEFT w        = doBorderMove True 0.0 w
+borderMove HORI_CENTER w = doBorderMove True 0.5 w
+borderMove RIGHT w       = doBorderMove True 1.0 w
+borderMove TOP w         = doBorderMove False 0.0 w
+borderMove VERT_CENTER w = doBorderMove False 0.5 w
+borderMove BOTTOM w      = doBorderMove False 1.0 w
+borderMove CENTER w      = doBorderMove True 0.5 w >> doBorderMove False 0.5 w
 
 doBorderMove :: Bool -> Rational -> Window -> X ()
 doBorderMove horiz ratio w = whenX (isClient w) $ withDisplay $ \d -> do
@@ -459,8 +490,7 @@ startup = do
         spawn "source ~/dvorak.sh"
         spawnOnce "nm-applet"
         spawnOnce "xfce4-power-manager"
-        -- sudo dnf install blueberry
-        -- spawnOnce "blueberry-tray"
+        -- alternative: blueberry-tray (sudo dnf install blueberry)
         spawnOnce "blueman-applet"
         spawnOnce "yong -d"
         spawn "notify-send -t 1500 \"Restart Xmonad Success!\""
