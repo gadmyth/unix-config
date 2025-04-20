@@ -38,9 +38,10 @@ declare -A keycode_mappings=(
     [59]="w"
     [60]="v"
     [61]="z"
-    [62]="Shift_R"
+    [62]="Alt_R"
     [64]="Control_L"
     [66]="Alt_L"
+    [108]="Shift_R"
     [127]="Caps_Lock"
     [183]="semicolon"
     [184]="colon"
@@ -61,11 +62,11 @@ declare -A keysym_modifier_mappings=(
 
 declare -A keysym_keycode_mappings=(
     ['Alt_L']='66'
-    ['Alt_R']='108'
+    ['Alt_R']='62'
     ['Control_L']='64'
     ['Control_R']='105'
     ['Shift_L']='50'
-    ['Shift_R']='62'
+    ['Shift_R']='108'
     ['Super_L']='133'
     ['Super_R']='134'
     ['Hyper_L']='37'
@@ -212,8 +213,8 @@ function remap-rich-modmap() {
     pkill xcape
     log_attension "xcape Shift_L to semicolon..."
     xcape -t 300 -e 'Shift_L=semicolon'
-    log_attension "xcape Shift_R to colon..."
-    xcape -t 300 -e 'Shift_R=colon'
+    log_attension "xcape Alt_R to colon..."
+    xcape -t 300 -e 'Alt_R=colon'
 }
 
 remap-current-keycode-mappings
