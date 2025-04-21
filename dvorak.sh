@@ -60,19 +60,6 @@ declare -A keysym_modifier_mappings=(
     ['Alt_R']='mod5'
 )
 
-declare -A keysym_keycode_mappings=(
-    ['Alt_L']='66'
-    ['Alt_R']='62'
-    ['Control_L']='64'
-    ['Control_R']='105'
-    ['Shift_L']='50'
-    ['Shift_R']='108'
-    ['Super_L']='133'
-    ['Super_R']='134'
-    ['Hyper_L']='37'
-    ['Caps_Lock']='127'
-)
-
 function log_info() {
     echo '####' $*
 }
@@ -90,6 +77,7 @@ function explain-to-dec() {
 }
 
 function remap-current-keycode-mappings() {
+    log_info "Remap current keycode mappings..."
     current_keycode_mappings=$(xmodmap -pke)
     for keycode in "${!keycode_mappings[@]}"; do
         if echo "$current_keycode_mappings" | grep -Eq "keycode *$keycode = ${keycode_mappings[$keycode]}"; then
@@ -102,6 +90,8 @@ function remap-current-keycode-mappings() {
 }
 
 declare -A current_keysym_modifier_mappings=()
+
+declare -A prepare_keysym_modifier_mappings=()
 
 declare -A current_keycode_keysym_mappings=()
 
@@ -121,30 +111,13 @@ function reset-current-keysym-modifier-mappings() {
                     current_keycode_keysym_mappings[$keycode]=$keysym
                     current_keysym_modifier_mappings[$keysym]=$modifier
                     local target_modifier=${keysym_modifier_mappings[$keysym]}
-                    if [[ "$modifier" != "$target_modifier" ]]; then
+                    if [[ -n "$target_modifier" && "$modifier" != "$target_modifier" ]]; then
                         log_attension "$keysym is mapping to the wrong $modifier"
-                        xmodmap -e "remove $modifier = $keysym"
                         remove-modifier-mapping $keysym
+                        prepare_keysym_modifier_mappings[$keysym]=${target_modifier}
                     fi
                 fi
             done
-        fi
-    done
-
-    for target_keysym in ${!keysym_keycode_mappings[@]}; do
-        local target_keycode=${keysym_keycode_mappings[$target_keysym]}
-        local keysym=${current_keycode_keysym_mappings[$target_keycode]}
-        if [[ -z "$keysym" ]]; then
-            log_attension "$target_keycode is not mapping to any keysym"
-            check-and-remap-keysym $target_keysym $modifier
-        elif [[ "$keysym" == "$target_keysym" ]]; then
-            local modifier=${current_keysym_modifier_mappings[$keysym]}
-            log_info "$keysym is already mapping to $modifier"
-            echo -e "\t$(explain-to-hex ${target_keycode}) --> ${keysym} --> ${modifier}"
-        else
-            log_attension "$target_keycode is mapping to the wrong $keysym"
-            xmodmap -e "remove $modifier = $keysym"
-            remove-modifier-mapping $keysym
         fi
     done
 }
@@ -186,17 +159,22 @@ function remove-modifier-mapping() {
     fi
 }
 
+function add-modifier-mapping() {
+    local keysym=$1
+    local modifier=$2
+    log_attension "Adding $keysym to ${modifier}..."
+    xmodmap -e "add $modifier = $keysym"
+    current_keysym_modifier_mappings[$keysym]=$modifier
+}
+
 function check-and-remap-keysym() {
     local keysym=$1
     local modifier=$2
-    if [[ "${current_keysym_modifier_mappings[$keysym]}" = "$modifier" ]]; then
+    if [[ "${current_keysym_modifier_mappings[$keysym]}" == "$modifier" ]]; then
         log_info "$keysym is already mapped to $modifier, skipping."
     else
         remove-modifier-mapping $keysym
-        
-        log_attension "Adding $keysym to ${modifier}..."
-        xmodmap -e "add $modifier = $keysym"
-        current_keysym_modifier_mappings[$keysym]=$modifier
+        add-modifier-mapping $keysym $modifier
     fi
 }
 
@@ -205,6 +183,15 @@ function remap-keysyms() {
         local modifier=${keysym_modifier_mappings[$keysym]}
         check-and-remap-keysym $keysym $modifier
     done
+}
+
+function remap-prepare-keysyms() {
+    log_info "Remap prepare keysyms..."
+    for keysym in ${!prepare_keysym_modifier_mappings[@]}; do
+        local modifier=${prepare_keysym_modifier_mappings[$keysym]}
+        add-modifier-mapping $keysym $modifier
+    done
+
 }
 
 
@@ -217,10 +204,14 @@ function remap-rich-modmap() {
     xcape -t 300 -e 'Alt_R=colon'
 }
 
+xmodmap -pm
 remap-current-keycode-mappings
+xmodmap -pm
 reset-current-keysym-modifier-mappings
-remap-keysyms
+xmodmap -pm
+remap-prepare-keysyms
+xmodmap -pm
 
 remap-rich-modmap
 
-remove-modifier-mapping 'Number_Lock'
+remove-modifier-mapping Num_Lock
