@@ -123,6 +123,9 @@ main = do
         -- layouts
         , ((mod4Mask, xK_space), myNextLayout)
         , ((mod4Mask .|. controlMask, xK_space), myToggleLayout)
+        -- workspace
+        , ((mod4Mask, xK_Page_Down), nextWS)
+        , ((mod4Mask, xK_Page_Up), prevWS)
         -- , ((mod4Mask .|. shiftMask, xK_space), sendMessage $ XMonad.Layout.MultiToggle.Toggle NBFULL)
         , ((mod4Mask .|. controlMask, xK_1), myJumpToLayout "main")
         , ((mod4Mask .|. controlMask, xK_2), myJumpToLayout "fullTwoLayout")
