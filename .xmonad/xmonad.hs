@@ -20,6 +20,7 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.Grid
+import XMonad.Layout.IndependentScreens
 import XMonad.Layout.Maximize
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
@@ -46,6 +47,7 @@ import XMonad.Actions.CopyWindow
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.GridSelect
 import XMonad.Actions.GroupNavigation
+import XMonad.Actions.OnScreen
 import XMonad.Actions.WindowGo
 import XMonad.Actions.TagWindows
 import XMonad.Actions.Minimize
@@ -62,6 +64,7 @@ import System.IO
 import System.Exit
 
 main = do
+     nScreens <- countScreens
      xmonad $ withUrgencyHook NoUrgencyHook $ ewmh desktopConfig {
           modMask = mod4Mask
           , terminal = "xfce4-terminal"
@@ -195,13 +198,17 @@ main = do
         ++
         [ ((mod4Mask .|. mod, key), workspaceHint func index)
         | (index, key) <- zip myWorkspaces myWorkspaceKeys
-        , (mod, func) <- [ (0, W.greedyView)
+        , (mod, func) <- [ (0, greedyViewOnTheScreen nScreens)
                          , (shiftMask, W.shift)
                          , (shiftMask .|. mod3Mask, shiftAndGreedyView)
                          , (mod3Mask, copy)]
         ]
         ++
         -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Actions-TagWindows.html
+        -- add tag: mod2 + mod1 + tag
+        -- del tag: mod2 + shift + tag
+        -- goto tag: mod2 + tag
+        -- list tag: mod4 + mod2 + l
         [ ((mod2Mask .|. mod, key), func tag)
         | (key, tag) <- zip myWindowTagKeys myWindowTags
         , (mod, func) <- [ (0, focusUpTaggedGlobal)
@@ -414,6 +421,13 @@ floatManageHook = composeAll
 
   , appName =? "xfce4-notifyd" --> doIgnore
   ]
+
+greedyViewOnTheScreen nScreens ws = greedyViewOnScreen (whichScreen nScreens ws) ws
+
+whichScreen nScreens ws
+  | nScreens == 1 = 0
+  | ws `elem` ["0", "F1", "F2", "F11", "F12"] = 1
+  | otherwise = 0
 
 myWorkspaceKeys = [xK_1..xK_9] ++ [xK_0] ++ [xK_F1..xK_F12]
 myWorkspaces = map show ([1..9] ++ [0]) ++ (map ("F"++) $ map show [1..12])
