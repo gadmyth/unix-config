@@ -403,6 +403,7 @@ floatManageHook = composeAll
   , className =? "Xfce4-settings-manager" --> doFloat
   , className =? "Thunar" --> doCenterFloat
   , className =? "Xfce4-terminal" --> doCenterFloat
+  , className =? "xdg-desktop-portal-gtk" --> doCenterFloat
 
   , className =? "Google-chrome" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
   , className =? "Firefox" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
@@ -414,10 +415,13 @@ floatManageHook = composeAll
   , className =? "Blueberry.py" --> doCenterFloat
   , appName =? "blueman-manager" --> doCenterFloat
   , title =? "Electronic WeChat" --> doFloat
+  , appName =? "wechat" --> doFloat
+  , appName =? "telegram-desktop" --> doFloat
   , appName `hasPrefixIgnoreCaseQ` "emacs" --> doFloat
   , appName =? "gvim" --> doCenterFloat
   , appName =? "NotepadNext" --> doCenterFloat
   , appName =? "xclock" --> doFloat
+  , appName =? "xmessage" --> doCenterFloat
 
   , appName =? "xfce4-notifyd" --> doIgnore
   ]
