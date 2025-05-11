@@ -11,6 +11,7 @@ import XMonad.Core
 import XMonad.Config.Desktop (desktopConfig, desktopLayoutModifiers)
 import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Themes
@@ -214,6 +215,13 @@ main = do
         , (mod, func) <- [ (0, focusUpTaggedGlobal)
                          , (mod1Mask, withFocused . addTag)
                          , (shiftMask, withFocused . delTag)
+                         ]
+        ]
+        ++
+        [ ((mod5Mask .|. mod, key), func tag)
+        | (key, tag) <- zip myWindowTagKeys myWindowTags
+        , (mod, func) <- [ (0, dynamicNSPAction)
+                         , (mod1Mask, withFocused . toggleDynamicNSP)
                          ]
         ]
         ++
