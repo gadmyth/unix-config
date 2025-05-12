@@ -98,12 +98,6 @@ main = do
         , ((mod4Mask, xK_x), xmonadPromptC myXmonadCmds myPromptConfig)
         , ((mod4Mask .|. shiftMask, xK_r), prompt ("xfce4-terminal" ++ " -H -x") myPromptConfig)
         , ((mod5Mask, xK_Return), runOrRaiseNext "xfce4-terminal" (className =? "Xfce4-terminal"))
-        , ((mod5Mask, xK_f), runOrRaiseNext "firefox" (className =? "Firefox"))
-        , ((mod5Mask, xK_g), runOrRaiseNext "google-chrome" (className =? "Google-chrome"))
-        , ((mod5Mask, xK_e), runOrRaiseNext "emacs" (className =? "Emacs"))
-        , ((mod5Mask, xK_w), runOrRaiseNext "wechat" (className =? "Electron"))
-        , ((mod5Mask, xK_i), runOrRaiseNext "jetbrains-idea" (className =? "jetbrains-idea-ce"))
-        , ((mod5Mask, xK_t), runOrRaiseNext "xclock" (className =? "XClock"))
         -- system tools
         , ((mod4Mask, xK_BackSpace), nextMatch History (return True))
         -- toggle workspace, xK_grave is "`", defined in /usr/include/X11/keysymdef.h, detected by `xev` Linux command
