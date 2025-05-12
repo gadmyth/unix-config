@@ -434,12 +434,14 @@ floatManageHook = composeAll
   , appName =? "xfce4-notifyd" --> doIgnore
   ]
 
-greedyViewOnTheScreen nScreens ws = greedyViewOnScreen (whichScreen nScreens ws) ws
+greedyViewOnTheScreen nScreens ws = do
+  currentScreen <- W.screen . W.current
+  greedyViewOnScreen (whichScreen nScreens currentScreen ws) ws
 
-whichScreen nScreens ws
+whichScreen nScreens currentScreen ws
   | nScreens == 1 = 0
   | ws `elem` ["0", "F1", "F2", "F11", "F12"] = 1
-  | otherwise = 0
+  | otherwise = currentScreen
 
 myWorkspaceKeys = [xK_1..xK_9] ++ [xK_0] ++ [xK_F1..xK_F12]
 myWorkspaces = map show ([1..9] ++ [0]) ++ (map ("F"++) $ map show [1..12])
