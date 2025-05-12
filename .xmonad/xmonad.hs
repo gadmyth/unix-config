@@ -285,7 +285,7 @@ quickMoveWindow border direction = do
 wsHintAtIndex :: String -> X(String)
 wsHintAtIndex index = do
   layout <- layoutHint
-  let hint = "WS: " ++ index ++  "\nLT: " ++ layout
+  let hint = index ++  " / " ++ layout
   return hint
 
 notifyWSHint :: String -> Integer -> X()
@@ -299,7 +299,7 @@ notifyWSHintWithTime index interval = do
   timezone <- liftIO getCurrentTimeZone
   hint <- wsHintAtIndex index
   let formatTimeHint = drop 11 $ take 19 $ show $ utcToLocalTime timezone now
-      notification = formatTimeHint ++ "\n" ++ hint
+      notification = hint ++ "\n" ++ formatTimeHint
   spawn $ "~/.xmonad/script/show-workspace.sh " ++ (show interval) ++ " " ++ "\"" ++ notification ++ "\""
 
 notifyCurrentWSHint interval = do
