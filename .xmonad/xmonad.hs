@@ -1,6 +1,7 @@
 {-# OPTIONS_GHC -Wno-deprecations #-}
 
 import Data.Char (toLower)
+import Data.IORef
 import Data.List (isPrefixOf, find)
 import qualified Data.Map as M
 import Data.Monoid (appEndo)
@@ -62,6 +63,7 @@ import Graphics.X11.ExtraTypes.XF86
 import Graphics.X11.Xinerama
 import System.Posix.Process
 import System.IO
+import System.IO.Unsafe
 import System.Exit
 
 main = do
@@ -163,14 +165,18 @@ main = do
         -- float windows
         -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/XMonad-Actions-FloatKeys.html
         -- , ((mod4Mask, xK_h), withFocused (keysMoveWindow (-100, 0)))
-        , ((mod4Mask, xK_Left), moveWindow' (-100, 0) L)
-        , ((mod4Mask, xK_Right), moveWindow' (100, 0) R)
-        , ((mod4Mask, xK_Down), moveWindow' (0, 100) D)
-        , ((mod4Mask, xK_Up), moveWindow' (0, -100) U)
-        , ((mod4Mask .|. mod1Mask, xK_Left), resizeWindow' (-100, 0) (0, 0) L)
-        , ((mod4Mask .|. mod1Mask, xK_Right), resizeWindow' (100, 0) (0, 0) R)
-        , ((mod4Mask .|. mod1Mask, xK_Down), resizeWindow' (0, 100) (0, 0) D)
-        , ((mod4Mask .|. mod1Mask, xK_Up), resizeWindow' (0, -100) (0, 0) U)
+        , ((mod4Mask, xK_Left), moveWindow' (myWindowMoveNegativeDelta, myWindowMoveZeroDelta) L)
+        , ((mod4Mask, xK_Right), moveWindow' (myWindowMoveDelta, myWindowMoveZeroDelta) R)
+        , ((mod4Mask, xK_Down), moveWindow' (myWindowMoveZeroDelta, myWindowMoveDelta) D)
+        , ((mod4Mask, xK_Up), moveWindow' (myWindowMoveZeroDelta, myWindowMoveNegativeDelta) U)
+        , ((mod4Mask .|. mod1Mask, xK_Left), resizeWindow' (myWindowMoveNegativeDelta, myWindowMoveZeroDelta) (0, 0) L)
+        , ((mod4Mask .|. mod1Mask, xK_Right), resizeWindow' (myWindowMoveDelta, myWindowMoveZeroDelta) (0, 0) R)
+        , ((mod4Mask .|. mod1Mask, xK_Down), resizeWindow' (myWindowMoveZeroDelta, myWindowMoveDelta) (0, 0) D)
+        , ((mod4Mask .|. mod1Mask, xK_Up), resizeWindow' (myWindowMoveZeroDelta, myWindowMoveNegativeDelta) (0, 0) U)
+        , ((mod4Mask .|. shiftMask, xK_equal), adjustWindowMoveDelta 10)
+        , ((mod4Mask .|. shiftMask, xK_minus), adjustWindowMoveDelta (-10))
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_equal), adjustWindowMoveDelta 1)
+        , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_minus), adjustWindowMoveDelta (-1))
         -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/XMonad-Hooks-Place.html
         , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_h), quickMoveWindow HORI_CENTER Nothing)
         , ((mod4Mask .|. mod1Mask .|. shiftMask, xK_v), quickMoveWindow VERT_CENTER Nothing)
@@ -250,8 +256,10 @@ killOrPrompt conf w = do
 shiftAndGreedyView :: (Ord a, Eq s, Eq i) => i -> W.StackSet i l a s sd -> W.StackSet i l a s sd
 shiftAndGreedyView i s = W.greedyView i (W.shift i s)
 
-moveWindow' :: (Int, Int) -> Direction2D -> X ()
-moveWindow' (dx, dy) direction = do
+moveWindow' :: ((IORef Int), (IORef Int)) -> Direction2D -> X ()
+moveWindow' (dx', dy') direction = do
+    dx <- liftIO $ readIORef dx'
+    dy <- liftIO $ readIORef dy'
     ws <- gets windowset
     case W.peek ws of
       Just w -> 
@@ -260,8 +268,10 @@ moveWindow' (dx, dy) direction = do
           else sendMessage $ Go direction
       Nothing -> return ()
 
-resizeWindow' :: (Int, Int) -> (Rational, Rational) -> Direction2D -> X ()
-resizeWindow' (dx, dy) (minX, minY) direction = do
+resizeWindow' :: ((IORef Int), (IORef Int)) -> (Rational, Rational) -> Direction2D -> X ()
+resizeWindow' (dx', dy') (minX, minY) direction = do
+    dx <- liftIO $ readIORef dx'
+    dy <- liftIO $ readIORef dy'
     ws <- gets windowset
     case W.peek ws of
       Just w -> 
@@ -291,7 +301,7 @@ wsHintAtIndex index = do
 notifyWSHint :: String -> Integer -> X()
 notifyWSHint index interval = do
   hint <- wsHintAtIndex index
-  spawn $ "~/.xmonad/script/show-workspace.sh " ++ (show interval) ++ " " ++ "\"" ++ hint ++ "\""
+  notifyMessage hint interval
   
 notifyWSHintWithTime :: String -> Integer -> X()
 notifyWSHintWithTime index interval = do
@@ -300,7 +310,7 @@ notifyWSHintWithTime index interval = do
   hint <- wsHintAtIndex index
   let formatTimeHint = drop 11 $ take 19 $ show $ utcToLocalTime timezone now
       notification = hint ++ "\n" ++ formatTimeHint
-  spawn $ "~/.xmonad/script/show-workspace.sh " ++ (show interval) ++ " " ++ "\"" ++ notification ++ "\""
+  notifyMessage notification interval
 
 notifyCurrentWSHint interval = do
   cur <- gets (W.currentTag . windowset)
@@ -310,6 +320,10 @@ notifyCurrentWSHintWithTime :: X()
 notifyCurrentWSHintWithTime = do
   cur <- gets (W.currentTag . windowset)
   notifyWSHintWithTime cur 3000
+
+notifyMessage :: String -> Integer -> X()
+notifyMessage msg interval =
+  spawn $ "~/.xmonad/script/show-workspace.sh " ++ (show interval) ++ " " ++ "\"" ++ msg ++ "\""
 
 workspaceHint f i = do
   windows $ f i
@@ -463,6 +477,27 @@ tabTheme = def
   , inactiveTextColor = "white"
   , decoHeight = 40
   }
+
+myWindowMoveZeroDelta :: IORef Int
+myWindowMoveZeroDelta = unsafePerformIO (newIORef 0)
+
+myWindowMoveDelta :: IORef Int
+myWindowMoveDelta = unsafePerformIO (newIORef 100)
+
+myWindowMoveNegativeDelta :: IORef Int
+myWindowMoveNegativeDelta = unsafePerformIO (newIORef (-100))
+
+adjustWindowMoveDelta :: Int -> X()
+adjustWindowMoveDelta d = do
+  delta <- liftIO $ readIORef myWindowMoveDelta
+  let newDelta = delta + d
+  if newDelta <= 500 && newDelta > 0 then do
+    liftIO $ writeIORef myWindowMoveDelta newDelta
+    liftIO $ writeIORef myWindowMoveNegativeDelta (-newDelta)
+    newDelta' <- liftIO $ readIORef myWindowMoveDelta
+    notifyMessage ("window move delta: " ++ (show newDelta')) 500
+  else
+    notifyMessage ("window move delta (not modified): " ++ (show delta)) 500
 
 -- copied and modified from
 -- https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/src/XMonad.Actions.FloatSnap.html
