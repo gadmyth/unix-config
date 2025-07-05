@@ -420,6 +420,7 @@ floatManageHook = composeAll
   , className =? "Thunar" --> doCenterFloat
   , className =? "Xfce4-terminal" --> doCenterFloat
   , className =? "xdg-desktop-portal-gtk" --> doCenterFloat
+  , appName =? "vncviewer" --> doCenterFloat
 
   , className =? "Google-chrome" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
   , className =? "Firefox" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
