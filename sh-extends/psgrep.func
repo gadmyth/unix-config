@@ -1,7 +1,7 @@
 #!/bin/bash
 function psgrep() {
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        ps -eo "%u %g %p %P %t %a" | grep -i $1 | grep -v grep
+        ps -eo user,group,pid,ppid,lstart,etime,cmd -D "[%Y-%m-%d %H:%M:%S]" | grep -i $1 | grep -v grep
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         ps -eo user,group,pid,tty,command | grep -i $1 | grep -v grep
     else
