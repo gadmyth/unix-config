@@ -1,2 +1,2 @@
 #!/bin/bash
-function chown-to-current-user() { sudo chown $USER:$USER $*; }
+function chown-to-current-user() { sudo chown $USER:$USER -R "$*"; }

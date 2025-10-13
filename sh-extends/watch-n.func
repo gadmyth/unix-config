@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function watch-n() {
+    local interval=1
+    if echo "$1" | grep -Eq '^[0-9]+$'; then
+        interval=$1
+        shift
+    fi
+    while true; do
+        $@
+        sleep $interval
+        echo ""
+    done
+}
+

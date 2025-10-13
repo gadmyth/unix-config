@@ -21,7 +21,7 @@ function nb-check() {
 function nb-slow-check() {
     while true; do
         cecho green `date "+%Y-%m-%d %H:%M:%S"`
-        ping -c 1 172.16.16.1 | grep -E "PING|from"
+        ping -c 2 172.16.16.1 | grep -E "PING|from"
         echo ""
         sleep 3
     done
@@ -29,7 +29,7 @@ function nb-slow-check() {
 
 # low memory version
 function nb-slow-check-lm() {
-    watch -n 3 "echo `date \"+%Y-%m-%d %H:%M:%S\"`; ping -c 1 172.16.16.1 | grep -E \"PING|from\""
+    watch -n 3 "echo `date \"+%Y-%m-%d %H:%M:%S\"`; ping -c 2 172.16.16.1 | grep -E \"PING|from\""
 }
 
 function nb-log() {
