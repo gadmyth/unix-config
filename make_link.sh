@@ -5,6 +5,7 @@ ln -sf unix-config/.bash_alias
 ln -sf unix-config/.bashrc
 ln -sf unix-config/.gitconfig
 ln -sf unix-config/.gvimrc
+ln -sf unix-config/.nanorc
 ln -sf unix-config/.profile
 ln -sf unix-config/.Xmodmap
 ln -sf unix-config/dvorak.sh
