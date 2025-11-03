@@ -1,6 +1,6 @@
 #!/bin/bash
 
-image_file="$(mktmp).png"
+image_file="$(mktemp).png"
 
 xfce4-screenshooter --region --mouse --save ${image_file}
 
