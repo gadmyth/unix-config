@@ -1,13 +1,18 @@
 set linenumbers
 set autoindent
+set nonewlines
 set multibuffer
 set tabsize 4
 set tabstospaces
+set noconvert
 set smarthome
 set regexp
 set softwrap
+set positionlog
 set boldtext
+set cutfromcursor
 set stateflags
 set minibar
 set mouse
 set nohelp
+bind ^Z suspend main
