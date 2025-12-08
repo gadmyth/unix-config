@@ -1,0 +1,14 @@
+#!/bin/bash
+function copy-file-content() {
+    if [ -f "$1" ]; then
+        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            xsel --clipboard < $1
+        elif [[ "$OSTYPE" == "darwin"* ]]; then
+            pbcopy < $1
+        else
+            echo "Unrecognized OS"
+        fi
+    else
+        echo "$1 doesn't exist or $1 is not a file."
+    fi
+}

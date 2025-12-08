@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function ps-tree() {
+    if [ ! -z "$1" ]; then
+        if [[ "$2" == "--only-pid" ]]; then
+             pstree -T -p $(pgrep $1 | head -n 1) | grep -oP '\(\K[0-9]+(?=\))'
+        else
+             pstree -T -p $(pgrep $1 | head -n 1)
+        fi
+    fi
+}
+
