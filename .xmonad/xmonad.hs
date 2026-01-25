@@ -419,10 +419,10 @@ floatManageHook = composeAll
   , className =? "Xfce4-settings-manager" --> doFloat
   , className =? "Thunar" --> doCenterFloat
   , className =? "Xfce4-terminal" --> doCenterFloat
-  , className =? "xdg-desktop-portal-gtk" --> doCenterFloat
+  , appName =? "xdg-desktop-portal-gtk" --> doCenterFloat
   , appName =? "vncviewer" --> doCenterFloat
 
-  , className =? "Google-chrome" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
+  , className =? "Google-chrome" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/3) (2/3)))
   , className =? "Firefox" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
 
   , className =? "Ristretto" --> doCenterFloat
@@ -434,7 +434,7 @@ floatManageHook = composeAll
   , title =? "Electronic WeChat" --> doFloat
   , appName =? "wechat" --> doFloat
   , appName =? "telegram-desktop" --> doFloat
-  , appName `hasPrefixIgnoreCaseQ` "emacs" --> doFloat
+  , appName `hasPrefixIgnoreCaseQ` "emacs" --> doCenterFloat
   , appName =? "gvim" --> doCenterFloat
   , appName =? "NotepadNext" --> doCenterFloat
   , appName =? "xclock" --> doFloat
