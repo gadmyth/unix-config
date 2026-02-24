@@ -4,6 +4,10 @@ function ipt-allow-input() {
     sudo iptables -I INPUT -p "$1" --dport "$2" -s "$3" -j ACCEPT
 }
 
+function ipt-modify-allow-input() {
+    sudo iptables -R INPUT $4 -p "$1" --dport "$2" -s "$3" -j ACCEPT
+}
+
 function ipt-allow-input-all() {
     sudo iptables -I INPUT -p "$1" --dport "$2" -j ACCEPT
 }
