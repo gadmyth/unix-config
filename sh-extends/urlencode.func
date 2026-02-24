@@ -1,0 +1,22 @@
+#!/bin/bash
+
+function urlencode() {
+  local str=$(echo -e "$1")
+  local length="${#str}"
+  local encoded=""
+  local i char
+
+  for (( i = 0; i < length; i++ )); do
+    char="${str:i:1}"
+    case "$char" in
+      [a-zA-Z0-9.~_-])
+        encoded+="$char"
+        ;;
+      *)
+        encoded+=$(printf '%%%02X' "'$char")
+        ;;
+    esac
+  done
+
+  echo "$encoded"
+}
