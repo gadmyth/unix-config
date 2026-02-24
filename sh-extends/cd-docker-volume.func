@@ -1,0 +1,27 @@
+#!/bin/bash
+function cd-docker-volume() {
+    if [[ -z "$1" ]]; then
+        echo "docker volume is empty"
+        return 1
+    fi
+
+    local mount_point=$(sudo docker volume inspect $1 --format '{{ .Mountpoint }}')
+    if ! sudo docker volume list | grep -q $1; then
+        echo "$1 is not a docker volume"
+        return 1
+    fi
+
+    if [[ -z "$mount_point" ]]; then
+        echo "$1's mount point is empty"
+        return 1
+    fi
+
+    if [[ "$(whoami)" != "root" ]]; then
+        sudo su -c "cd $mount_point && bash"
+    else
+        cd $mount_point
+    fi
+}
+
+alias cdv=cd-docker-volume
+
