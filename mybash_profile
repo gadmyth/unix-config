@@ -23,15 +23,19 @@ function load_scripts_in_directory() {
 
 #for extend source file (from ~/alias/bashes)
 load_scripts_in_directory ~/sh-extends
+log_debug "finish load sh-extends"
 
 #for temp source file
 load_scripts_in_directory ~/alias/bashes
+log_debug "finish load alias/bashes"
 
 #for temp source file
 load_scripts_in_directory ~/Library/bashes
+log_debug "finish load Library/bashes"
 
 if [ -r ~/.bash_script_dir ]; then
     for dir in `cat ~/.bash_script_dir`; do
         load_scripts_in_directory $dir
+        log_debug "finish load script in $dir"
     done
 fi
