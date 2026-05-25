@@ -15,7 +15,6 @@ declare -A keycode_mappings=(
     [34]="slash question"
     [35]="equal plus"
     [51]="backslash bar"
-    [37]="Hyper_L"
     [38]="a"
     [39]="o"
     [40]="e"
@@ -40,9 +39,9 @@ declare -A keycode_mappings=(
     [61]="z"
     [62]="Alt_R"
     [64]="Control_L"
-    [66]="Alt_L"
     [108]="Shift_R"
     [127]="Caps_Lock"
+    [133]="Super_L"
     [183]="semicolon"
     [184]="colon"
 )
@@ -74,6 +73,36 @@ function explain-to-hex() {
 
 function explain-to-dec() {
     printf "0x%x(%d)" $1 $1
+}
+
+function show-keycode-mappings() {
+    for keycode in "${!keycode_mappings[@]}"; do
+        local keysym=${keycode_mappings[$keycode]}
+        echo "$keycode --> $keysym"
+    done
+}
+
+function complement-keycode-mapping() {
+    log_info "Detecting keyboard keycodes..."
+    local keyname="Left control"
+    local keycode=$(show-keycode-alternatively "$keyname")
+    local keysym="Hyper_L"
+    if [[ -z "$keycode" || ! "$keycode" =~ ^[0-9]+$ ]]; then
+        log_attension "Failed to detect $keysym's keycode (got: '$keycode')"
+        return 1
+    fi
+    echo "detected keycode $(explain-to-hex $keycode) for $keysym"
+    keycode_mappings[$keycode]="$keysym"
+
+    keyname="Capslock"
+    keycode=$(show-keycode-alternatively "$keyname")
+    keysym="Alt_L"
+    if [[ -z "$keycode" || ! "$keycode" =~ ^[0-9]+$ ]]; then
+        log_attension "Failed to detect $keysym's keycode (got: '$keycode')"
+        return 1
+    fi
+    echo "detected keycode $(explain-to-hex $keycode) for $keysym"
+    keycode_mappings[$keycode]="$keysym"
 }
 
 function remap-current-keycode-mappings() {
@@ -204,6 +233,10 @@ function remap-rich-modmap() {
     xcape -t 300 -e 'Alt_R=colon'
 }
 
+if ! complement-keycode-mapping; then
+    return
+fi
+sleep 2
 xmodmap -pm
 remap-current-keycode-mappings
 xmodmap -pm
