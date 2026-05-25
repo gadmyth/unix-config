@@ -1,0 +1,20 @@
+#!/bin/bash
+function show-keycode-alternatively() {
+    local keyname=$1
+    if [[ -z "$1" ]]; then
+        echo "keyname is empty"
+        return 1
+    fi
+    echo -n "Please press the $keyname key: " >&2
+    xev 2>/dev/null | awk '
+        /KeyPress/ {
+            getline
+            getline
+            if (/keycode/) {
+                match($0, /keycode[ ]+([0-9]+)/, arr)
+                print arr[1]
+                exit
+            }
+        }
+    '
+}
