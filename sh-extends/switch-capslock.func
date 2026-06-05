@@ -1,0 +1,2 @@
+#!/bin/bash
+function switch-capslock() { xdotool key Caps_Lock; }

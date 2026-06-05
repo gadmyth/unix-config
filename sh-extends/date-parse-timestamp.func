@@ -1,0 +1,14 @@
+#!/bin/bash
+
+function date-parse-timestamp() {
+    local ts="$1"
+    if [[ ! "$ts" =~ ^[0-9]+$ ]]; then
+        echo "timestamp is not a number"
+        return 1
+    fi
+    if [[ ${#ts} -ne 10 ]]; then
+        echo "timestamp's length is not 10"
+        return 1
+    fi
+    date --date="@$ts" "+%Y-%m-%d %H:%M:%S"
+}

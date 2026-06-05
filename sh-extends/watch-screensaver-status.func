@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function watch-screensaver-status() {
+    xscreensaver-command -watch | while read state; do
+        case "$state" in
+            "LOCK"*)
+                echo "The screen is locked..."
+                ;;
+            "UNBLANK"*)
+                echo "The screen is unlocked, set screensaver timeout..."
+                xset s 60 60
+                ;;
+        esac
+    done
+}
