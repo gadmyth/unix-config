@@ -67,3 +67,23 @@ function nb2config() {
 function nb2cert() {
     cd /opt/nebula/cert
 }
+
+function nb-install-new-version() {
+    # 参数不能为空
+    [[ -z "$1" ]] && echo "Usage: nb-install-new-version <version>" && return 1
+    
+    local nb_version=$1
+    local install_dir=/opt/nebula/bin/${nb_version}
+    mkdir -p ${install_dir}
+    cd ${install_dir}
+    
+    # wget 输出到 stdout 然后解压
+    echo "download and untar..."
+    if wget -qO- https://github.com/slackhq/nebula/releases/download/v${nb_version}/nebula-linux-amd64.tar.gz | tar -zxvf -; then
+        echo "✅ Nebula ${nb_version} installed successfully to ${install_dir}"
+        ${install_dir}/nebula -version
+    else
+        echo "❌ Failed to install Nebula ${nb_version}"
+        return 1
+    fi
+}
