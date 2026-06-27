@@ -1,2 +1,0 @@
-#!/bin/bash
-alias restart-network-fedora="sudo systemctl restart NetworkManager"

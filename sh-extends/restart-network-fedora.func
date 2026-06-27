@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function restart-network-fedora() {
+    sudo systemctl stop NetworkManager
+    sudo modprobe -r iwlmvm
+    sudo modprobe -r iwlwifi
+    sudo modprobe iwlmvm
+    sudo modprobe iwlwifi
+    sudo systemctl start NetworkManager
+}
+
