@@ -233,6 +233,8 @@ function remap-rich-modmap() {
     xcape -t 300 -e 'Alt_R=colon'
 }
 
+origin_caps_is_lock="$(cat /sys/class/leds/input*::capslock/brightness 2>/dev/null)"
+
 if ! complement-keycode-mapping; then
     return
 fi
@@ -250,6 +252,14 @@ remap-rich-modmap
 remove-modifier-mapping Num_Lock
 
 echo ""
+
+caps_is_lock="$(cat /sys/class/leds/input*::capslock/brightness 2>/dev/null)"
+
+
+if [[ "$origin_caps_is_lock" != "$caps_is_lock" ]]; then
+    xdotool key Caps_Lock
+fi
+
 log_attension "###########################################################################################################"
 log_attension "### If your Capslock is on, and you can't turn it off, you can use 'xdotool key Caps_Lock' to switch it ###"
 log_attension "###########################################################################################################"
