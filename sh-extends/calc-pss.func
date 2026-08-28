@@ -1,0 +1,38 @@
+#!/bin/bash
+
+function calc-pss() {
+    if [ -z "$1" ]; then
+        echo "Error: 请指定进程名称。用法: calc-pss <process_name>"
+        return 1
+    fi
+
+    local pids=$(pidof "$1")
+
+    if [ -z "$pids" ]; then
+        echo "Error: 未找到运行中的进程 '$1'。"
+        return 1
+    fi
+
+    local total_kb=0
+
+    for pid in $(pidof chrome | tr " " "\n"); do
+        if [ -f "/proc/$pid/smaps_rollup" ]; then
+            local pss=$(sudo grep ^Pss: "/proc/$pid/smaps_rollup" | tr -s ' ' | cut -d' ' -f 2)
+            total_kb=$((total_kb + pss))
+        elif [ -f "/proc/$pid/smaps" ]; then
+            local pss=$(sudo awk '/^Pss:/ {sum+=$2} END {print sum}' "/proc/$pid/smaps")
+            total_kb=$((total_kb + pss))
+        fi
+    done
+
+    awk -v kb="$total_kb" 'BEGIN {
+        if (kb >= 1048576) {
+            printf "%.2f GB\n", kb / 1048576
+        } else if (kb >= 1024) {
+            printf "%.2f MB\n", kb / 1024
+        } else {
+            print kb " kB"
+        }
+    }'
+}
+
