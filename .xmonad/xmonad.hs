@@ -27,7 +27,7 @@ import XMonad.Layout.Maximize
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Reflect
-import XMonad.Layout.ThreeColumns
+import XMonad.Layout.ResizableThreeColumns
 import XMonad.Layout.TwoPane
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.Combo
@@ -55,6 +55,7 @@ import XMonad.Actions.TagWindows
 import XMonad.Actions.Minimize
 import XMonad.Actions.EasyMotion (EasyMotionConfig, selectWindow, cancelKey)
 import XMonad.Actions.FocusNth (swapNth)
+import XMonad.Actions.PerLayoutKeys
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.ConfirmPrompt
@@ -131,6 +132,7 @@ main = do
         , ((mod4Mask .|. controlMask, xK_2), myJumpToLayout "fullTwoLayout")
         , ((mod4Mask .|. controlMask, xK_3), myJumpToLayout "three")
         , ((mod4Mask .|. controlMask, xK_4), myJumpToLayout "SimplestFloat")
+        , ((mod4Mask .|. controlMask, xK_5), myJumpToLayout "tall")
         -- subgroups
         , ((mod5Mask, xK_Tab), onGroup W.focusDown')
         , ((mod5Mask .|. shiftMask, xK_Tab), onGroup W.focusUp')
@@ -169,10 +171,26 @@ main = do
         , ((mod4Mask, xK_Right), moveWindow' (myWindowMoveDelta, myWindowMoveZeroDelta) R)
         , ((mod4Mask, xK_Down), moveWindow' (myWindowMoveZeroDelta, myWindowMoveDelta) D)
         , ((mod4Mask, xK_Up), moveWindow' (myWindowMoveZeroDelta, myWindowMoveNegativeDelta) U)
-        , ((mod4Mask .|. mod1Mask, xK_Left), resizeWindow' (myWindowMoveNegativeDelta, myWindowMoveZeroDelta) (0, 0) L)
-        , ((mod4Mask .|. mod1Mask, xK_Right), resizeWindow' (myWindowMoveDelta, myWindowMoveZeroDelta) (0, 0) R)
-        , ((mod4Mask .|. mod1Mask, xK_Down), resizeWindow' (myWindowMoveZeroDelta, myWindowMoveDelta) (0, 0) D)
-        , ((mod4Mask .|. mod1Mask, xK_Up), resizeWindow' (myWindowMoveZeroDelta, myWindowMoveNegativeDelta) (0, 0) U)
+        , ((mod4Mask .|. mod1Mask, xK_Left), runActionByLayout
+            [ ("tall", sendMessage $ Shrink)
+            , ("three", sendMessage $ Shrink)
+            , ("main", resizeWindow' (myWindowMoveNegativeDelta, myWindowMoveZeroDelta) (0, 0) L)
+            ])
+        , ((mod4Mask .|. mod1Mask, xK_Right), runActionByLayout
+            [ ("tall", sendMessage $ Expand)
+            , ("three", sendMessage $ Expand)
+            , ("main", resizeWindow' (myWindowMoveDelta, myWindowMoveZeroDelta) (0, 0) R)
+            ])
+        , ((mod4Mask .|. mod1Mask, xK_Down), runActionByLayout
+            [ ("tall", sendMessage $ MirrorShrink)
+            , ("three", sendMessage $ MirrorShrink)
+            , ("main", resizeWindow' (myWindowMoveZeroDelta, myWindowMoveDelta) (0, 0) D)
+            ])
+        , ((mod4Mask .|. mod1Mask, xK_Up), runActionByLayout
+            [ ("tall", sendMessage $ MirrorExpand)
+            , ("three", sendMessage $ MirrorExpand)
+            , ("main", resizeWindow' (myWindowMoveZeroDelta, myWindowMoveNegativeDelta) (0, 0) U)
+            ])
         , ((mod4Mask .|. shiftMask, xK_equal), adjustWindowMoveDelta 10)
         , ((mod4Mask .|. shiftMask, xK_minus), adjustWindowMoveDelta (-10))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_equal), adjustWindowMoveDelta 1)
@@ -359,6 +377,13 @@ myToggleLayout = do
 centerFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doCenterFloat f
 fullFloat = withFocused $ \f -> windows =<< appEndo `fmap` runQuery doFullFloat f
 
+runActionByLayout :: [(String, X ())] -> X ()
+runActionByLayout cases = do
+    layout <- layoutHint
+    case lookup layout cases of
+        Just action -> action
+        Nothing     -> return ()
+
 myXmonadCmds =
   [ ("copyToAll"        , windows copyToAll)
   , ("keepTheCurrent"   , killAllOtherCopies)
@@ -385,6 +410,7 @@ defaultLayout =
   ||| simplestFloat
   ||| fullTwoLayout
   ||| threeColumnLayout
+  ||| tallLayout
 
 mainLayout =
   renamed [Replace "main"] $
@@ -400,8 +426,13 @@ fullTwoLayout =
 threeColumnLayout =
   renamed [Replace "three"] $
   addTabs shrinkText tabTheme $ subLayout [] Simplest $
-  ThreeColMid 1 (3/100) (3/7)
-  
+  ResizableThreeColMid 1 (3/100) (3/7) [1/2, 1/4, 1/4]
+
+tallLayout =
+  renamed [Replace "tall"] $
+  addTabs shrinkText tabTheme $ subLayout [] Simplest $
+  ResizableTall 1 (3/100) (1/2) [1/2, 1/4, 1/4]
+
 myGridSelectConfig = def { gs_cellheight = 150, gs_cellwidth = 450 }
 
 hasPrefixIgnoreCase :: String -> String -> Bool
