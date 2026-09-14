@@ -213,6 +213,7 @@ main = do
         , ((mod4Mask, xK_backslash), withFocused (sendMessage . maximizeRestore))
         , ((mod4Mask, xK_f), easyFocus)
         , ((mod4Mask, xK_s), easySwap)
+        , ((mod4Mask, xK_n), windows $ W.view "NSP")
         ]
         ++
         [ ((mod4Mask .|. mod, key), workspaceHint func index)
