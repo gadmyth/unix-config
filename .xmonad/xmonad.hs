@@ -171,26 +171,10 @@ main = do
         , ((mod4Mask, xK_Right), moveWindow' (myWindowMoveDelta, myWindowMoveZeroDelta) R)
         , ((mod4Mask, xK_Down), moveWindow' (myWindowMoveZeroDelta, myWindowMoveDelta) D)
         , ((mod4Mask, xK_Up), moveWindow' (myWindowMoveZeroDelta, myWindowMoveNegativeDelta) U)
-        , ((mod4Mask .|. mod1Mask, xK_Left), runActionByLayout
-            [ ("tall", sendMessage $ Shrink)
-            , ("three", sendMessage $ Shrink)
-            , ("main", resizeWindow' (myWindowMoveNegativeDelta, myWindowMoveZeroDelta) (0, 0) L)
-            ])
-        , ((mod4Mask .|. mod1Mask, xK_Right), runActionByLayout
-            [ ("tall", sendMessage $ Expand)
-            , ("three", sendMessage $ Expand)
-            , ("main", resizeWindow' (myWindowMoveDelta, myWindowMoveZeroDelta) (0, 0) R)
-            ])
-        , ((mod4Mask .|. mod1Mask, xK_Down), runActionByLayout
-            [ ("tall", sendMessage $ MirrorShrink)
-            , ("three", sendMessage $ MirrorShrink)
-            , ("main", resizeWindow' (myWindowMoveZeroDelta, myWindowMoveDelta) (0, 0) D)
-            ])
-        , ((mod4Mask .|. mod1Mask, xK_Up), runActionByLayout
-            [ ("tall", sendMessage $ MirrorExpand)
-            , ("three", sendMessage $ MirrorExpand)
-            , ("main", resizeWindow' (myWindowMoveZeroDelta, myWindowMoveNegativeDelta) (0, 0) U)
-            ])
+        , ((mod4Mask .|. mod1Mask, xK_Left), resizeWindow' (myWindowMoveNegativeDelta, myWindowMoveZeroDelta) (0, 0) L)
+        , ((mod4Mask .|. mod1Mask, xK_Right), resizeWindow' (myWindowMoveDelta, myWindowMoveZeroDelta) (0, 0) R)
+        , ((mod4Mask .|. mod1Mask, xK_Down), resizeWindow' (myWindowMoveZeroDelta, myWindowMoveDelta) (0, 0) D)
+        , ((mod4Mask .|. mod1Mask, xK_Up), resizeWindow' (myWindowMoveZeroDelta, myWindowMoveNegativeDelta) (0, 0) U)
         , ((mod4Mask .|. shiftMask, xK_equal), adjustWindowMoveDelta 10)
         , ((mod4Mask .|. shiftMask, xK_minus), adjustWindowMoveDelta (-10))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_equal), adjustWindowMoveDelta 1)
@@ -287,16 +271,24 @@ moveWindow' (dx', dy') direction = do
           else sendMessage $ Go direction
       Nothing -> return ()
 
-resizeWindow' :: ((IORef Int), (IORef Int)) -> (Rational, Rational) -> Direction2D -> X ()
+resizeWindow' :: (IORef Int, IORef Int) -> (Rational, Rational) -> Direction2D -> X ()
 resizeWindow' (dx', dy') (minX, minY) direction = do
     dx <- liftIO $ readIORef dx'
     dy <- liftIO $ readIORef dy'
     ws <- gets windowset
     case W.peek ws of
-      Just w -> 
+      Just w ->
         if w `M.member` W.floating ws
           then keysResizeWindow (dx, dy) (minX, minY) w
-          else sendMessage $ MoveSplit direction
+          else do
+            hint <- layoutHint
+            if hint `elem` ["tall", "three"]
+              then case direction of
+                     U -> sendMessage MirrorExpand
+                     D -> sendMessage MirrorShrink
+                     L -> sendMessage Shrink
+                     R -> sendMessage Expand
+              else sendMessage $ MoveSplit direction
       Nothing -> return ()
 
 quickMoveWindow :: Place2D -> (Maybe Direction2D) -> X ()
