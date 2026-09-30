@@ -15,7 +15,7 @@ function calc-pss() {
 
     local total_kb=0
 
-    for pid in $(pidof chrome | tr " " "\n"); do
+    for pid in $(pidof "$1" | tr " " "\n"); do
         if [ -f "/proc/$pid/smaps_rollup" ]; then
             local pss=$(sudo grep ^Pss: "/proc/$pid/smaps_rollup" | tr -s ' ' | cut -d' ' -f 2)
             total_kb=$((total_kb + pss))
