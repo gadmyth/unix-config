@@ -12,6 +12,7 @@ import XMonad.Core
 import XMonad.Config.Desktop (desktopConfig, desktopLayoutModifiers)
 import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig
+import XMonad.Util.Hacks as Hacks
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
@@ -78,7 +79,8 @@ main = do
           , normalBorderColor = "#9acd32"
           , manageHook = floatManageHook <+> manageDocks <+> manageHook desktopConfig
           , layoutHook = avoidStruts $ desktopLayoutModifiers $ defaultLayout
-          , handleEventHook = handleEventHook desktopConfig <+> docksEventHook <+> fullscreenEventHook
+          
+          , handleEventHook = handleEventHook desktopConfig <+> docksEventHook <+> Hacks.windowedFullscreenFixEventHook
           , logHook = historyHook
           , startupHook = startup
         } `additionalKeys`
