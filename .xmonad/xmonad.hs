@@ -781,6 +781,8 @@ startup = do
         spawnOnce "~/.xmonad/script/monitor-config.sh"
         spawnOnce "~/.xmonad/script/wallpaper-config.sh"
         spawnOnce "xscreensaver -no-splash"
+        -- dnf install xcompmgr
+        spawnOnce "xcompmgr -C"
         spawn "~/.xmonad/script/start-xfce4-notifyd.sh"
         spawn "~/.xmonad/script/start-xfce4-panel.sh"
         spawn "~/.xmonad/script/start-xfce4-clipman.sh"
