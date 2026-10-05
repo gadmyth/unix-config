@@ -1,11 +1,14 @@
 {-# OPTIONS_GHC -Wno-deprecations #-}
 
+import Control.Monad (forM, forM_, when)
 import Data.Char (toLower)
 import Data.IORef
-import Data.List (isPrefixOf, find)
+import Data.List (isPrefixOf, find, intercalate)
 import qualified Data.Map as M
 import Data.Monoid (appEndo)
 import Data.Time.Clock (getCurrentTime)
+import Data.Time.Clock.POSIX (posixSecondsToUTCTime, utcTimeToPOSIXSeconds, getPOSIXTime)
+import Data.Time.Format (formatTime, defaultTimeLocale)
 import Data.Time.LocalTime (getCurrentTimeZone, utcToLocalTime)
 import XMonad hiding ( (|||) )
 import XMonad.Core
@@ -66,6 +69,9 @@ import Graphics.X11.Xinerama
 import System.Posix.Process
 import System.IO
 import System.IO.Unsafe
+import System.Directory (doesFileExist, getHomeDirectory, createDirectoryIfMissing, getModificationTime)
+import System.FilePath ((</>))
+import System.Posix.Time (epochTime)
 import System.Exit
 
 main = do
@@ -108,6 +114,7 @@ main = do
         -- toggle workspace, xK_grave is "`", defined in /usr/include/X11/keysymdef.h, detected by `xev` Linux command
         , ((mod4Mask, xK_grave), toggleWSWithHint)
         , ((mod4Mask, xK_i), notifyCurrentWSHintWithTime)
+        , ((mod4Mask, xK_q), saveTags >> saveDynTags >> restart "xmonad" True)
         , ((mod4Mask .|. shiftMask, xK_c), withFocused (killOrPrompt myPromptConfig))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_b), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
@@ -218,15 +225,15 @@ main = do
         [ ((mod2Mask .|. mod, key), func tag)
         | (key, tag) <- zip myWindowTagKeys myWindowTags
         , (mod, func) <- [ (0, focusUpTaggedGlobal)
-                         , (mod1Mask, withFocused . addTag)
-                         , (shiftMask, withFocused . delTag)
+                         , (mod1Mask, withFocused . myAddTag)
+                         , (shiftMask, withFocused . myDelTag)
                          ]
         ]
         ++
         [ ((mod5Mask .|. mod, key), func tag)
         | (key, tag) <- zip myWindowTagKeys myWindowTags
         , (mod, func) <- [ (0, dynamicNSPAction)
-                         , (mod1Mask, withFocused . toggleDynamicNSP)
+                         , (mod1Mask, withFocused . myToggleDynamicNSP)
                          ]
         ]
         ++
@@ -390,6 +397,208 @@ myXmonadCmds =
   , ("start emacs-28", spawn "SNAP=1 SNAP_NAME=1 SNAP_REVISION=1 /opt/emacs-28/usr/bin/emacs")
   ]
 
+
+fmtTime :: Integer -> String
+fmtTime sec = unsafePerformIO $ do
+    tz <- getCurrentTimeZone
+    return $ formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S"
+               (utcToLocalTime tz (posixSecondsToUTCTime (fromIntegral sec)))
+
+getXSessionStart :: X (Maybe Integer)
+getXSessionStart = do
+    dpy      <- asks display
+    root     <- io $ rootWindow dpy (defaultScreen dpy)
+    atom     <- io $ internAtom dpy "_XMONAD_SESSION_START" True
+    logToFile $ "getXSessionStart: atom = " ++ show atom
+    if atom == none
+        then do
+            logToFile "getXSessionStart: atom is none -> Nothing"
+            return Nothing
+        else do
+            prop <- io $ getWindowProperty32 dpy atom root
+            let propStr = case prop of
+                            Just (x:_) -> fmtTime (fromIntegral x)
+                            _          -> show prop
+            logToFile $ "getXSessionStart: prop = " ++ propStr
+            return $ case prop of
+                Just (x:_) -> Just (fromIntegral x)
+                _          -> Nothing
+
+ensureXSessionStart :: X ()
+ensureXSessionStart = do
+    logToFile "ensureXSessionStart: entered"
+    m <- getXSessionStart
+    case m of
+        Just x  -> logToFile $ "ensureXSessionStart: exists, xStart = " ++ fmtTime x
+        Nothing -> do
+            dpy      <- asks display
+            root     <- io $ rootWindow dpy (defaultScreen dpy)
+            atom     <- io $ internAtom dpy "_XMONAD_SESSION_START" False
+            cardAtom <- io $ internAtom dpy "CARDINAL" False
+            t        <- io epochTime
+            let now = round (realToFrac t) :: Integer
+            logToFile $ ["ensureXSessionStart: writing atom=" ++ show atom
+                        , "cardAtom=" ++ show cardAtom
+                        , "root=" ++ show root
+                        , "now=" ++ show now]
+            io $ changeProperty32 dpy root atom cardAtom propModeReplace
+                    [fromIntegral now]
+            back <- io $ getWindowProperty32 dpy atom root
+            logToFile $ "ensureXSessionStart: readback = " ++ show back
+
+fileIsFresh :: FilePath -> X Bool
+fileIsFresh path = do
+    mtime <- io $ getModificationTime path
+    mX    <- getXSessionStart
+    let mtimeSec = floor (utcTimeToPOSIXSeconds mtime) :: Integer
+        xStartStr = case mX of
+                      Just x  -> fmtTime x
+                      Nothing -> "Nothing"
+    logToFile $ [ "fileIsFresh"
+                , "path = " ++ path
+                , "mTime = " ++ fmtTime mtimeSec
+                , "xStart = " ++ xStartStr ]
+    return $ case mX of
+        Just xStart -> mtimeSec >= xStart
+        Nothing     -> False
+
+dynTagsFile :: IO FilePath
+dynTagsFile = (</> ".xmonad/dyntags.state") <$> getHomeDirectory
+
+readDynTags :: X [(String, Window)]
+readDynTags = do
+    path   <- io dynTagsFile
+    exists <- io $ doesFileExist path
+    logToFile $ [ "readDynTags", "path = " ++ path, "exists = " ++ show exists ]
+    if not exists then return [] else do
+      fresh <- fileIsFresh path
+      logToFile $ [ "readDynTags", "path = " ++ path, "fresh = " ++ show fresh ]
+      if not fresh then return [] else do
+        content <- io $ readFile path
+        return [ (name, read wid)
+               | line <- lines content
+               , let (name, rest) = break (== '\t') line
+               , not (null rest)
+               , let wid = drop 1 rest ]
+
+writeDynTags :: [(String, Window)] -> X ()
+writeDynTags pairs = do
+    home <- io getHomeDirectory
+    io $ createDirectoryIfMissing True (home </> ".xmonad")
+    path <- io dynTagsFile
+    io $ writeFile path $ unlines [ name ++ "\t" ++ show w | (name, w) <- pairs ]
+
+{-# NOINLINE dynTagsRef #-}
+dynTagsRef :: IORef (M.Map String Window)
+dynTagsRef = unsafePerformIO $ newIORef M.empty
+
+{-# NOINLINE restoredRef #-}
+restoredRef :: IORef Bool
+restoredRef = unsafePerformIO $ newIORef False
+
+myToggleDynamicNSP :: String -> Window -> X ()
+myToggleDynamicNSP name w = do
+    ok <- io $ readIORef restoredRef
+    if not ok
+        then logToFile $ ["myToggleDynamicNSP: name=" ++ name, "win=" ++ show w]
+        else do
+            toggleDynamicNSP name w
+            io $ modifyIORef' dynTagsRef (M.insert name w)
+            m <- io $ readIORef dynTagsRef
+            logToFile $ ["myToggleDynamicNSP: ref size=" ++ show (M.size m)]
+
+saveDynTags :: X ()
+saveDynTags = do
+    m    <- io $ readIORef dynTagsRef
+    path <- io dynTagsFile
+    logToFile $ ["saveDynTags: path=" ++ path, "size=" ++ show (M.size m), "entries=" ++ show (M.toList m)]
+    io $ writeFile path $ unlines
+        [ name ++ "\t" ++ show w | (name, w) <- M.toList m ]
+
+restoreDynTags :: X ()
+restoreDynTags = do
+    pairs <- readDynTags
+    logToFile ["restoreDynTags: loaded", show (length pairs), "pairs"]
+    ws    <- gets windowset
+    let wins = W.allWindows ws
+    forM_ pairs $ \(name, w) ->
+        when (w `elem` wins) $ do
+            toggleDynamicNSP name w
+            io $ modifyIORef' dynTagsRef (M.insert name w)
+    m <- io $ readIORef dynTagsRef
+    logToFile ["restoreDynTags: ref size =", show (M.size m)]
+    io $ writeIORef restoredRef True
+
+tagsFile :: IO FilePath
+tagsFile = (</> ".xmonad/tags.state") <$> getHomeDirectory
+
+readTagsState :: X [(Window, [String])]
+readTagsState = do
+    path   <- io tagsFile
+    exists <- io $ doesFileExist path
+    logToFile $ [ "readTagsState", "path = " ++ path, "exists = " ++ show exists ]
+    if not exists then return [] else do
+      fresh <- fileIsFresh path
+      logToFile $ [ "readTagsState", "path = " ++ path, "fresh = " ++ show fresh ]
+      if not fresh then return [] else do
+        content <- io $ readFile path
+        return [ (read wid, words ts)
+               | line <- lines content
+               , let (wid, rest) = break (== '\t') line
+               , not (null rest)
+               , let ts = drop 1 rest ]
+
+writeTagsState :: [(Window, [String])] -> X ()
+writeTagsState pairs = do
+    home <- io getHomeDirectory
+    io $ createDirectoryIfMissing True (home </> ".xmonad")
+    path <- io tagsFile
+    io $ writeFile path $ unlines
+        [ show w ++ "\t" ++ unwords ts | (w, ts) <- pairs ]
+
+saveTags :: X ()
+saveTags = do
+    ws <- gets windowset
+    pairs <- forM (W.allWindows ws) $ \w -> do
+        ts <- getTags w
+        return (w, ts)
+    writeTagsState (filter (not . null . snd) pairs)
+
+restoreTags :: X ()
+restoreTags = do
+    pairs <- readTagsState
+    ws    <- gets windowset
+    let wins = W.allWindows ws
+    forM_ pairs $ \(w, ts) ->
+        when (w `elem` wins) $ setTags ts w
+
+myAddTag :: String -> Window -> X ()
+myAddTag t w = addTag t w >> saveTags
+
+myDelTag :: String -> Window -> X ()
+myDelTag t w = delTag t w >> saveTags
+
+{-# LANGUAGE FlexibleInstances #-}
+class Loggable a where
+    logToFile :: a -> X ()
+
+instance Loggable String where
+    logToFile = logLine
+
+instance Loggable [String] where
+    logToFile = logLine . intercalate ", "
+
+logLine :: String -> X ()
+logLine msg = do
+    home <- io getHomeDirectory
+    let dir = home </> ".xmonad"
+        logPath = dir </> "xmonad.log"
+    t <- io epochTime
+    let now = round (realToFrac t) :: Integer
+        ts  = formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S"
+                (posixSecondsToUTCTime (fromIntegral now))
+    io $ createDirectoryIfMissing True dir
+    io $ appendFile logPath ("[" ++ ts ++ "] " ++ msg ++ "\n")
 
 defaultLayout =
   smartBorders $
@@ -566,6 +775,7 @@ doBorderMove horiz ratio w = whenX (isClient w) $ withDisplay $ \d -> do
 
 startup :: X()
 startup = do
+        ensureXSessionStart
         setWMName "LG3D"
         spawnOnce "xrdb -merge ~/.xmonad/.Xresources"
         spawnOnce "~/.xmonad/script/monitor-config.sh"
@@ -580,4 +790,6 @@ startup = do
         -- alternative: blueberry-tray (sudo dnf install blueberry)
         spawnOnce "blueman-applet"
         spawnOnce "yong -d"
+        restoreDynTags
+        restoreTags
         spawn "notify-send -t 1500 \"Restart Xmonad Success!\""

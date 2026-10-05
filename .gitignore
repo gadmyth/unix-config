@@ -8,3 +8,6 @@ autoloads.*
 .xmonad/xmonad.errors
 .xmonad/xmonad.hi
 .xmonad/xmonad.o
+.xmonad/*.log
+.xmonad/*.state
+
