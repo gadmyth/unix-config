@@ -117,6 +117,7 @@ main = do
         , ((mod4Mask, xK_q), saveTags >> saveDynTags >> restart "xmonad" True)
         , ((mod4Mask .|. shiftMask, xK_c), withFocused (killOrPrompt myPromptConfig))
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_b), spawn "~/.xmonad/script/toggle-xfce4-panel.sh")
+        , ((mod4Mask .|. shiftMask, xK_b), sendMessage $ XMonad.Layout.MultiToggle.Toggle NOBORDERS)
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_s), confirmPrompt myPromptConfig "Suspend?" $ spawn "systemctl suspend")
         , ((mod4Mask .|. shiftMask .|. mod1Mask, xK_Delete), confirmPrompt myPromptConfig "Lock Screen?" $ spawn "xscreensaver-command -lock")
         -- git clone https://github.com/jarun/xtrlock /opt/xtrlock; cd /opt/xtrlock; sudo make; sudo make install
@@ -603,6 +604,7 @@ logLine msg = do
 defaultLayout =
   smartBorders $
   toggleLayouts (noBorders Full) $
+  mkToggle (single NOBORDERS) $
   mkToggle (single REFLECTX) $
   mkToggle (single REFLECTY) $
   mkToggle (NBFULL ?? NOBORDERS ?? EOT) $
