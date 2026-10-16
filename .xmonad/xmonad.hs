@@ -74,6 +74,8 @@ import System.FilePath ((</>))
 import System.Posix.Time (epochTime)
 import System.Exit
 
+import FloatRules (floatManageHook)
+
 main = do
      nScreens <- countScreens
      xmonad $ withUrgencyHook NoUrgencyHook $ ewmh desktopConfig {
@@ -83,7 +85,7 @@ main = do
           , borderWidth = 2
           , focusedBorderColor = "#ee4000"
           , normalBorderColor = "#9acd32"
-          , manageHook = floatManageHook <+> manageDocks <+> manageHook desktopConfig
+          , manageHook = floatManageHook <+> myFloatManageHook <+> manageDocks <+> manageHook desktopConfig
           , layoutHook = avoidStruts $ desktopLayoutModifiers $ defaultLayout
           
           , handleEventHook = handleEventHook desktopConfig <+> docksEventHook <+> Hacks.windowedFullscreenFixEventHook
@@ -650,34 +652,11 @@ hasPrefixIgnoreCaseQ queryStr pattern = do
     return (hasPrefixIgnoreCase pattern str)
 
 -- use linux command xprop to get window's class name
-floatManageHook = composeAll
+myFloatManageHook = composeAll
   [
-    className =? "Xfce4-appfinder" --> doCenterFloat
-  , className =? "Xfce4-settings-manager" --> doFloat
-  , className =? "Thunar" --> doCenterFloat
-  , className =? "Xfce4-terminal" --> doCenterFloat
-  , appName =? "xdg-desktop-portal-gtk" --> doCenterFloat
-  , appName =? "vncviewer" --> doCenterFloat
-
-  , className =? "Google-chrome" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/3) (2/3)))
+    className =? "Google-chrome" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/3) (2/3)))
   , className =? "Firefox" --> (doRectFloat $ (W.RationalRect (1/6) (1/6) (2/5) (2/3)))
-
-  , className =? "Ristretto" --> doCenterFloat
-  , className =? "Viewnior" --> doCenterFloat
-  , className =? "Gimagereader-gtk" --> doCenterFloat
-  , className =? "Pavucontrol" --> doCenterFloat
-  , className =? "Blueberry.py" --> doCenterFloat
-  , appName =? "blueman-manager" --> doCenterFloat
-  , title =? "Electronic WeChat" --> doFloat
-  , appName =? "wechat" --> doFloat
-  , appName =? "telegram-desktop" --> doFloat
   , appName `hasPrefixIgnoreCaseQ` "emacs" --> doCenterFloat
-  , appName =? "gvim" --> doCenterFloat
-  , appName =? "NotepadNext" --> doCenterFloat
-  , appName =? "xclock" --> doFloat
-  , appName =? "xmessage" --> doCenterFloat
-
-  , appName =? "xfce4-notifyd" --> doIgnore
   ]
 
 greedyViewOnTheScreen nScreens ws = do

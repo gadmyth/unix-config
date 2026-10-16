@@ -1,0 +1,14 @@
+doCenterFloat:
+  className: []
+  appName: []
+  title: []
+
+doFloat:
+  className: []
+  appName: []
+  title: []
+
+doIgnore:
+  className: []
+  appName: []
+  title: []
