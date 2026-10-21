@@ -1,0 +1,12 @@
+[Unit]
+Description=Aria2 download utility
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=forking
+ExecStart=aria2c --conf-path=%h/.aria2/aria2.conf -D
+ExecStop=/usr/bin/pkill aria2c
+
+[Install]
+WantedBy=multi-user.target

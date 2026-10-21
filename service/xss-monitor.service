@@ -1,0 +1,17 @@
+[Unit]
+Description=Monitor xscreensaver unlock events and restore xset timeout
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/sh-extends/watch-screensaver-status.sh 45 45
+Restart=always
+RestartSec=5
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=%h/.Xauthority
+Environment=WATCH_XSCREENSAVER=1
+
+[Install]
+WantedBy=graphical-session.target
+

@@ -16,6 +16,7 @@ ln -s .gvimrc .vimrc
 ln -sf unix-config/.vumrc
 ln -sf unix-config/mybash_profile
 ln -sf unix-config/sh-extends
+ln -sf ~/unix-config/service
 # xmonad
 ln -sf ~/unix-config/.xmonad
 sudo cp ~/unix-config/xmonad-start /usr/bin/xmonad-start
@@ -32,4 +33,10 @@ fi
 
 cd ~/.vim
 ln -sf ~/unix-config/vim/syntax
+
+# service
+cd ~/.config/systemd/user
+for a in `ls ~/service`; do
+    ln -sf ~/service/$a
+done
 

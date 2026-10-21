@@ -1,0 +1,12 @@
+[Unit]
+Description=shadowsocks client
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/var/lib/snapd/snap/bin/shadowsocks-libev.ss-local -c %h/config.json
+ExecReload=/usr/bin/killall ss-local; /var/lib/snapd/snap/bin/shadowsocks-libev.ss-local -c %h/config.json
+ExecStop=/usr/bin/killall ss-local
+
+[Install]
+WantedBy=default.target

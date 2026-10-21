@@ -1,0 +1,11 @@
+[Unit]
+Description=xss-lock - Auto screen locker
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/xss-lock -- xscreensaver-command -lock
+Restart=always
+
+[Install]
+WantedBy=graphical-session.target
+
