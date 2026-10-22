@@ -36,7 +36,12 @@ ln -sf ~/unix-config/vim/syntax
 
 # service
 cd ~/.config/systemd/user
-for a in `ls ~/service`; do
-    ln -sf ~/service/$a
+for a in `ls ~/service/user`; do
+    ln -sf ~/service/user/$a
+done
+
+cd /usr/lib/systemd/system
+for a in `ls ~/service/system/`; do
+    sudo ln -sf ~/service/system/$a
 done
 

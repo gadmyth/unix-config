@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function usvc-reload() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        systemctl --user daemon-reload
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        echo "nope"
+    else
+        echo "unknown system"
+    fi
+}

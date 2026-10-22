@@ -1,0 +1,13 @@
+[Unit]
+Description=Nebula
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/nebula/bin/nebula -config /opt/nebula/config/config.yml
+ExecStop=kill -15 $MAINPID
+StandardInput=null
+
+[Install]
+WantedBy=multi-user.target

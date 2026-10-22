@@ -1,14 +1,10 @@
 #!/bin/bash
+
 function svc-reload() {
     if [[ "$(uname)" == "Linux" ]]; then
-        sudo systemctl daemon-reload $1
+        sudo systemctl daemon-reload
     elif [[ "$(uname)" == "Darwin" ]]; then
-        echo "unload $1..." \
-            && sudo launchctl unload /Library/LaunchDaemons/$1.plist \
-            && echo "unloaded" \
-            && echo "load $1..." \
-            && sudo launchctl load /Library/LaunchDaemons/$1.plist \
-            && echo "loaded"
+        echo "nope"
     else
         echo "unknown system"
     fi
