@@ -300,7 +300,17 @@ resizeWindow' (dx', dy') (minX, minY) direction = do
                      D -> sendMessage MirrorShrink
                      L -> sendMessage Shrink
                      R -> sendMessage Expand
-              else sendMessage $ MoveSplit direction
+              else withDisplay $ \d -> do
+                     wa <- io $ getWindowAttributes d w
+                     let ww = toRational $ wa_width wa
+                         wh = toRational $ wa_height wa
+                         ratio = case direction of
+                           L -> toRational (-dx) / ww
+                           R -> toRational dx / ww
+                           U -> toRational (-dy) / wh
+                           D -> toRational dy / wh
+                     notifyMessage (show ratio) 500
+                     sendMessage $ MoveSplitBy direction ratio
       Nothing -> return ()
 
 quickMoveWindow :: Place2D -> (Maybe Direction2D) -> X ()
